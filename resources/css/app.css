@@ -178,3 +178,26 @@ body {
 .animate-delay-200 { animation-delay: 200ms; }
 .animate-delay-300 { animation-delay: 300ms; }
 
+/* Desktop Sidebar */
+#desktop-sidebar nav::-webkit-scrollbar {
+    width: 0;
+}
+
+#desktop-sidebar nav a:hover {
+    background: rgba(255,255,255,0.06) !important;
+    color: rgba(255,255,255,0.85) !important;
+}
+
+#desktop-sidebar nav a.active-nav {
+    background: rgba(46,207,137,0.15) !important;
+    color: #2ECF89 !important;
+}
+
+/* Desktop main content area */
+@media (min-width: 1024px) {
+    body {
+        background: #F1F5F3;
+    }
+}
+
+
