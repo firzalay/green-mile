@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['event_id', 'user_id', 'completed_checkpoints', 'current_event_points', 'total_points', 'rank'])]
+#[Fillable(['event_id', 'user_id', 'completed_checkpoints', 'current_event_points', 'total_points', 'rank', 'joined_at', 'status'])]
 class EventParticipant extends Model
 {
     /** @use HasFactory<EventParticipantFactory> */
@@ -26,6 +26,7 @@ class EventParticipant extends Model
             'current_event_points' => 'integer',
             'total_points' => 'integer',
             'rank' => 'integer',
+            'joined_at' => 'datetime',
         ];
     }
 
@@ -55,5 +56,19 @@ class EventParticipant extends Model
         }
 
         return round(($this->completed_checkpoints / $this->event->total_checkpoints) * 100);
+    }
+
+    /**
+     * Get the participant rank, falling back to dynamic calculation if null.
+     */
+    public function getRankAttribute($value): ?int
+    {
+        if ($value !== null) {
+            return $value;
+        }
+
+        return self::where('event_id', $this->event_id)
+            ->where('current_event_points', '>', $this->current_event_points)
+            ->count() + 1;
     }
 }

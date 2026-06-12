@@ -29,6 +29,8 @@ class EventParticipantFactory extends Factory
             'current_event_points' => $points,
             'total_points' => $points + fake()->numberBetween(0, 500),
             'rank' => fake()->numberBetween(1, 50),
+            'joined_at' => now()->subDays(fake()->numberBetween(0, 10)),
+            'status' => 'joined',
         ];
     }
 

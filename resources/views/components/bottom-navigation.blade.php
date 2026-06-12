@@ -7,7 +7,7 @@
         : ''))));
 
     $navItems = [
-        ['id' => 'nav-home',        'route' => '#', 'key' => 'home',        'label' => 'Home',       'icon' => 'home'],
+        ['id' => 'nav-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Home',       'icon' => 'home'],
         ['id' => 'nav-leaderboard', 'route' => '#', 'key' => 'leaderboard', 'label' => 'Ranking',    'icon' => 'trophy'],
         ['id' => 'nav-qr',          'route' => '#', 'key' => 'qr',          'label' => 'Scan',       'icon' => 'qr',    'center' => true],
         ['id' => 'nav-reward',      'route' => '#', 'key' => 'reward',      'label' => 'Reward',     'icon' => 'gift'],
