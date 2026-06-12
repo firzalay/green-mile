@@ -16,12 +16,11 @@
 
     $currentRoute = $user->isOrganizer()
         ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
-            : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') ? 'organizer-events'
+            : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') || request()->routeIs('organizer.events.checkpoints.*') || request()->routeIs('organizer.checkpoints.*') ? 'organizer-events'
             : (request()->routeIs('organizer.events.create') ? 'organizer-create'
-            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'checkpoints' ? 'organizer-checkpoints'
             : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'qr-generation' ? 'organizer-qr'
             : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
-            : ''))))))
+            : '')))))
         : (request()->routeIs('dashboard') ? 'home'
             : (request()->routeIs('events*') ? 'events'
             : (request()->routeIs('qr*') ? 'qr'
@@ -35,7 +34,6 @@
             ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
             ['id' => 'sidebar-organizer-events',    'route' => route('organizer.events.index'), 'key' => 'organizer-events', 'label' => 'Kelola Event', 'icon' => 'calendar'],
             ['id' => 'sidebar-organizer-create',    'route' => route('organizer.events.create'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
-            ['id' => 'sidebar-organizer-checkpoints', 'route' => route('organizer.placeholder', 'checkpoints'), 'key' => 'organizer-checkpoints', 'label' => 'Kelola Checkpoint', 'icon' => 'map-pin'],
             ['id' => 'sidebar-organizer-qr',        'route' => route('organizer.placeholder', 'qr-generation'), 'key' => 'organizer-qr', 'label' => 'Generate QR', 'icon' => 'qr'],
             ['id' => 'sidebar-organizer-participants', 'route' => route('organizer.placeholder', 'participants'), 'key' => 'organizer-participants', 'label' => 'Lihat Peserta', 'icon' => 'users'],
         ]
