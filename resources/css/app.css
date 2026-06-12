@@ -1,9 +1,180 @@
 @import 'tailwindcss';
+@import url('https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* GreenRun Primary Colors */
+    --color-forest: #003F2F;
+    --color-emerald: #2ECF89;
+    --color-mint: #7BE0B3;
+
+    /* GreenRun Secondary Colors */
+    --color-earth: #8D6E63;
+    --color-sunset: #FF7A45;
+
+    /* GreenRun Neutral Colors */
+    --color-bg-app: #F8F5F0;
+
+    /* GreenRun Semantic Colors */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    --color-info: #3B82F6;
+
+    /* Shadows */
+    --shadow-card: 0px 2px 8px rgba(0,0,0,0.08);
+    --shadow-float: 0px 8px 24px rgba(0,0,0,0.12);
+    --shadow-modal: 0px 16px 48px rgba(0,0,0,0.18);
 }
+
+/* Base styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background-color: var(--color-bg-app);
+    color: #111827;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Auth Layout */
+.auth-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,63,47,0.75) 0%, rgba(0,20,10,0.55) 100%);
+    pointer-events: none;
+}
+
+/* Input field styles */
+.input-default {
+    height: 48px;
+    width: 100%;
+    padding: 0 1rem 0 2.75rem;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 10px;
+    background: #FFFFFF;
+    font-size: 0.9375rem;
+    color: #374151;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+    outline: none;
+}
+
+.input-default:focus {
+    border-color: #2ECF89;
+    box-shadow: 0 0 0 3px rgba(46,207,137,0.15);
+}
+
+.input-default::placeholder {
+    color: #9CA3AF;
+}
+
+.input-default.input-error {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+}
+
+/* Button styles */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 48px;
+    padding: 0 1.5rem;
+    background: #003F2F;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: #005540;
+    box-shadow: 0px 8px 24px rgba(0,63,47,0.30);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    background: #002D22;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.btn-primary:disabled {
+    background: #9CA3AF;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 48px;
+    padding: 0 1.5rem;
+    background: #FFFFFF;
+    color: #003F2F;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 10px;
+    border: 1.5px solid #2ECF89;
+    cursor: pointer;
+    transition: all 200ms ease;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: #F0FDF9;
+    box-shadow: 0px 4px 12px rgba(46,207,137,0.20);
+}
+
+/* Card styles */
+.card-stat {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Animation utilities */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+
