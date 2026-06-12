@@ -22,7 +22,10 @@ class CheckpointFactory extends Factory
             'event_id' => Event::factory(),
             'name' => 'Checkpoint '.fake()->numberBetween(1, 100),
             'location' => fake()->streetName().', '.fake()->city(),
+            'description' => fake()->sentence(),
+            'sequence' => fake()->numberBetween(1, 10),
             'points' => fake()->randomElement([50, 100, 150]),
+            'status' => 'active',
         ];
     }
 }

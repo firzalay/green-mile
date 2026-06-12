@@ -16,7 +16,10 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('location')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('sequence');
             $table->integer('points')->default(50);
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

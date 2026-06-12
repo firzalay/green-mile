@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\OrganizerCheckpointController;
 use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
 use App\Http\Controllers\ParticipantEventController;
@@ -41,6 +42,16 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:organizer'])->prefix('organizer')->name('organizer.')->group(function () {
     Route::get('/dashboard', [OrganizerDashboardController::class, 'index'])->name('dashboard');
     Route::resource('events', OrganizerEventController::class);
+
+    // Checkpoints resourceful routes
+    Route::get('events/{event}/checkpoints', [OrganizerCheckpointController::class, 'index'])->name('events.checkpoints.index');
+    Route::get('events/{event}/checkpoints/create', [OrganizerCheckpointController::class, 'create'])->name('events.checkpoints.create');
+    Route::post('events/{event}/checkpoints', [OrganizerCheckpointController::class, 'store'])->name('events.checkpoints.store');
+    Route::get('checkpoints/{id}', [OrganizerCheckpointController::class, 'show'])->name('checkpoints.show');
+    Route::get('checkpoints/{id}/edit', [OrganizerCheckpointController::class, 'edit'])->name('checkpoints.edit');
+    Route::put('checkpoints/{id}', [OrganizerCheckpointController::class, 'update'])->name('checkpoints.update');
+    Route::delete('checkpoints/{id}', [OrganizerCheckpointController::class, 'destroy'])->name('checkpoints.destroy');
+
     Route::get('/placeholder/{action?}', [OrganizerDashboardController::class, 'placeholder'])->name('placeholder');
 });
 

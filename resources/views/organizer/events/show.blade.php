@@ -102,7 +102,7 @@
                 <section class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
                     <div class="flex items-center justify-between border-b pb-3 border-gray-100">
                         <h3 class="font-bold text-base text-gray-900">Checkpoints</h3>
-                        <a href="{{ route('organizer.placeholder', 'checkpoints') }}" class="text-xs font-semibold text-emerald hover:underline">
+                        <a href="{{ route('organizer.events.checkpoints.index', $event->id) }}" class="text-xs font-semibold text-emerald hover:underline">
                             Kelola Checkpoint →
                         </a>
                     </div>
