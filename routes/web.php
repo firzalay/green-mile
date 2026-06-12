@@ -2,12 +2,19 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\OrganizerDashboardController;
+use App\Http\Controllers\ParticipantEventController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return auth()->check()
-        ? redirect()->route('dashboard')
-        : redirect()->route('login');
+    if (auth()->check()) {
+        return auth()->user()->isOrganizer()
+            ? redirect()->route('organizer.dashboard')
+            : redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::middleware('guest')->group(function () {
@@ -24,6 +31,15 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+    Route::post('/events/{id}/join', [ParticipantEventController::class, 'join'])->name('events.join');
+});
+
+Route::middleware(['auth', 'role:organizer'])->prefix('organizer')->name('organizer.')->group(function () {
+    Route::get('/dashboard', [OrganizerDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/placeholder/{action?}', [OrganizerDashboardController::class, 'placeholder'])->name('placeholder');
 });
 
 Route::get('/forgot-password', function () {

@@ -17,7 +17,9 @@ class AuthController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return auth()->user()->isOrganizer()
+                ? redirect()->route('organizer.dashboard')
+                : redirect()->route('dashboard');
         }
 
         return view('auth.login');
@@ -36,7 +38,9 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            return auth()->user()->isOrganizer()
+                ? redirect()->intended(route('organizer.dashboard'))
+                : redirect()->intended(route('dashboard'));
         }
 
         return back()
@@ -50,7 +54,9 @@ class AuthController extends Controller
     public function showRegister(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return auth()->user()->isOrganizer()
+                ? redirect()->route('organizer.dashboard')
+                : redirect()->route('dashboard');
         }
 
         return view('auth.register');
@@ -75,7 +81,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return $user->isOrganizer()
+            ? redirect()->route('organizer.dashboard')
+            : redirect()->route('dashboard');
     }
 
     /**

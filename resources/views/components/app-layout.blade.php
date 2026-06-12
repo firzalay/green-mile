@@ -14,22 +14,39 @@
         ->take(2)
         ->implode('');
 
-    $currentRoute = request()->routeIs('dashboard') ? 'home'
-        : (request()->routeIs('qr*') ? 'qr'
-        : (request()->routeIs('leaderboard*') ? 'leaderboard'
-        : (request()->routeIs('reward*') ? 'reward'
-        : (request()->routeIs('history*') ? 'history'
-        : ''))));
+    $currentRoute = $user->isOrganizer()
+        ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
+            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'create-event' ? 'organizer-create'
+            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'checkpoints' ? 'organizer-checkpoints'
+            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'qr-generation' ? 'organizer-qr'
+            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
+            : '')))))
+        : (request()->routeIs('dashboard') ? 'home'
+            : (request()->routeIs('events*') ? 'events'
+            : (request()->routeIs('qr*') ? 'qr'
+            : (request()->routeIs('leaderboard*') ? 'leaderboard'
+            : (request()->routeIs('reward*') ? 'reward'
+            : (request()->routeIs('history*') ? 'history'
+            : ''))))));
 
-    $navItems = [
-        ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
-        ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
-        ['id' => 'sidebar-qr',          'route' => '#',                'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
-        ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
-        ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
-        ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
-        ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
-    ];
+    $navItems = $user->isOrganizer()
+        ? [
+            ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
+            ['id' => 'sidebar-organizer-create',    'route' => route('organizer.placeholder', 'create-event'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
+            ['id' => 'sidebar-organizer-checkpoints', 'route' => route('organizer.placeholder', 'checkpoints'), 'key' => 'organizer-checkpoints', 'label' => 'Kelola Checkpoint', 'icon' => 'map-pin'],
+            ['id' => 'sidebar-organizer-qr',        'route' => route('organizer.placeholder', 'qr-generation'), 'key' => 'organizer-qr', 'label' => 'Generate QR', 'icon' => 'qr'],
+            ['id' => 'sidebar-organizer-participants', 'route' => route('organizer.placeholder', 'participants'), 'key' => 'organizer-participants', 'label' => 'Lihat Peserta', 'icon' => 'users'],
+        ]
+        : [
+            ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
+            ['id' => 'sidebar-events',      'route' => route('events.index'), 'key' => 'events',    'label' => 'Daftar Event', 'icon' => 'calendar'],
+            ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
+            ['id' => 'sidebar-qr',          'route' => '#',                'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
+            ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
+            ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
+            ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
+            ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
+        ];
 @endphp
 
 <!DOCTYPE html>
@@ -106,6 +123,29 @@
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="{{ $isActive ? 'rgba(46,207,137,0.15)' : 'none' }}"/>
                                         <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                @elseif ($item['icon'] === 'calendar')
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" fill="{{ $isActive ? 'rgba(46,207,137,0.15)' : 'none' }}"/>
+                                        <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                @elseif ($item['icon'] === 'plus-circle')
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="{{ $isActive ? 'rgba(46,207,137,0.15)' : 'none' }}"/>
+                                        <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                @elseif ($item['icon'] === 'map-pin')
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" fill="{{ $isActive ? 'rgba(46,207,137,0.15)' : 'none' }}"/>
+                                        <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                @elseif ($item['icon'] === 'users')
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2" fill="{{ $isActive ? 'rgba(46,207,137,0.15)' : 'none' }}"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2"/>
                                     </svg>
                                 @elseif ($item['icon'] === 'trophy')
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -240,7 +280,9 @@
             </main>
 
             {{-- Mobile Bottom Nav --}}
-            <x-bottom-navigation />
+            @if ($user->role !== 'organizer')
+                <x-bottom-navigation />
+            @endif
         </div>
 
     </body>

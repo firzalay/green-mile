@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('current_event_points')->default(0);
             $table->integer('total_points')->default(0);
             $table->integer('rank')->nullable();
+            $table->timestamp('joined_at')->nullable();
+            $table->string('status')->default('joined');
             $table->timestamps();
 
             $table->unique(['event_id', 'user_id']);
