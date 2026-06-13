@@ -48,7 +48,7 @@
                 ['id' => 'sidebar-join-event',  'route' => route('events.join'), 'key' => 'join-event', 'label' => 'Gabung Event', 'icon' => 'plus-circle'],
                 ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
                 ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
-                ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
+                ['id' => 'sidebar-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
                 ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
                 ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
                 ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],

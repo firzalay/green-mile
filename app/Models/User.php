@@ -105,4 +105,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'approved_by');
     }
+
+    /**
+     * Get all reward redemptions for this user.
+     */
+    public function rewardRedemptions(): HasMany
+    {
+        return $this->hasMany(RewardRedemption::class);
+    }
+
+    /**
+     * Calculate user's available points dynamically.
+     */
+    public function getPointsAttribute(): int
+    {
+        $totalPoints = $this->eventParticipants()->sum('current_event_points');
+        $redeemedPoints = $this->rewardRedemptions()->sum('points_used');
+
+        return max(0, $totalPoints - $redeemedPoints);
+    }
 }
