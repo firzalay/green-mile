@@ -36,9 +36,29 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+
+            if ($user->role === 'organizer') {
+                if ($user->status === 'pending') {
+                    Auth::logout();
+
+                    return back()
+                        ->withInput($request->only('email'))
+                        ->with('error', 'Akun Anda masih menunggu persetujuan dari Super Admin.');
+                }
+
+                if ($user->status === 'rejected') {
+                    Auth::logout();
+
+                    return back()
+                        ->withInput($request->only('email'))
+                        ->with('error', 'Pendaftaran organizer Anda belum dapat disetujui. Silakan hubungi tim Jejak Hijau untuk informasi lebih lanjut.');
+                }
+            }
+
             $request->session()->regenerate();
 
-            return auth()->user()->isOrganizer()
+            return $user->isOrganizer()
                 ? redirect()->intended(route('organizer.dashboard'))
                 : redirect()->intended(route('dashboard'));
         }
