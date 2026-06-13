@@ -15,7 +15,7 @@ class OrganizerSeeder extends Seeder
     public function run(): void
     {
         // 1. Super Admin
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Super Admin',
             'username' => 'superadmin',
             'email' => 'superadmin@example.com',
@@ -24,7 +24,7 @@ class OrganizerSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        // 2. Organizer Approved (First one: organizer@example.com for backward compatibility)
+        // 2. Approved Organizers (3 Total)
         $approved1 = User::factory()->create([
             'name' => 'GreenRun Organizer',
             'username' => 'organizer',
@@ -32,12 +32,16 @@ class OrganizerSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'organizer',
             'status' => 'approved',
+            'approved_by' => $admin->id,
+            'approved_at' => now()->subDays(5),
         ]);
         OrganizerProfile::create([
             'user_id' => $approved1->id,
             'organization_name' => 'GreenRun Community',
             'contact_person' => 'GreenRun Organizer',
             'phone' => '081234567890',
+            'description' => 'Komunitas GreenRun Eco Lestari cabang utama.',
+            'website' => 'https://greenrun.example.com',
         ]);
 
         $approved2 = User::factory()->create([
@@ -47,59 +51,90 @@ class OrganizerSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'organizer',
             'status' => 'approved',
+            'approved_by' => $admin->id,
+            'approved_at' => now()->subDays(3),
         ]);
         OrganizerProfile::create([
             'user_id' => $approved2->id,
             'organization_name' => 'Eco Runners Association',
             'contact_person' => 'Eco Runner Org',
             'phone' => '081234567891',
+            'description' => 'Asosiasi pelari ramah lingkungan tingkat nasional.',
+            'website' => 'https://ecorunners.example.com',
         ]);
 
-        // 3. Organizer Pending
-        $pending1 = User::factory()->create([
-            'name' => 'Pending Organizer One',
-            'username' => 'pending1',
-            'email' => 'pending1@example.com',
+        $approved3 = User::factory()->create([
+            'name' => 'Lestari Event Organizer',
+            'username' => 'lestari_eo',
+            'email' => 'organizer3@example.com',
             'password' => Hash::make('password'),
             'role' => 'organizer',
-            'status' => 'pending',
+            'status' => 'approved',
+            'approved_by' => $admin->id,
+            'approved_at' => now()->subDays(1),
         ]);
         OrganizerProfile::create([
-            'user_id' => $pending1->id,
-            'organization_name' => 'Pending Org Group 1',
-            'contact_person' => 'Pending Organizer One',
+            'user_id' => $approved3->id,
+            'organization_name' => 'PT Lestari Event Organindo',
+            'contact_person' => 'Lestari Event Organizer',
             'phone' => '081234567892',
+            'description' => 'Event organizer profesional fokus pada gerakan zero-waste.',
         ]);
 
-        $pending2 = User::factory()->create([
-            'name' => 'Pending Organizer Two',
-            'username' => 'pending2',
-            'email' => 'pending2@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'organizer',
-            'status' => 'pending',
-        ]);
-        OrganizerProfile::create([
-            'user_id' => $pending2->id,
-            'organization_name' => 'Pending Org Group 2',
-            'contact_person' => 'Pending Organizer Two',
-            'phone' => '081234567893',
-        ]);
+        // 3. Pending Organizers (5 Total)
+        for ($i = 1; $i <= 5; $i++) {
+            $pending = User::factory()->create([
+                'name' => "Pending Organizer {$i}",
+                'username' => "pending{$i}",
+                'email' => "pending{$i}@example.com",
+                'password' => Hash::make('password'),
+                'role' => 'organizer',
+                'status' => 'pending',
+            ]);
+            OrganizerProfile::create([
+                'user_id' => $pending->id,
+                'organization_name' => "Pending Org Group {$i}",
+                'contact_person' => "Pending Organizer {$i}",
+                'phone' => '08123456789'.($i + 2),
+                'description' => "Profil deskripsi untuk pending organizer nomor {$i}.",
+            ]);
+        }
 
-        // 4. Organizer Rejected
-        $rejected = User::factory()->create([
-            'name' => 'Rejected Organizer',
-            'username' => 'rejected',
-            'email' => 'rejected@example.com',
+        // 4. Rejected Organizers (2 Total)
+        $rejected1 = User::factory()->create([
+            'name' => 'Rejected Organizer One',
+            'username' => 'rejected1',
+            'email' => 'rejected1@example.com',
             'password' => Hash::make('password'),
             'role' => 'organizer',
             'status' => 'rejected',
+            'approved_by' => $admin->id,
+            'approved_at' => now()->subDays(2),
         ]);
         OrganizerProfile::create([
-            'user_id' => $rejected->id,
-            'organization_name' => 'Rejected Org Group',
-            'contact_person' => 'Rejected Organizer',
-            'phone' => '081234567894',
+            'user_id' => $rejected1->id,
+            'organization_name' => 'Rejected Org Group A',
+            'contact_person' => 'Rejected Organizer One',
+            'phone' => '081234567898',
+            'description' => 'Registrasi ditolak karena dokumen kelayakan tidak lengkap.',
+        ]);
+
+        $rejected2 = User::factory()->create([
+            'name' => 'Rejected Organizer Two',
+            'username' => 'rejected2',
+            'email' => 'rejected2@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'organizer',
+            'status' => 'rejected',
+            'approved_by' => $admin->id,
+            'approved_at' => now()->subDays(1),
+        ]);
+        OrganizerProfile::create([
+            'user_id' => $rejected2->id,
+            'organization_name' => 'Rejected Org Group B',
+            'contact_person' => 'Rejected Organizer Two',
+            'phone' => '081234567899',
+            'description' => 'Registrasi ditolak karena terindikasi organisasi fiktif.',
         ]);
     }
 }

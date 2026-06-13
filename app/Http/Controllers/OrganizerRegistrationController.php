@@ -19,6 +19,10 @@ class OrganizerRegistrationController extends Controller
     public function create(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
+            if (auth()->user()->isSuperAdmin()) {
+                return redirect()->route('admin.organizers.index');
+            }
+
             return auth()->user()->isOrganizer()
                 ? redirect()->route('organizer.dashboard')
                 : redirect()->route('dashboard');
