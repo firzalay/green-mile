@@ -68,6 +68,41 @@
             </div>
         </div>
 
+        {{-- Join Code Section --}}
+        <div class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 animate-fade-in-up">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Kode Akses Event</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl font-black tracking-wider text-gray-800" id="event-join-code">{{ $event->join_code }}</span>
+                        <button type="button" 
+                                onclick="copyJoinCode()" 
+                                id="btn-copy-code"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald bg-emerald/10 border border-emerald/20 hover:bg-emerald/25 transition-all">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z"></path>
+                            </svg>
+                            Salin Kode
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <form method="POST" action="{{ route('organizer.events.regenerate-code', $event->id) }}">
+                        @csrf
+                        <button type="submit" 
+                                id="btn-regenerate-code"
+                                class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-gray-750 bg-white border border-gray-200 hover:bg-gray-50 transition-all shadow-sm">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"></path>
+                            </svg>
+                            Perbarui Kode Akses
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400">Peserta memerlukan kode ini untuk bergabung dengan event. Memperbarui kode akan membatalkan kode lama secara instan, namun peserta yang sudah terdaftar akan tetap terdaftar.</p>
+        </div>
+
         {{-- Metrics Dashboard Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {{-- Total Participants --}}
@@ -218,6 +253,25 @@
 
         function closeDeleteModal() {
             document.getElementById('delete-modal').classList.add('hidden');
+        }
+
+        function copyJoinCode() {
+            const codeElement = document.getElementById('event-join-code');
+            if (codeElement) {
+                navigator.clipboard.writeText(codeElement.textContent.trim()).then(() => {
+                    const btn = document.getElementById('btn-copy-code');
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = `
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                        Tersalin!
+                    `;
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                    }, 2000);
+                });
+            }
         }
     </script>
 </x-app-layout>

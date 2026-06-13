@@ -52,10 +52,15 @@ describe('event discovery access', function () {
 describe('join event flow', function () {
     it('allows an authenticated user to join an active event', function () {
         $user = User::factory()->create();
-        $event = Event::factory()->create(['is_active' => true]);
+        $event = Event::factory()->create([
+            'is_active' => true,
+            'status' => 'published',
+        ]);
 
         $this->actingAs($user)
-            ->post(route('events.join', $event->id))
+            ->post(route('events.join.submit'), [
+                'join_code' => $event->join_code,
+            ])
             ->assertRedirect(route('events.show', $event->id))
             ->assertSessionHas('success', "Berhasil bergabung ke {$event->name}");
 
@@ -69,7 +74,10 @@ describe('join event flow', function () {
 
     it('prevents a user from joining the same event twice', function () {
         $user = User::factory()->create();
-        $event = Event::factory()->create(['is_active' => true]);
+        $event = Event::factory()->create([
+            'is_active' => true,
+            'status' => 'ongoing',
+        ]);
 
         EventParticipant::factory()->create([
             'event_id' => $event->id,
@@ -77,9 +85,11 @@ describe('join event flow', function () {
         ]);
 
         $this->actingAs($user)
-            ->post(route('events.join', $event->id))
-            ->assertRedirect(route('events.show', $event->id))
-            ->assertSessionHas('error', 'Kamu sudah bergabung dalam event ini.');
+            ->post(route('events.join.submit'), [
+                'join_code' => $event->join_code,
+            ])
+            ->assertRedirect()
+            ->assertSessionHas('error', 'Anda sudah terdaftar pada event ini.');
     });
 });
 

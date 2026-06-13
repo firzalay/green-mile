@@ -31,6 +31,7 @@ class EventSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 15.000.000',
             'max_points' => 800,
+            'join_code' => 'SBY2026',
         ]);
 
         // 2. Upcoming Event
@@ -43,6 +44,7 @@ class EventSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 25.000.000',
             'max_points' => 1000,
+            'join_code' => 'JKT2026',
         ]);
 
         // 3. Finished Event
@@ -55,6 +57,7 @@ class EventSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 10.000.000',
             'max_points' => 600,
+            'join_code' => 'BALI2026',
         ]);
 
         // Link participants to events

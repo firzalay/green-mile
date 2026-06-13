@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
-#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id'])]
+#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code'])]
 class Event extends Model
 {
     /** @use HasFactory<EventFactory> */
@@ -146,5 +147,29 @@ class Event extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (Event $event) {
+            if (empty($event->join_code)) {
+                $event->join_code = static::generateUniqueJoinCode();
+            }
+        });
+    }
+
+    /**
+     * Generate a unique event join code.
+     */
+    public static function generateUniqueJoinCode(): string
+    {
+        do {
+            $code = strtoupper(Str::random(8));
+        } while (static::where('join_code', $code)->exists());
+
+        return $code;
     }
 }
