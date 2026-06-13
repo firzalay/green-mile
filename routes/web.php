@@ -8,6 +8,7 @@ use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
 use App\Http\Controllers\OrganizerQrController;
 use App\Http\Controllers\ParticipantEventController;
+use App\Http\Controllers\ParticipantScannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
     Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
     Route::post('/events/{id}/join', [ParticipantEventController::class, 'join'])->name('events.join');
+});
+
+Route::middleware(['auth', 'role:participant'])->group(function () {
+    Route::get('/scanner-test', function () {
+        return view('scanner-test');
+    });
+    Route::get('/scanner', [ParticipantScannerController::class, 'index'])->name('scanner.index');
+    Route::post('/scanner/scan', [ParticipantScannerController::class, 'scan'])->name('scanner.scan');
 });
 
 Route::middleware(['auth', 'role:organizer'])->prefix('organizer')->name('organizer.')->group(function () {
