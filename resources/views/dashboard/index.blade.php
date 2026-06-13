@@ -86,7 +86,7 @@
 
                 {{-- Section: Quick Action --}}
                 <section class="animate-fade-in-up animate-delay-200">
-                    <x-quick-action-button href="#" />
+                    <x-quick-action-button href="{{ route('scanner.index') }}" />
                 </section>
 
             </div>

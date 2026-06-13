@@ -62,4 +62,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class);
     }
+
+    /**
+     * Get all checkpoint scans of this user.
+     */
+    public function checkpointScans(): HasMany
+    {
+        return $this->hasMany(CheckpointScan::class);
+    }
 }

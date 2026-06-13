@@ -1,6 +1,6 @@
 @php
     $currentRoute = request()->routeIs('dashboard') ? 'home'
-        : (request()->routeIs('qr*') ? 'qr'
+        : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
         : (request()->routeIs('leaderboard*') ? 'leaderboard'
         : (request()->routeIs('reward*') ? 'reward'
         : (request()->routeIs('history*') ? 'history'
@@ -9,7 +9,7 @@
     $navItems = [
         ['id' => 'nav-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Home',       'icon' => 'home'],
         ['id' => 'nav-leaderboard', 'route' => '#', 'key' => 'leaderboard', 'label' => 'Ranking',    'icon' => 'trophy'],
-        ['id' => 'nav-qr',          'route' => '#', 'key' => 'qr',          'label' => 'Scan',       'icon' => 'qr',    'center' => true],
+        ['id' => 'nav-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'Scan',       'icon' => 'qr',    'center' => true],
         ['id' => 'nav-reward',      'route' => '#', 'key' => 'reward',      'label' => 'Reward',     'icon' => 'gift'],
         ['id' => 'nav-history',     'route' => '#', 'key' => 'history',     'label' => 'Riwayat',    'icon' => 'clock'],
     ];
