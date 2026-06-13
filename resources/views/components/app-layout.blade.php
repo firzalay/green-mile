@@ -14,37 +14,43 @@
         ->take(2)
         ->implode('');
 
-    $currentRoute = $user->isOrganizer()
-        ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
-            : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') || request()->routeIs('organizer.events.checkpoints.*') || request()->routeIs('organizer.checkpoints.*') ? 'organizer-events'
-            : (request()->routeIs('organizer.events.create') ? 'organizer-create'
-            : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
-            : ''))))
-        : (request()->routeIs('dashboard') ? 'home'
-            : (request()->routeIs('events*') ? 'events'
-            : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
-            : (request()->routeIs('leaderboard*') ? 'leaderboard'
-            : (request()->routeIs('reward*') ? 'reward'
-            : (request()->routeIs('history*') ? 'history'
-            : ''))))));
+    $currentRoute = $user->role === 'super_admin'
+        ? (request()->routeIs('admin.organizers.*') ? 'admin-organizers' : '')
+        : ($user->isOrganizer()
+            ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
+                : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') || request()->routeIs('organizer.events.checkpoints.*') || request()->routeIs('organizer.checkpoints.*') ? 'organizer-events'
+                : (request()->routeIs('organizer.events.create') ? 'organizer-create'
+                : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
+                : ''))))
+            : (request()->routeIs('dashboard') ? 'home'
+                : (request()->routeIs('events*') ? 'events'
+                : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
+                : (request()->routeIs('leaderboard*') ? 'leaderboard'
+                : (request()->routeIs('reward*') ? 'reward'
+                : (request()->routeIs('history*') ? 'history'
+                : '')))))));
 
-    $navItems = $user->isOrganizer()
+    $navItems = $user->role === 'super_admin'
         ? [
-            ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
-            ['id' => 'sidebar-organizer-events',    'route' => route('organizer.events.index'), 'key' => 'organizer-events', 'label' => 'Kelola Event', 'icon' => 'calendar'],
-            ['id' => 'sidebar-organizer-create',    'route' => route('organizer.events.create'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
-            ['id' => 'sidebar-organizer-participants', 'route' => route('organizer.placeholder', 'participants'), 'key' => 'organizer-participants', 'label' => 'Lihat Peserta', 'icon' => 'users'],
+            ['id' => 'sidebar-admin-organizers', 'route' => route('admin.organizers.index'), 'key' => 'admin-organizers', 'label' => 'Review Organizer', 'icon' => 'users'],
         ]
-        : [
-            ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
-            ['id' => 'sidebar-events',      'route' => route('events.index'), 'key' => 'events',    'label' => 'Daftar Event', 'icon' => 'calendar'],
-            ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
-            ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
-            ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
-            ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
-            ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
-            ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
-        ];
+        : ($user->isOrganizer()
+            ? [
+                ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
+                ['id' => 'sidebar-organizer-events',    'route' => route('organizer.events.index'), 'key' => 'organizer-events', 'label' => 'Kelola Event', 'icon' => 'calendar'],
+                ['id' => 'sidebar-organizer-create',    'route' => route('organizer.events.create'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
+                ['id' => 'sidebar-organizer-participants', 'route' => route('organizer.placeholder', 'participants'), 'key' => 'organizer-participants', 'label' => 'Lihat Peserta', 'icon' => 'users'],
+            ]
+            : [
+                ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
+                ['id' => 'sidebar-events',      'route' => route('events.index'), 'key' => 'events',    'label' => 'Daftar Event', 'icon' => 'calendar'],
+                ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
+                ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
+                ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
+                ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
+                ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
+                ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
+            ]);
 @endphp
 
 <!DOCTYPE html>
@@ -245,7 +251,7 @@
                            style="border-left: 1px solid #E5E7EB;">
                             <div class="text-right hidden sm:block">
                                 <p class="text-sm font-semibold leading-none" style="color: #111827;">{{ $firstName }}</p>
-                                <p class="text-xs mt-0.5" style="color: #9CA3AF;">Peserta</p>
+                                <p class="text-xs mt-0.5" style="color: #9CA3AF;">{{ $user->role === 'super_admin' ? 'Super Admin' : ($user->isOrganizer() ? 'Organizer' : 'Peserta') }}</p>
                             </div>
                             <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white"
                                  style="background: linear-gradient(135deg, #003F2F 0%, #2ECF89 100%);">

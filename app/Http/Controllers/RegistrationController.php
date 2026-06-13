@@ -14,6 +14,10 @@ class RegistrationController extends Controller
     public function selectRole(Request $request): View|RedirectResponse
     {
         if (auth()->check()) {
+            if (auth()->user()->isSuperAdmin()) {
+                return redirect()->route('admin.organizers.index');
+            }
+
             return auth()->user()->isOrganizer()
                 ? redirect()->route('organizer.dashboard')
                 : redirect()->route('dashboard');

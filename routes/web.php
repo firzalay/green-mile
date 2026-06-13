@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminOrganizerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (auth()->check()) {
+        if (auth()->user()->isSuperAdmin()) {
+            return redirect()->route('admin.organizers.index');
+        }
+
         return auth()->user()->isOrganizer()
             ? redirect()->route('organizer.dashboard')
             : redirect()->route('dashboard');
@@ -81,6 +86,13 @@ Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('org
     Route::get('checkpoints/{id}/qr', [OrganizerQrController::class, 'show'])->name('checkpoints.qr.show');
 
     Route::get('/placeholder/{action?}', [OrganizerDashboardController::class, 'placeholder'])->name('placeholder');
+});
+
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/organizers', [AdminOrganizerController::class, 'index'])->name('organizers.index');
+    Route::get('/organizers/{id}', [AdminOrganizerController::class, 'show'])->name('organizers.show');
+    Route::post('/organizers/{id}/approve', [AdminOrganizerController::class, 'approve'])->name('organizers.approve');
+    Route::post('/organizers/{id}/reject', [AdminOrganizerController::class, 'reject'])->name('organizers.reject');
 });
 
 Route::get('/forgot-password', function () {

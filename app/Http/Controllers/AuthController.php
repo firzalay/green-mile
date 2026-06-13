@@ -17,6 +17,10 @@ class AuthController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         if (Auth::check()) {
+            if (auth()->user()->isSuperAdmin()) {
+                return redirect()->route('admin.organizers.index');
+            }
+
             return auth()->user()->isOrganizer()
                 ? redirect()->route('organizer.dashboard')
                 : redirect()->route('dashboard');
@@ -58,6 +62,10 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
+            if ($user->isSuperAdmin()) {
+                return redirect()->intended(route('admin.organizers.index'));
+            }
+
             return $user->isOrganizer()
                 ? redirect()->intended(route('organizer.dashboard'))
                 : redirect()->intended(route('dashboard'));
@@ -74,6 +82,10 @@ class AuthController extends Controller
     public function showRegister(): View|RedirectResponse
     {
         if (Auth::check()) {
+            if (auth()->user()->isSuperAdmin()) {
+                return redirect()->route('admin.organizers.index');
+            }
+
             return auth()->user()->isOrganizer()
                 ? redirect()->route('organizer.dashboard')
                 : redirect()->route('dashboard');
@@ -100,6 +112,10 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.organizers.index');
+        }
 
         return $user->isOrganizer()
             ? redirect()->route('organizer.dashboard')
