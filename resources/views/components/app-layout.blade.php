@@ -23,12 +23,13 @@
                 : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
                 : ''))))
             : (request()->routeIs('dashboard') ? 'home'
+                : (request()->routeIs('events.join') ? 'join-event'
                 : (request()->routeIs('events*') ? 'events'
                 : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
                 : (request()->routeIs('leaderboard*') ? 'leaderboard'
                 : (request()->routeIs('reward*') ? 'reward'
                 : (request()->routeIs('history*') ? 'history'
-                : '')))))));
+                : ''))))))));
 
     $navItems = $user->role === 'super_admin'
         ? [
@@ -44,6 +45,7 @@
             : [
                 ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
                 ['id' => 'sidebar-events',      'route' => route('events.index'), 'key' => 'events',    'label' => 'Daftar Event', 'icon' => 'calendar'],
+                ['id' => 'sidebar-join-event',  'route' => route('events.join'), 'key' => 'join-event', 'label' => 'Gabung Event', 'icon' => 'plus-circle'],
                 ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
                 ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
                 ['id' => 'sidebar-reward',      'route' => '#',                'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],

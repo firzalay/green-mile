@@ -53,8 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::get('/events/join', [ParticipantEventController::class, 'showJoinForm'])->name('events.join');
+    Route::post('/events/join', [ParticipantEventController::class, 'joinWithCode'])->name('events.join.submit');
     Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
-    Route::post('/events/{id}/join', [ParticipantEventController::class, 'join'])->name('events.join');
 });
 
 Route::middleware(['auth', 'role:participant'])->group(function () {
@@ -68,6 +69,7 @@ Route::middleware(['auth', 'role:participant'])->group(function () {
 Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('organizer')->name('organizer.')->group(function () {
     Route::get('/dashboard', [OrganizerDashboardController::class, 'index'])->name('dashboard');
     Route::resource('events', OrganizerEventController::class);
+    Route::post('events/{id}/regenerate-code', [OrganizerEventController::class, 'regenerateCode'])->name('events.regenerate-code');
 
     // Checkpoints resourceful routes
     Route::get('events/{event}/checkpoints', [OrganizerCheckpointController::class, 'index'])->name('events.checkpoints.index');

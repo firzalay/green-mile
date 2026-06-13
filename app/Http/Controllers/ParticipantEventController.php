@@ -6,25 +6,48 @@ use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ParticipantEventController extends Controller
 {
     /**
-     * Join the specified event.
+     * Show the event join form.
      */
-    public function join(Request $request, int $id): RedirectResponse
+    public function showJoinForm(Request $request): View
     {
-        $user = $request->user();
+        return view('events.join', [
+            'user' => $request->user(),
+        ]);
+    }
 
-        $event = Event::where('is_active', true)->findOrFail($id);
+    /**
+     * Join an event using a join code.
+     */
+    public function joinWithCode(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'join_code' => ['required', 'string', 'max:12'],
+        ]);
+
+        $user = $request->user();
+        $joinCode = strtoupper($request->input('join_code'));
+
+        $event = Event::where('join_code', $joinCode)->first();
+
+        if (! $event) {
+            return back()->with('error', 'Kode event tidak ditemukan.')->withInput();
+        }
+
+        if (! $event->is_active || $event->status === 'Finished') {
+            return back()->with('error', 'Event sudah berakhir dan tidak menerima peserta baru.')->withInput();
+        }
 
         $alreadyJoined = $user->eventParticipants()
             ->where('event_id', $event->id)
             ->exists();
 
         if ($alreadyJoined) {
-            return redirect()->route('events.show', $event->id)
-                ->with('error', 'Kamu sudah bergabung dalam event ini.');
+            return back()->with('error', 'Anda sudah terdaftar pada event ini.')->withInput();
         }
 
         EventParticipant::create([

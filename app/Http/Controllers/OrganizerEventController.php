@@ -143,4 +143,23 @@ class OrganizerEventController extends Controller
         return redirect()->route('organizer.events.index')
             ->with('success', 'Event berhasil dihapus.');
     }
+
+    /**
+     * Regenerate the join code for the specified event.
+     */
+    public function regenerateCode(Request $request, int $id): RedirectResponse
+    {
+        $user = $request->user();
+        $event = Event::findOrFail($id);
+
+        if ($event->organizer_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $event->join_code = Event::generateUniqueJoinCode();
+        $event->save();
+
+        return redirect()->route('organizer.events.show', $event->id)
+            ->with('success', 'Kode akses event berhasil diperbarui.');
+    }
 }
