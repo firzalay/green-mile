@@ -82,25 +82,25 @@ describe('login form submission', function () {
 |--------------------------------------------------------------------------
 */
 describe('register page', function () {
-    it('renders the register page', function () {
+    it('redirects register root to select role page', function () {
         $this->get(route('register'))
-            ->assertOk()
-            ->assertViewIs('auth.register');
+            ->assertRedirect(route('register.select-role'));
     });
 
-    it('redirects authenticated users away from register page', function () {
-        $user = User::factory()->create();
+    it('redirects authenticated users away from participant register page', function () {
+        $user = User::factory()->create(['role' => 'participant', 'status' => 'active']);
 
         $this->actingAs($user)
-            ->get(route('register'))
+            ->get(route('register.participant'))
             ->assertRedirect(route('dashboard'));
     });
 });
 
 describe('register form submission', function () {
-    it('allows a new user to register', function () {
-        $this->post(route('register'), [
+    it('allows a new participant to register', function () {
+        $this->post(route('register.participant'), [
             'name' => 'Budi Santoso',
+            'username' => 'budisantoso',
             'email' => 'budi@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -109,13 +109,15 @@ describe('register form submission', function () {
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', [
             'name' => 'Budi Santoso',
+            'username' => 'budisantoso',
             'email' => 'budi@example.com',
         ]);
     });
 
     it('validates name is required', function () {
-        $this->post(route('register'), [
+        $this->post(route('register.participant'), [
             'name' => '',
+            'username' => 'budisantoso',
             'email' => 'budi@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -125,8 +127,9 @@ describe('register form submission', function () {
     it('validates email must be unique', function () {
         User::factory()->create(['email' => 'existing@example.com']);
 
-        $this->post(route('register'), [
+        $this->post(route('register.participant'), [
             'name' => 'Budi',
+            'username' => 'budisantoso',
             'email' => 'existing@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -134,8 +137,9 @@ describe('register form submission', function () {
     });
 
     it('validates password minimum length of 8', function () {
-        $this->post(route('register'), [
+        $this->post(route('register.participant'), [
             'name' => 'Budi',
+            'username' => 'budisantoso',
             'email' => 'budi@example.com',
             'password' => 'short',
             'password_confirmation' => 'short',
@@ -143,8 +147,9 @@ describe('register form submission', function () {
     });
 
     it('validates password confirmation matches', function () {
-        $this->post(route('register'), [
+        $this->post(route('register.participant'), [
             'name' => 'Budi',
+            'username' => 'budisantoso',
             'email' => 'budi@example.com',
             'password' => 'password123',
             'password_confirmation' => 'differentpassword',

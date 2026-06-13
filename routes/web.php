@@ -7,8 +7,11 @@ use App\Http\Controllers\OrganizerCheckpointController;
 use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
 use App\Http\Controllers\OrganizerQrController;
+use App\Http\Controllers\OrganizerRegistrationController;
 use App\Http\Controllers\ParticipantEventController;
+use App\Http\Controllers\ParticipantRegistrationController;
 use App\Http\Controllers\ParticipantScannerController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,10 +27,18 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
 });
+
+Route::get('/register', function () {
+    return redirect()->route('register.select-role');
+})->name('register');
+Route::get('/register/select-role', [RegistrationController::class, 'selectRole'])->name('register.select-role');
+
+Route::get('/register/participant', [ParticipantRegistrationController::class, 'create'])->name('register.participant');
+Route::post('/register/participant', [ParticipantRegistrationController::class, 'store']);
+
+Route::get('/register/organizer', [OrganizerRegistrationController::class, 'create'])->name('register.organizer');
+Route::post('/register/organizer', [OrganizerRegistrationController::class, 'store']);
 
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
@@ -49,7 +60,7 @@ Route::middleware(['auth', 'role:participant'])->group(function () {
     Route::post('/scanner/scan', [ParticipantScannerController::class, 'scan'])->name('scanner.scan');
 });
 
-Route::middleware(['auth', 'role:organizer'])->prefix('organizer')->name('organizer.')->group(function () {
+Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('organizer')->name('organizer.')->group(function () {
     Route::get('/dashboard', [OrganizerDashboardController::class, 'index'])->name('dashboard');
     Route::resource('events', OrganizerEventController::class);
 
