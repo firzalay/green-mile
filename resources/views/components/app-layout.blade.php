@@ -20,8 +20,9 @@
             ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
                 : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') || request()->routeIs('organizer.events.checkpoints.*') || request()->routeIs('organizer.checkpoints.*') ? 'organizer-events'
                 : (request()->routeIs('organizer.events.create') ? 'organizer-create'
+                : (request()->routeIs('organizer.profile.*') ? 'organizer-profile'
                 : (request()->routeIs('organizer.placeholder') && request()->route('action') === 'participants' ? 'organizer-participants'
-                : ''))))
+                : '')))))
             : (request()->routeIs('dashboard') ? 'home'
                 : (request()->routeIs('events.join') ? 'join-event'
                 : (request()->routeIs('leaderboard*') || request()->routeIs('events.leaderboard') ? 'leaderboard'
@@ -41,6 +42,7 @@
                 ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
                 ['id' => 'sidebar-organizer-events',    'route' => route('organizer.events.index'), 'key' => 'organizer-events', 'label' => 'Kelola Event', 'icon' => 'calendar'],
                 ['id' => 'sidebar-organizer-create',    'route' => route('organizer.events.create'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
+                ['id' => 'sidebar-organizer-profile',   'route' => route('organizer.profile.show'), 'key' => 'organizer-profile', 'label' => 'Profil', 'icon' => 'user'],
             ]
             : [
                 ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
@@ -236,7 +238,7 @@
                     <div class="flex items-center gap-3">
 
                         {{-- Avatar + name --}}
-                        <a href="{{ $user->role === 'participant' ? route('profile.show') : '#' }}"
+                        <a href="{{ $user->role === 'participant' ? route('profile.show') : ($user->isOrganizer() ? route('organizer.profile.show') : '#') }}"
                            id="nav-profile-avatar-desktop"
                            class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                             <div class="text-right hidden sm:block">

@@ -8,6 +8,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\OrganizerCheckpointController;
 use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
+use App\Http\Controllers\OrganizerProfileController;
 use App\Http\Controllers\OrganizerQrController;
 use App\Http\Controllers\OrganizerRegistrationController;
 use App\Http\Controllers\OrganizerRewardController;
@@ -118,6 +119,12 @@ Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('org
     Route::get('checkpoints/{id}/qr', [OrganizerQrController::class, 'show'])->name('checkpoints.qr.show');
 
     Route::get('/placeholder/{action?}', [OrganizerDashboardController::class, 'placeholder'])->name('placeholder');
+
+    // Organizer Profile routes
+    Route::get('/profile', [OrganizerProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [OrganizerProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [OrganizerProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [OrganizerProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
