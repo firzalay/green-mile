@@ -51,14 +51,12 @@ class AdminProfileController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
-                $oldPath = str_replace('/storage/', '', $user->avatar);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            $rawAvatar = $user->getRawOriginal('avatar');
+            if ($rawAvatar && ! filter_var($rawAvatar, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($rawAvatar);
             }
             $path = $request->file('avatar')->store('avatars', 'public');
-            $validated['avatar'] = '/storage/'.$path;
+            $validated['avatar'] = $path;
         }
 
         $user->update($validated);

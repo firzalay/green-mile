@@ -27,7 +27,7 @@ class StoreEventRequest extends FormRequest
             'location' => ['required', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
-            'banner' => ['nullable', 'string', 'max:1000'],
+            'banner' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'description' => ['nullable', 'string'],
             'total_rewards' => ['nullable', 'string', 'max:255'],
             'max_points' => ['required', 'integer', 'min:1'],
@@ -56,6 +56,9 @@ class StoreEventRequest extends FormRequest
             'max_points.min' => 'Maksimal poin minimal 1.',
             'point_pool.required' => 'Total point pool wajib diisi.',
             'point_pool.min' => 'Total point pool minimal 1.',
+            'banner.image' => 'File banner harus berupa gambar.',
+            'banner.mimes' => 'Format banner harus jpeg, png, jpg, atau webp.',
+            'banner.max' => 'Ukuran banner tidak boleh lebih dari 2MB.',
         ];
     }
 }

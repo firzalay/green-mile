@@ -7,6 +7,7 @@ use App\Http\Requests\Event\UpdateEventRequest;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class OrganizerEventController extends Controller
@@ -47,6 +48,13 @@ class OrganizerEventController extends Controller
         $validated['status'] = 'draft';
         $validated['is_active'] = true;
         $validated['remaining_point_pool'] = $validated['point_pool'];
+
+        if ($request->hasFile('banner')) {
+            $path = $request->file('banner')->store('events', 'public');
+            $validated['banner'] = $path;
+        } else {
+            $validated['banner'] = 'https://images.unsplash.com/photo-1502224562085-639556652f33?auto=format&fit=crop&q=80&w=800';
+        }
 
         Event::create($validated);
 
@@ -111,6 +119,17 @@ class OrganizerEventController extends Controller
 
         $validated['remaining_point_pool'] = $validated['point_pool'] - $distributed;
 
+        if ($request->hasFile('banner')) {
+            $rawBanner = $event->getRawOriginal('banner');
+            if ($rawBanner && ! filter_var($rawBanner, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($rawBanner);
+            }
+            $path = $request->file('banner')->store('events', 'public');
+            $validated['banner'] = $path;
+        } else {
+            unset($validated['banner']);
+        }
+
         $event->update($validated);
 
         return redirect()->route('organizer.events.show', $event->id)
@@ -127,6 +146,11 @@ class OrganizerEventController extends Controller
 
         if ($event->organizer_id !== $user->id) {
             abort(403, 'Unauthorized action.');
+        }
+
+        $rawBanner = $event->getRawOriginal('banner');
+        if ($rawBanner && ! filter_var($rawBanner, FILTER_VALIDATE_URL)) {
+            Storage::disk('public')->delete($rawBanner);
         }
 
         $event->delete();

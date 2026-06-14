@@ -14,7 +14,7 @@
         </div>
 
         {{-- Form --}}
-        <form id="edit-event-form" method="POST" action="{{ route('organizer.events.update', $event->id) }}" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6" novalidate>
+        <form id="edit-event-form" method="POST" action="{{ route('organizer.events.update', $event->id) }}" enctype="multipart/form-data" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6" novalidate>
             @csrf
             @method('PUT')
 
@@ -73,11 +73,16 @@
                 </div>
             </div>
 
-            {{-- Banner URL --}}
+            {{-- Gambar Banner --}}
             <div class="space-y-1.5">
-                <label for="banner" class="block text-sm font-semibold text-gray-700">URL Gambar Banner</label>
-                <input type="text" id="banner" name="banner" value="{{ old('banner', $event->banner) }}" placeholder="Contoh: https://images.unsplash.com/photo-..."
-                       class="w-full px-4 py-2.5 rounded-xl border {{ $errors->has('banner') ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-emerald focus:ring-emerald/20' }} focus:outline-none focus:ring-4 transition-all text-sm text-gray-800">
+                <label for="banner" class="block text-sm font-semibold text-gray-700">Gambar Banner</label>
+                @if($event->banner)
+                    <div class="mb-3">
+                        <img src="{{ $event->banner }}" alt="{{ $event->name }}" class="w-full max-h-48 object-cover rounded-xl border border-gray-200 shadow-sm bg-gray-50">
+                    </div>
+                @endif
+                <input type="file" id="banner" name="banner" accept="image/png, image/jpeg, image/jpg, image/webp"
+                       class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-emerald focus:ring-emerald/20 focus:outline-none focus:ring-4 transition-all text-sm text-gray-800 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald/10 file:text-emerald hover:file:bg-emerald/20 file:cursor-pointer cursor-pointer">
                 @error('banner')
                     <p class="text-xs text-red-500 mt-1 flex items-center gap-1">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
