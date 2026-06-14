@@ -33,7 +33,7 @@
     </div>
 
     {{-- Avatar --}}
-    <a href="{{ route('profile.show') }}" aria-label="Lihat Profil" id="nav-profile-avatar">
+    <a href="{{ $user->isOrganizer() ? route('organizer.profile.show') : route('profile.show') }}" aria-label="Lihat Profil" id="nav-profile-avatar">
         <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-sm transition-transform hover:scale-105 overflow-hidden"
              style="background: linear-gradient(135deg, #003F2F 0%, #2ECF89 100%);">
             @if($user->avatar)
