@@ -73,7 +73,7 @@
         {{-- Main Details Card --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {{-- Details Block --}}
-            <div class="md:col-span-2 bg-white rounded-2xl border border-gray-150 p-6 shadow-sm space-y-6">
+            <div class="md:col-span-2 bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6">
                 <div>
                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Informasi Reward</h3>
                     <div class="grid grid-cols-2 gap-4">
@@ -103,7 +103,7 @@
             </div>
 
             {{-- Image & Quick Stats --}}
-            <div class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
+            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center justify-center gap-4 text-center">
                 <div class="w-full aspect-square max-w-[200px] rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
                     @if($reward->image)
                         <img src="{{ $reward->image }}" alt="{{ $reward->name }}" class="w-full h-full object-cover">
@@ -123,7 +123,7 @@
 
     {{-- Native Delete Confirmation Modal Overlay --}}
     <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>

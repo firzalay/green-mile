@@ -22,7 +22,7 @@
         </section>
 
         {{-- Point Summary Widget --}}
-        <section class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fade-in-up">
+        <section class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fade-in-up">
             <div class="space-y-1">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Total Poin Saya</span>
                 <p class="text-3xl font-black text-gray-800" id="user-points-balance">
@@ -56,7 +56,7 @@
                     @php
                         $isOutOfStock = $reward->stock <= 0;
                     @endphp
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group border border-gray-100">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col group">
                         {{-- Image Banner --}}
                         <div class="relative h-48 w-full overflow-hidden bg-emerald-950">
                             @if($reward->image)

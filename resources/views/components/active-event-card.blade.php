@@ -7,7 +7,7 @@
     $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
 @endphp
 
-<div class="rounded-2xl overflow-hidden shadow-md"
+<div class="rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
      style="background: linear-gradient(135deg, #003F2F 0%, #005540 100%); box-shadow: 0px 8px 24px rgba(0,63,47,0.25);">
 
     {{-- Background decoration --}}

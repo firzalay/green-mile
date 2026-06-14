@@ -1,6 +1,5 @@
 <x-app-layout title="Dashboard – Jejak Hijau" :user="$user">
 
-    {{-- ========================= ACTIVE EVENT STATE ========================= --}}
     @if ($activeParticipation !== null)
 
         {{-- Desktop: 2-column grid; Mobile: single column --}}
@@ -41,7 +40,7 @@
                     </h2>
                     <div class="grid grid-cols-3 gap-3">
                         {{-- Peringkat --}}
-                        <div class="rounded-2xl p-4 bg-white border border-gray-100 shadow-sm">
+                        <div class="rounded-2xl p-4 bg-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                             <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3" style="background: rgba(245,158,11,0.12); color: #F59E0B;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6 9H3V3h3M18 9h3V3h-3M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -54,7 +53,7 @@
                         </div>
                         
                         {{-- Checkpoint Discan --}}
-                        <div class="rounded-2xl p-4 bg-white border border-gray-100 shadow-sm">
+                        <div class="rounded-2xl p-4 bg-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                             <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3" style="background: rgba(46,207,137,0.12); color: #2ECF89;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -67,7 +66,7 @@
                         </div>
 
                         {{-- Checkpoint Tersisa --}}
-                        <div class="rounded-2xl p-4 bg-white border border-gray-100 shadow-sm">
+                        <div class="rounded-2xl p-4 bg-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                             <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3" style="background: rgba(107,114,128,0.08); color: #6B7280;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
@@ -116,7 +115,7 @@
 
         </div>
 
-    {{-- ========================= NO ACTIVE EVENT STATE ========================= --}}
+
     @else
 
         <section class="flex flex-col items-center justify-center py-16 text-center animate-fade-in-up">

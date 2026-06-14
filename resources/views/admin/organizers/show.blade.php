@@ -8,13 +8,13 @@
         </div>
 
         {{-- Header Section --}}
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-150 pb-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
             <div>
                 <h1 class="text-2xl font-black text-gray-900 tracking-tight">Detail Pengajuan Organizer</h1>
                 <p class="text-sm text-gray-500 mt-1">Review informasi profil lengkap sebelum melakukan verifikasi.</p>
             </div>
             <div>
-                <a href="{{ route('admin.organizers.index') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-250 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
+                <a href="{{ route('admin.organizers.index') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
                     Kembali ke List
                 </a>
             </div>
@@ -23,7 +23,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {{-- Organization Profile details --}}
             <div class="md:col-span-2 space-y-6">
-                <div class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm space-y-5">
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-5">
                     <h2 class="text-base font-bold text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                         <svg class="w-5 h-5 text-forest" style="color: #003F2F;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
@@ -58,7 +58,7 @@
 
                     <div class="pt-2">
                         <span class="block text-xs uppercase font-bold tracking-wider text-gray-400 mb-1">Deskripsi Organisasi</span>
-                        <div class="p-4 rounded-xl bg-gray-50 text-sm text-gray-700 border border-gray-150">
+                        <div class="p-4 rounded-xl bg-gray-50/60 text-sm text-gray-750 border border-gray-100/50">
                             {{ $organizer->organizerProfile->description ?? 'Tidak ada deskripsi organisasi yang ditambahkan.' }}
                         </div>
                     </div>
@@ -67,7 +67,7 @@
 
             {{-- Account settings & Metadata --}}
             <div class="space-y-6">
-                <div class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm space-y-4">
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4">
                     <h2 class="text-base font-bold text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                         <svg class="w-5 h-5 text-forest" style="color: #003F2F;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -92,15 +92,15 @@
                             <span class="block text-[10px] uppercase font-bold tracking-wider text-gray-400">Status Saat Ini</span>
                             <div class="mt-1">
                                 @if($organizer->status === 'pending')
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-100">
                                         Pending
                                     </span>
                                 @elseif($organizer->status === 'approved')
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-100">
                                         Approved
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-100">
                                         Rejected
                                     </span>
                                 @endif
@@ -125,7 +125,7 @@
 
                 {{-- Action Controls for review --}}
                 @if($organizer->status === 'pending')
-                    <div class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm space-y-3">
+                    <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-3">
                         <span class="block text-xs uppercase font-bold tracking-wider text-gray-400 text-center mb-1">Tindakan</span>
                         <div class="flex flex-col gap-2.5">
                             <button type="button"
@@ -153,7 +153,7 @@
 
     {{-- Confirmation Modal Overlay --}}
     <div id="approval-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div id="modal-icon-container" class="w-12 h-12 rounded-xl flex items-center justify-center">
                 {{-- Dynamic Icon --}}
                 <svg id="modal-icon-approve" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -168,7 +168,7 @@
                 <p id="modal-description" class="text-sm text-gray-500 mt-1"></p>
             </div>
             <div class="flex items-center gap-3">
-                <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-250 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
+                <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
                     Batal
                 </button>
                 <form id="modal-form" method="POST" class="flex-1">

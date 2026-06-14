@@ -1,7 +1,7 @@
 <x-app-layout title="Leaderboard – Jejak Hijau" :user="auth()->user()">
     <div class="space-y-6 max-w-2xl mx-auto pb-12">
         {{-- Header Section --}}
-        <section class="animate-fade-in-up flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-150 pb-5 gap-4">
+        <section class="animate-fade-in-up flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl" style="color: #111827;">Leaderboard</h2>
                 <p class="text-sm mt-1" style="color: #6B7280;">
@@ -28,7 +28,7 @@
 
         @if(! $hasJoinedEvents)
             {{-- Empty State: Not joined any events at all --}}
-            <section class="bg-white rounded-2xl border border-gray-150 p-8 text-center shadow-sm space-y-5 animate-fade-in-up">
+            <section class="bg-white rounded-2xl p-8 text-center shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-5 animate-fade-in-up">
                 <div class="w-16 h-16 bg-emerald/10 text-emerald rounded-full flex items-center justify-center mx-auto" style="color: #2ECF89;">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
@@ -65,7 +65,7 @@
 
             {{-- Top 3 Podium --}}
             @if(empty($search) && $top3->isNotEmpty())
-                <section class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm animate-fade-in-up">
+                <section class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-fade-in-up">
                     <h3 class="sr-only">Top 3 Podium</h3>
                     <div class="grid grid-cols-3 items-end gap-2 max-w-sm mx-auto pt-4 pb-2">
                         
@@ -169,22 +169,22 @@
             {{-- Summary Statistics Card --}}
             <section class="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-fade-in-up">
                 {{-- Total Participants --}}
-                <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+                <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Peserta</span>
                     <p class="text-xl font-black text-gray-800" id="stat-participants">{{ number_format($totalParticipants) }}</p>
                 </div>
                 {{-- Your Rank --}}
-                <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+                <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Rank Anda</span>
                     <p class="text-xl font-black text-emerald" id="stat-user-rank" style="color: #2ECF89;">{{ $currentUserRank }}</p>
                 </div>
                 {{-- Highest Score --}}
-                <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+                <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Skor Tertinggi</span>
                     <p class="text-xl font-black text-gray-800" id="stat-highest-score">{{ number_format($highestScore) }}</p>
                 </div>
                 {{-- Average Score --}}
-                <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+                <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Rata-Rata</span>
                     <p class="text-xl font-black text-gray-800" id="stat-average-score">{{ number_format($averageScore) }}</p>
                 </div>
@@ -220,7 +220,7 @@
             </section>
 
             {{-- Rankings Table / List --}}
-            <section class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden animate-fade-in-up">
+            <section class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-fade-in-up">
                 @if($paginatedList->isEmpty())
                     <div class="text-center py-12 px-4 space-y-2">
                         <p class="text-sm font-semibold text-gray-500">Belum ada peserta yang masuk leaderboard.</p>
@@ -292,7 +292,7 @@
 
                     {{-- Pagination Links --}}
                     @if($paginatedList->hasPages())
-                        <div class="p-4 bg-gray-50 border-t border-gray-100">
+                        <div class="p-4 bg-white border-t border-gray-50">
                             {{ $paginatedList->links() }}
                         </div>
                     @endif

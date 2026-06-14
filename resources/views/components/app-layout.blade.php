@@ -40,7 +40,6 @@
                 ['id' => 'sidebar-organizer-dashboard', 'route' => route('organizer.dashboard'), 'key' => 'organizer-home', 'label' => 'Dashboard', 'icon' => 'home'],
                 ['id' => 'sidebar-organizer-events',    'route' => route('organizer.events.index'), 'key' => 'organizer-events', 'label' => 'Kelola Event', 'icon' => 'calendar'],
                 ['id' => 'sidebar-organizer-create',    'route' => route('organizer.events.create'), 'key' => 'organizer-create', 'label' => 'Buat Event', 'icon' => 'plus-circle'],
-                ['id' => 'sidebar-organizer-participants', 'route' => route('organizer.placeholder', 'participants'), 'key' => 'organizer-participants', 'label' => 'Lihat Peserta', 'icon' => 'users'],
             ]
             : [
                 ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
@@ -50,7 +49,6 @@
                 ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
                 ['id' => 'sidebar-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
                 ['id' => 'sidebar-profile',     'route' => route('profile.show'), 'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
-                ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
             ]);
 @endphp
 
@@ -233,27 +231,13 @@
                         </p>
                     </div>
 
-                    {{-- Right: Notification + Avatar --}}
+                    {{-- Right: Avatar --}}
                     <div class="flex items-center gap-3">
-
-                        {{-- Notification bell --}}
-                        <button id="btn-notification"
-                                type="button"
-                                aria-label="Notifikasi"
-                                class="w-10 h-10 rounded-xl flex items-center justify-center relative transition-all hover:bg-gray-100"
-                                style="color: #6B7280;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            {{-- Unread dot --}}
-                            <span class="absolute top-2 right-2 w-2 h-2 rounded-full" style="background: #EF4444;"></span>
-                        </button>
 
                         {{-- Avatar + name --}}
                         <a href="{{ $user->role === 'participant' ? route('profile.show') : '#' }}"
                            id="nav-profile-avatar-desktop"
-                           class="flex items-center gap-2.5 pl-3 transition-opacity hover:opacity-80"
-                           style="border-left: 1px solid #E5E7EB;">
+                           class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                             <div class="text-right hidden sm:block">
                                 <p class="text-sm font-semibold leading-none" style="color: #111827;">{{ $firstName }}</p>
                                 <p class="text-xs mt-0.5" style="color: #9CA3AF;">{{ $user->role === 'super_admin' ? 'Super Admin' : ($user->isOrganizer() ? 'Organizer' : 'Peserta') }}</p>

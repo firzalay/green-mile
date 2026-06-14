@@ -56,7 +56,7 @@
 
         {{-- Rewards List --}}
         @if($rewards->isEmpty())
-            <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm max-w-md mx-auto animate-fade-in-up">
+            <div class="bg-white rounded-2xl p-12 text-center shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 max-w-md mx-auto animate-fade-in-up">
                 <div class="w-16 h-16 rounded-2xl bg-gray-50 border border-dashed border-gray-250 flex items-center justify-center mx-auto mb-4 text-gray-400">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h17.25c.621 0 1.125-.504 1.125-1.125V8.25c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v2.25c0 .621.504 1.125 1.125 1.125z"></path>
@@ -71,7 +71,7 @@
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="rewards-list">
                 @foreach($rewards as $reward)
-                    <div class="bg-white rounded-2xl border border-gray-150 p-5 flex flex-col justify-between gap-4 shadow-sm hover:shadow-md transition-all">
+                    <div class="bg-white rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                         <div class="flex items-start gap-4">
                             {{-- Reward Image --}}
                             <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
@@ -139,7 +139,7 @@
 
     {{-- Native Delete Confirmation Modal Overlay --}}
     <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>

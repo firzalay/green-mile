@@ -14,7 +14,7 @@
         </div>
 
         {{-- Form --}}
-        <form id="edit-profile-form" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm space-y-6" novalidate>
+        <form id="edit-profile-form" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6" novalidate>
             @csrf
             @method('PUT')
 

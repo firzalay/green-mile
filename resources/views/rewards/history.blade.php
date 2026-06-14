@@ -37,7 +37,7 @@
         </section>
 
         {{-- History Log List --}}
-        <section class="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-sm animate-fade-in-up animate-delay-100">
+        <section class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 animate-fade-in-up animate-delay-100">
             @if($redemptions->isEmpty())
                 <div class="flex flex-col items-center justify-center py-16 text-center">
                     <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4"

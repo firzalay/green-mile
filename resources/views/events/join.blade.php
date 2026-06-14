@@ -1,10 +1,10 @@
 <x-app-layout title="Gabung Event – Jejak Hijau" :user="$user">
     <div class="max-w-md mx-auto py-10 animate-fade-in-up">
-        <div class="bg-white rounded-2xl border border-gray-150 p-8 shadow-sm space-y-6">
+        <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6">
             {{-- Header --}}
             <div class="text-center space-y-2">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto"
-                     style="background: rgba(46,207,137,0.12); color: #003F2F;">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto bg-emerald/10 text-emerald"
+                     style="background-color: rgba(46,207,137,0.1); color: #2ECF89;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                         <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -44,8 +44,8 @@
                            value="{{ old('join_code') }}"
                            placeholder="Contoh: SBY2026" 
                            required
-                           class="w-full px-4 h-12 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald uppercase text-center font-bold tracking-widest text-lg"
-                           style="border-color: #D1D5DB;">
+                           class="w-full px-4 h-12 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald uppercase text-center font-bold tracking-widest text-lg"
+                           style="border-color: #E5E7EB;">
                     @error('join_code')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                     @enderror
@@ -53,7 +53,8 @@
 
                 <button type="submit" 
                         id="btn-submit-code"
-                        class="w-full btn-primary h-12 flex items-center justify-center font-bold gap-2 text-sm">
+                        class="w-full btn-primary h-12 flex items-center justify-center font-bold gap-2 text-sm text-white rounded-xl shadow-sm transition-all"
+                        style="background: #003F2F;">
                     Gabung Sekarang
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

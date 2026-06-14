@@ -39,7 +39,7 @@
         {{-- Loading Skeleton Placeholder (DoD loading state requirement) --}}
         <div id="loading-skeleton" class="hidden space-y-4">
             @for($i = 0; $i < 3; $i++)
-                <div class="bg-white rounded-2xl border border-gray-150 p-5 flex items-center justify-between gap-4 animate-pulse">
+                <div class="bg-white rounded-2xl p-5 flex items-center justify-between gap-4 animate-pulse">
                     <div class="flex items-center gap-4 min-w-0 flex-1">
                         <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
                         <div class="space-y-2 flex-1">
@@ -54,7 +54,7 @@
 
         {{-- Checkpoints Grid / List --}}
         @if($checkpoints->isEmpty())
-            <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm max-w-md mx-auto animate-fade-in-up">
+            <div class="bg-white rounded-2xl p-12 text-center shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 max-w-md mx-auto animate-fade-in-up">
                 <div class="w-16 h-16 rounded-2xl bg-gray-50 border border-dashed border-gray-250 flex items-center justify-center mx-auto mb-4 text-gray-400">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -74,7 +74,7 @@
                         $isActive = strtolower($checkpoint->status) === 'active';
                         $dummyScans = ($checkpoint->id * 17) % 89 + 12;
                     @endphp
-                    <div class="bg-white rounded-2xl border border-gray-150 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all">
+                    <div class="bg-white rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
                         <div class="flex items-start gap-4 min-w-0">
                             {{-- Sequence Number Badge --}}
                             <div class="w-10 h-10 rounded-xl bg-forest/5 text-forest flex items-center justify-center font-black text-sm flex-shrink-0" style="background-color: rgba(0,63,47,0.05); color: #003F2F;">
@@ -140,7 +140,7 @@
 
     {{-- Native Delete Confirmation Modal Overlay --}}
     <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>

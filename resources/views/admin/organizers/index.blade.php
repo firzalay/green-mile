@@ -1,7 +1,7 @@
 <x-app-layout title="Review Organizer – Jejak Hijau" :user="auth()->user()">
     <div class="px-4 py-6 max-w-5xl mx-auto space-y-8 animate-fade-in">
         {{-- Header Section --}}
-        <div class="border-b border-gray-200 pb-5">
+        <div>
             <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Review Organizer</h1>
             <p class="text-sm text-gray-500 mt-1">Verifikasi dan kelola pendaftaran Event Organizer untuk platform GreenRun.</p>
         </div>
@@ -19,13 +19,17 @@
         <div id="admin-skeleton" class="hidden space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @for($i = 0; $i < 4; $i++)
-                    <div class="bg-white p-5 rounded-2xl border border-gray-150 animate-pulse space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
-                        <div class="h-8 bg-gray-200 rounded w-1/3"></div>
+                    <div class="bg-white rounded-2xl p-5 shadow-md animate-pulse flex flex-col justify-between animate-delay-100" style="height: 140px;">
+                        <div>
+                            <div class="w-8 h-8 rounded-xl bg-gray-200 mb-3"></div>
+                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
+                            <div class="h-6 bg-gray-200 rounded w-1/3"></div>
+                        </div>
+                        <div class="h-3 bg-gray-200 rounded w-2/3 mt-2"></div>
                     </div>
                 @endfor
             </div>
-            <div class="bg-white rounded-2xl border border-gray-150 p-6 space-y-4 animate-pulse">
+            <div class="bg-white rounded-2xl p-6 space-y-4 animate-pulse shadow-md">
                 <div class="h-6 bg-gray-200 rounded w-1/4"></div>
                 <div class="space-y-3">
                     <div class="h-10 bg-gray-200 rounded"></div>
@@ -37,61 +41,65 @@
         {{-- Statistics Cards (Requirement: Summary Cards) --}}
         <div id="statistics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Total Organizer -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm flex items-center justify-between">
+            <div class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
                 <div>
-                    <span class="block text-xs uppercase font-bold tracking-wider text-gray-400">Total Organizer</span>
-                    <span class="text-2xl font-black text-gray-800 mt-1 block">{{ $totalOrganizers }} Organizer</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3 bg-forest/5 text-forest" style="background-color: rgba(0,63,47,0.05); color: #003F2F;">
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Total Organizer</p>
+                    <p class="font-bold text-2xl mt-1 text-gray-900">{{ number_format($totalOrganizers) }} Organizer</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-forest/5 text-forest flex items-center justify-center" style="background-color: rgba(0,63,47,0.05); color: #003F2F;">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                </div>
+                <span class="text-xs text-gray-400 mt-2">Terdaftar di sistem</span>
             </div>
 
             <!-- Pending Approval -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm flex items-center justify-between">
+            <div class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
                 <div>
-                    <span class="block text-xs uppercase font-bold tracking-wider text-gray-400">Pending Approval</span>
-                    <span class="text-2xl font-black mt-1 block text-amber-600">{{ $pendingCount }} Pending</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3 bg-amber-50 text-amber-600">
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Pending Approval</p>
+                    <p class="font-bold text-2xl mt-1 text-amber-650" style="color: #D97706;">{{ number_format($pendingCount) }} Pending</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
+                <span class="text-xs text-amber-500 mt-2 font-medium">Menunggu review</span>
             </div>
 
             <!-- Approved Organizer -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm flex items-center justify-between">
+            <div class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
                 <div>
-                    <span class="block text-xs uppercase font-bold tracking-wider text-gray-400">Approved Organizer</span>
-                    <span class="text-2xl font-black mt-1 block text-emerald-600">{{ $approvedCount }} Approved</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3 bg-emerald-50 text-emerald-600">
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Approved Organizer</p>
+                    <p class="font-bold text-2xl mt-1 text-emerald-600">{{ number_format($approvedCount) }} Approved</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
+                <span class="text-xs text-emerald-500 mt-2 font-medium">Aktif beroperasi</span>
             </div>
 
             <!-- Rejected Organizer -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm flex items-center justify-between">
+            <div class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
                 <div>
-                    <span class="block text-xs uppercase font-bold tracking-wider text-gray-400">Rejected Organizer</span>
-                    <span class="text-2xl font-black mt-1 block text-rose-600">{{ $rejectedCount }} Rejected</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center mb-3 bg-rose-50 text-rose-600">
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Rejected Organizer</p>
+                    <p class="font-bold text-2xl mt-1 text-rose-600">{{ number_format($rejectedCount) }} Rejected</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
+                <span class="text-xs text-gray-400 mt-2">Ditolak sistem</span>
             </div>
         </div>
 
         {{-- Pending Organizer Section (Requirement: Pending Organizer Table) --}}
-        <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-150">
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+            <div class="px-6 pt-6 pb-4">
                 <h2 class="text-lg font-bold text-gray-800">Menunggu Persetujuan (Pending)</h2>
                 <p class="text-xs text-gray-400 mt-0.5">Daftar pendaftaran organizer baru yang perlu direview.</p>
             </div>
@@ -108,7 +116,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-gray-50 border-b border-gray-150 text-xs font-bold text-gray-400 uppercase">
+                            <tr class="bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
                                 <th class="px-6 py-3.5">Nama Organisasi</th>
                                 <th class="px-6 py-3.5">Nama Penanggung Jawab</th>
                                 <th class="px-6 py-3.5">Email</th>
@@ -159,8 +167,8 @@
         </div>
 
         {{-- Approval History Section (Requirement: Approval History) --}}
-        <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-150">
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+            <div class="px-6 pt-6 pb-4">
                 <h2 class="text-lg font-bold text-gray-800">Riwayat Approval</h2>
                 <p class="text-xs text-gray-400 mt-0.5">Log riwayat peninjauan pendaftaran organizer.</p>
             </div>
@@ -173,7 +181,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-gray-50 border-b border-gray-150 text-xs font-bold text-gray-400 uppercase">
+                            <tr class="bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
                                 <th class="px-6 py-3.5">Nama Organisasi</th>
                                 <th class="px-6 py-3.5">Status</th>
                                 <th class="px-6 py-3.5">Approved/Rejected By</th>
@@ -213,7 +221,7 @@
 
     {{-- Confirmation Modal Overlay (Requirement: Confirmation Modals) --}}
     <div id="approval-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div id="modal-icon-container" class="w-12 h-12 rounded-xl flex items-center justify-center">
                 {{-- Dynamic Icon --}}
                 <svg id="modal-icon-approve" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -228,7 +236,7 @@
                 <p id="modal-description" class="text-sm text-gray-500 mt-1"></p>
             </div>
             <div class="flex items-center gap-3">
-                <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-250 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
+                <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-all">
                     Batal
                 </button>
                 <form id="modal-form" method="POST" class="flex-1">

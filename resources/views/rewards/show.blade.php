@@ -30,7 +30,7 @@
         @endif
 
         {{-- Details Card --}}
-        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 grid grid-cols-1 lg:grid-cols-3 animate-fade-in-up animate-delay-100">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 grid grid-cols-1 lg:grid-cols-3 animate-fade-in-up animate-delay-100">
             
             {{-- Main detail content (spans 2 columns) --}}
             <div class="lg:col-span-2 p-6 lg:p-8 space-y-6">
@@ -162,7 +162,7 @@
 
     {{-- Redemption Confirmation Modal Overlay --}}
     <div id="redeem-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden animate-fade-in" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600" style="background-color: rgba(46,207,137,0.08); border-color: rgba(46,207,137,0.25); color: #003F2F;">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>

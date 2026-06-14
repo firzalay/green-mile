@@ -150,12 +150,9 @@ body {
 
 /* Card styles */
 .card-stat {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.25);
+    background: #003F2F;
     border-radius: 14px;
     padding: 1rem 1.25rem;
-    box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
 }
 
 /* Animation utilities */

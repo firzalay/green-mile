@@ -1,7 +1,7 @@
 <x-app-layout title="Detail Event – Jejak Hijau" :user="$user">
     <div class="px-4 py-6 max-w-5xl mx-auto space-y-6">
         {{-- Header Navigation & Actions --}}
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-150 pb-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <a href="{{ route('organizer.events.index') }}" class="p-2 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@
         @endif
 
         {{-- Banner & Meta Description --}}
-        <div class="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-sm">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
             @if($event->banner)
                 <div class="h-64 md:h-80 w-full relative">
                     <img src="{{ $event->banner }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
@@ -69,7 +69,7 @@
         </div>
 
         {{-- Join Code Section --}}
-        <div class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 animate-fade-in-up">
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4 animate-fade-in-up">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1">
                     <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Kode Akses Event</span>
@@ -106,32 +106,32 @@
         {{-- Metrics Dashboard Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {{-- Total Participants --}}
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Peserta</span>
                 <p class="text-3xl font-black text-gray-800" id="metric-participants">{{ $event->participants_count }} <span class="text-xs font-normal text-gray-400">/ {{ $event->max_participants ?? '∞' }}</span></p>
             </div>
 
             {{-- Total Checkpoints --}}
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Checkpoint</span>
                 <p class="text-3xl font-black text-gray-800" id="metric-checkpoints">{{ $event->checkpoints_count }}</p>
             </div>
 
             {{-- Checkpoint Completed Scans --}}
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Scan</span>
                 <p class="text-3xl font-black text-gray-800" id="metric-scans">{{ $totalCheckpointsCompleted }}</p>
             </div>
 
             {{-- Total Points Distributed --}}
-            <div class="bg-white p-5 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Poin Terdistribusi</span>
                 <p class="text-3xl font-black text-gray-800" id="metric-points">{{ number_format($totalPoints) }}</p>
             </div>
         </div>
 
         {{-- Point Pool & Distribution Stats --}}
-        <div class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 animate-fade-in-up">
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4 animate-fade-in-up">
             <div class="flex items-center justify-between border-b pb-3 border-gray-100 mb-2">
                 <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
                     <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {{-- Checkpoint List Section (Left column, takes 2/3) --}}
             <div class="lg:col-span-2 space-y-6">
-                <section class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                <section class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4">
                     <div class="flex items-center justify-between border-b pb-3 border-gray-100">
                         <h3 class="font-bold text-base text-gray-900">Checkpoints</h3>
                         <a href="{{ route('organizer.events.checkpoints.index', $event->id) }}" class="text-xs font-semibold text-emerald hover:underline">
@@ -216,7 +216,7 @@
                 </section>
 
                 {{-- Rewards Section --}}
-                <section class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                <section class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4">
                     <div class="flex items-center justify-between border-b pb-3 border-gray-100">
                         <h3 class="font-bold text-base text-gray-900">Rewards</h3>
                         <a href="{{ route('organizer.events.rewards.index', $event->id) }}" id="btn-manage-rewards" class="text-xs font-semibold text-emerald hover:underline" style="color: #2ECF89;">
@@ -256,7 +256,7 @@
 
             {{-- Leaderboard Section (Right column, takes 1/3) --}}
             <div class="space-y-6">
-                <section class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                <section class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4">
                     <h3 class="font-bold text-base text-gray-900 border-b pb-3 border-gray-100">Leaderboard Event</h3>
                     
                     @if($event->leaderboard->isEmpty())
@@ -308,7 +308,7 @@
 
     {{-- Native Delete Confirmation Modal Overlay --}}
     <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
-        <div class="bg-white rounded-2xl border border-gray-150 p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl animate-fade-in-up">
             <div class="w-12 h-12 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>

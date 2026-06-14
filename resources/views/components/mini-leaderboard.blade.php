@@ -19,7 +19,7 @@
     </div>
 
     {{-- Top 3 rows --}}
-    <div class="divide-y" style="border-color: #F9FAFB;">
+    <div class="" style="border-color: #F9FAFB;">
         @foreach ($participants as $index => $participant)
             @php
                 $position = $index + 1;
@@ -82,3 +82,4 @@
         </div>
     @endif
 </div>
+

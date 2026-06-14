@@ -24,7 +24,7 @@
                 <div class="relative z-10">
                     <a href="{{ url('/') }}" class="inline-flex items-center gap-2.5">
                         <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                             style="background: rgba(46,207,137,0.25); border: 1px solid rgba(46,207,137,0.4);">
+                             style="background: rgba(46,207,137,0.25);">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 3C9 3 6.5 4.5 5 7c-.5 1-1 2.5-1 4s.5 3.5 2 5l6 5 6-5c1.5-1.5 2-3.5 2-5s-.5-3-1-4C17.5 4.5 15 3 12 3z"
                                       fill="#2ECF89" opacity="0.9"/>
@@ -37,20 +37,15 @@
 
                 {{-- Hero tagline --}}
                 <div class="relative z-10 animate-fade-in-up">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-wide uppercase"
-                         style="background: rgba(46,207,137,0.2); border: 1px solid rgba(46,207,137,0.35); color: #7BE0B3;">
-                        <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: #2ECF89;"></span>
-                        Platform Lari Ramah Lingkungan
-                    </div>
-
+       
                     <h1 class="text-white font-bold leading-tight mb-4"
                         style="font-size: 42px; text-shadow: 0 2px 16px rgba(0,0,0,0.3);">
                         Setiap Langkahmu<br>
-                        <span style="color: #2ECF89;">Memberi Dampak</span>
+                        Memberi Dampak</span>
                     </h1>
 
                     <p class="text-white/70 text-base leading-relaxed mb-8 max-w-md">
-                        Bergabunglah dengan ribuan pelari yang peduli lingkungan. Lari lebih bermakna — setiap kilometer menggerakkan aksi nyata untuk bumi.
+                        Bergabunglah dengan ribuan pelari yang peduli lingkungan. Lari lebih bermakna setiap kilometer menggerakkan aksi nyata untuk bumi.
                     </p>
 
                     {{-- Statistics --}}

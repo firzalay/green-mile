@@ -1,7 +1,7 @@
 <x-app-layout title="Profil Saya – Jejak Hijau" :user="$user">
     <div class="space-y-6 max-w-2xl mx-auto pb-10">
         {{-- Header Section --}}
-        <section class="animate-fade-in-up flex items-center justify-between border-b border-gray-150 pb-5">
+        <section class="animate-fade-in-up flex items-center justify-between">
             <div>
                 <h2 class="font-bold text-2xl" style="color: #111827;">Profil Saya</h2>
                 <p class="text-sm mt-1" style="color: #6B7280;">
@@ -31,7 +31,7 @@
         @endif
 
         {{-- Profile Card --}}
-        <section class="bg-white rounded-2xl border border-gray-150 p-6 shadow-sm flex flex-col items-center text-center sm:flex-row sm:text-left gap-5 animate-fade-in-up">
+        <section class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center sm:flex-row sm:text-left gap-5 animate-fade-in-up">
             <div class="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 border-2 border-emerald-500/20 shadow-sm bg-gray-50 flex items-center justify-center">
                 @if($user->avatar)
                     <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
@@ -71,29 +71,29 @@
         {{-- Statistics Grid --}}
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-fade-in-up">
             {{-- Points --}}
-            <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Total Poin</span>
                 <p class="text-xl font-black text-gray-800" id="stat-points">{{ number_format($totalPoints) }}</p>
             </div>
             {{-- Points Available --}}
-            <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Poin Tersedia</span>
                 <p class="text-xl font-black text-emerald" id="stat-points-available" style="color: #2ECF89;">{{ number_format($user->points) }}</p>
             </div>
             {{-- Events --}}
-            <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Event Diikuti</span>
                 <p class="text-xl font-black text-gray-800" id="stat-events">{{ $eventsJoined }}</p>
             </div>
             {{-- Scans --}}
-            <div class="bg-white p-4 rounded-2xl border border-gray-150 shadow-sm space-y-1">
+            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-1">
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Scan Checkpoint</span>
                 <p class="text-xl font-black text-gray-800" id="stat-scans">{{ $checkpointsScanned }}</p>
             </div>
         </section>
 
         {{-- Change Password --}}
-        <section class="bg-white rounded-2xl border border-gray-150 p-5 shadow-sm space-y-4 animate-fade-in-up">
+        <section class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4 animate-fade-in-up">
             <h3 class="font-bold text-sm text-gray-800 uppercase tracking-wider border-b border-gray-100 pb-2.5">
                 Ubah Password
             </h3>
@@ -140,7 +140,7 @@
         </section>
 
         {{-- Logout Section --}}
-        <section class="bg-white rounded-2xl border border-gray-150 p-5 shadow-sm space-y-4 animate-fade-in-up">
+        <section class="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-4 animate-fade-in-up">
             <h3 class="font-bold text-sm text-gray-800 uppercase tracking-wider border-b border-gray-100 pb-2.5">
                 Sesi Akun
             </h3>

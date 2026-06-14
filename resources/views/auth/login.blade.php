@@ -2,7 +2,6 @@
 
     {{-- Heading --}}
     <div class="mb-8 animate-fade-in-up">
-        <x-app-badge label="GreenRun Platform" />
         <h2 class="mt-4 font-bold leading-tight" style="font-size: 28px; color: #111827;">
             Selamat Datang Kembali
         </h2>
