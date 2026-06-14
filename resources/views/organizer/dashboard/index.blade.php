@@ -221,7 +221,7 @@
                                         </div>
                                         
                                         <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-400">
-                                            <span>Tanggal: {{ $event->event_date->translatedFormat('d M Y') }}</span>
+                                            <span>Tanggal: {{ $event->event_date ? $event->event_date->translatedFormat('d M Y') : '-' }}</span>
                                             <span>•</span>
                                             <span>Checkpoint: {{ $event->checkpoints_count }}</span>
                                             <span>•</span>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminOrganizerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\OrganizerCheckpointController;
 use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
@@ -80,6 +81,10 @@ Route::middleware(['auth', 'role:participant'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+
+    // Leaderboard routes
+    Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
+    Route::get('/events/{event}/leaderboard', [LeaderboardController::class, 'show'])->name('events.leaderboard');
 });
 
 Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('organizer')->name('organizer.')->group(function () {

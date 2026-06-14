@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ActivitySeeder::class,
             RewardSeeder::class,
             DummyDataSeeder::class,
+            LeaderboardSeeder::class,
         ]);
     }
 }

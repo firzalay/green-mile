@@ -8,7 +8,7 @@
 
     $navItems = [
         ['id' => 'nav-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Home',       'icon' => 'home'],
-        ['id' => 'nav-leaderboard', 'route' => '#', 'key' => 'leaderboard', 'label' => 'Ranking',    'icon' => 'trophy'],
+        ['id' => 'nav-leaderboard', 'route' => route('leaderboard.index'), 'key' => 'leaderboard', 'label' => 'Ranking',    'icon' => 'trophy'],
         ['id' => 'nav-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'Scan',       'icon' => 'qr',    'center' => true],
         ['id' => 'nav-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',     'icon' => 'gift'],
         ['id' => 'nav-profile',     'route' => route('profile.show'), 'key' => 'profile',     'label' => 'Profil',     'icon' => 'user'],

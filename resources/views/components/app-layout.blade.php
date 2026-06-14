@@ -46,7 +46,7 @@
                 ['id' => 'sidebar-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Dashboard',    'icon' => 'home'],
                 ['id' => 'sidebar-events',      'route' => route('events.index'), 'key' => 'events',    'label' => 'Daftar Event', 'icon' => 'calendar'],
                 ['id' => 'sidebar-join-event',  'route' => route('events.join'), 'key' => 'join-event', 'label' => 'Gabung Event', 'icon' => 'plus-circle'],
-                ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
+                ['id' => 'sidebar-leaderboard', 'route' => route('leaderboard.index'), 'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
                 ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
                 ['id' => 'sidebar-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
                 ['id' => 'sidebar-profile',     'route' => route('profile.show'), 'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],

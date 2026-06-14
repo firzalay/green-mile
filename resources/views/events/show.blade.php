@@ -120,7 +120,7 @@
                             </div>
                             <div>
                                 <p class="text-xs" style="color: #9CA3AF;">Tanggal</p>
-                                <p class="text-sm font-semibold" style="color: #374151;">{{ $event->event_date->translatedFormat('d F Y') }}</p>
+                                <p class="text-sm font-semibold" style="color: #374151;">{{ $event->event_date ? $event->event_date->translatedFormat('d F Y') : '-' }}</p>
                             </div>
                         </div>
 
