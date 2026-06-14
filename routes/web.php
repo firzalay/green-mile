@@ -9,6 +9,7 @@ use App\Http\Controllers\OrganizerDashboardController;
 use App\Http\Controllers\OrganizerEventController;
 use App\Http\Controllers\OrganizerQrController;
 use App\Http\Controllers\OrganizerRegistrationController;
+use App\Http\Controllers\OrganizerRewardController;
 use App\Http\Controllers\ParticipantEventController;
 use App\Http\Controllers\ParticipantRegistrationController;
 use App\Http\Controllers\ParticipantScannerController;
@@ -87,6 +88,15 @@ Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('org
     Route::get('checkpoints/{id}/edit', [OrganizerCheckpointController::class, 'edit'])->name('checkpoints.edit');
     Route::put('checkpoints/{id}', [OrganizerCheckpointController::class, 'update'])->name('checkpoints.update');
     Route::delete('checkpoints/{id}', [OrganizerCheckpointController::class, 'destroy'])->name('checkpoints.destroy');
+
+    // Rewards resourceful routes
+    Route::get('events/{event}/rewards', [OrganizerRewardController::class, 'index'])->name('events.rewards.index');
+    Route::get('events/{event}/rewards/create', [OrganizerRewardController::class, 'create'])->name('events.rewards.create');
+    Route::post('events/{event}/rewards', [OrganizerRewardController::class, 'store'])->name('events.rewards.store');
+    Route::get('rewards/{id}', [OrganizerRewardController::class, 'show'])->name('rewards.show');
+    Route::get('rewards/{id}/edit', [OrganizerRewardController::class, 'edit'])->name('rewards.edit');
+    Route::put('rewards/{id}', [OrganizerRewardController::class, 'update'])->name('rewards.update');
+    Route::delete('rewards/{id}', [OrganizerRewardController::class, 'destroy'])->name('rewards.destroy');
 
     // QR Code Management routes
     Route::post('checkpoints/{id}/generate-qr', [OrganizerQrController::class, 'generate'])->name('checkpoints.generate-qr');

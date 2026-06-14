@@ -62,6 +62,33 @@ class EventSeeder extends Seeder
             'join_code' => 'BALI2026',
         ]);
 
+        // 4. Upcoming Event 2 (Bandung Hills Run)
+        $upcomingEvent2 = Event::factory()->upcoming()->create([
+            'name' => 'GreenRun Bandung Hills Run',
+            'location' => 'Taman Hutan Raya Juanda, Bandung',
+            'organizer_id' => $organizer->id,
+            'total_checkpoints' => 7,
+            'description' => 'Jelajahi perbukitan Bandung sambil berkontribusi menjaga kelestarian alam hutan raya.',
+            'banner' => 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800',
+            'total_rewards' => 'Rp 12.000.000',
+            'max_points' => 700,
+            'join_code' => 'BDG2026',
+        ]);
+
+        // 5. Draft Event (Jogja Cultural Trail)
+        $draftEvent = Event::factory()->inactive()->create([
+            'name' => 'GreenRun Jogja Cultural Trail',
+            'location' => 'Candi Prambanan, Yogyakarta',
+            'organizer_id' => $organizer->id,
+            'total_checkpoints' => 5,
+            'description' => 'Event lari budaya menyusuri situs bersejarah Jogja dan mengkampanyekan zero-waste event.',
+            'banner' => 'https://images.unsplash.com/photo-1604999333679-b86d54738315?auto=format&fit=crop&q=80&w=800',
+            'total_rewards' => 'Rp 8.000.000',
+            'max_points' => 500,
+            'status' => 'draft',
+            'join_code' => 'JOG2026',
+        ]);
+
         // Link participants to events
         foreach ([$ongoingEvent, $finishedEvent] as $event) {
             $eventParticipants = $participants->random(min(30, $participants->count()));

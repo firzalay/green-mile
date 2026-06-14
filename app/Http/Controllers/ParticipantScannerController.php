@@ -92,6 +92,14 @@ class ParticipantScannerController extends Controller
             ], 422);
         }
 
+        // 6. Prevent exceeding event max points
+        if ($participant->current_event_points + $checkpoint->points > $event->max_points) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Batas maksimal poin per peserta untuk event ini adalah '.number_format($event->max_points).' poin.',
+            ], 422);
+        }
+
         // Process scan transaction
         try {
             DB::transaction(function () use ($user, $event, $checkpoint, $participant) {

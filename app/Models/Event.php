@@ -18,6 +18,14 @@ class Event extends Model
     use HasFactory;
 
     /**
+     * Get all rewards for this event.
+     */
+    public function rewards(): HasMany
+    {
+        return $this->hasMany(Reward::class);
+    }
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
