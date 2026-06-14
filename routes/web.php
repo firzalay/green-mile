@@ -13,6 +13,7 @@ use App\Http\Controllers\OrganizerRewardController;
 use App\Http\Controllers\ParticipantEventController;
 use App\Http\Controllers\ParticipantRegistrationController;
 use App\Http\Controllers\ParticipantScannerController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\RewardHistoryController;
@@ -73,6 +74,12 @@ Route::middleware(['auth', 'role:participant'])->group(function () {
     Route::get('/rewards/history', [RewardHistoryController::class, 'index'])->name('rewards.history');
     Route::get('/rewards/{id}', [RewardController::class, 'show'])->name('rewards.show');
     Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
+
+    // Profile Page routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
 Route::middleware(['auth', 'role:organizer', 'organizer.approved'])->prefix('organizer')->name('organizer.')->group(function () {

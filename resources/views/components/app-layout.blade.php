@@ -49,8 +49,7 @@
                 ['id' => 'sidebar-leaderboard', 'route' => '#',                'key' => 'leaderboard', 'label' => 'Leaderboard',  'icon' => 'trophy'],
                 ['id' => 'sidebar-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'QR Scanner',   'icon' => 'qr'],
                 ['id' => 'sidebar-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',       'icon' => 'gift'],
-                ['id' => 'sidebar-history',     'route' => '#',                'key' => 'history',     'label' => 'Riwayat',      'icon' => 'clock'],
-                ['id' => 'sidebar-profile',     'route' => '#',                'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
+                ['id' => 'sidebar-profile',     'route' => route('profile.show'), 'key' => 'profile',     'label' => 'Profil',       'icon' => 'user'],
                 ['id' => 'sidebar-settings',    'route' => '#',                'key' => 'settings',    'label' => 'Pengaturan',   'icon' => 'settings'],
             ]);
 @endphp
@@ -96,9 +95,13 @@
                 {{-- User Card --}}
                 <div class="mx-4 my-4 rounded-2xl p-3.5 flex items-center gap-3"
                      style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white flex-shrink-0"
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white flex-shrink-0 overflow-hidden"
                          style="background: linear-gradient(135deg, #2ECF89, #7BE0B3);">
-                        {{ $initials }}
+                        @if($user->avatar)
+                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                        @else
+                            {{ $initials }}
+                        @endif
                     </div>
                     <div class="min-w-0">
                         <p class="font-semibold text-white text-sm leading-tight truncate">{{ $user->name }}</p>
@@ -247,7 +250,7 @@
                         </button>
 
                         {{-- Avatar + name --}}
-                        <a href="#"
+                        <a href="{{ $user->role === 'participant' ? route('profile.show') : '#' }}"
                            id="nav-profile-avatar-desktop"
                            class="flex items-center gap-2.5 pl-3 transition-opacity hover:opacity-80"
                            style="border-left: 1px solid #E5E7EB;">
@@ -255,9 +258,13 @@
                                 <p class="text-sm font-semibold leading-none" style="color: #111827;">{{ $firstName }}</p>
                                 <p class="text-xs mt-0.5" style="color: #9CA3AF;">{{ $user->role === 'super_admin' ? 'Super Admin' : ($user->isOrganizer() ? 'Organizer' : 'Peserta') }}</p>
                             </div>
-                            <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white"
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white overflow-hidden"
                                  style="background: linear-gradient(135deg, #003F2F 0%, #2ECF89 100%);">
-                                {{ $initials }}
+                                @if($user->avatar)
+                                    <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                                 @else
+                                    {{ $initials }}
+                                 @endif
                             </div>
                         </a>
                     </div>

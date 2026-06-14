@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CheckpointSeeder::class,
             ActivitySeeder::class,
             RewardSeeder::class,
+            DummyDataSeeder::class,
         ]);
     }
 }

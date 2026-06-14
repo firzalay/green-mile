@@ -3,15 +3,15 @@
         : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
         : (request()->routeIs('leaderboard*') ? 'leaderboard'
         : (request()->routeIs('reward*') ? 'reward'
-        : (request()->routeIs('history*') ? 'history'
+        : (request()->routeIs('profile*') ? 'profile'
         : ''))));
 
     $navItems = [
         ['id' => 'nav-home',        'route' => route('dashboard'), 'key' => 'home',        'label' => 'Home',       'icon' => 'home'],
         ['id' => 'nav-leaderboard', 'route' => '#', 'key' => 'leaderboard', 'label' => 'Ranking',    'icon' => 'trophy'],
         ['id' => 'nav-qr',          'route' => route('scanner.index'), 'key' => 'qr',          'label' => 'Scan',       'icon' => 'qr',    'center' => true],
-        ['id' => 'nav-reward',      'route' => '#', 'key' => 'reward',      'label' => 'Reward',     'icon' => 'gift'],
-        ['id' => 'nav-history',     'route' => '#', 'key' => 'history',     'label' => 'Riwayat',    'icon' => 'clock'],
+        ['id' => 'nav-reward',      'route' => route('rewards.index'), 'key' => 'reward',      'label' => 'Reward',     'icon' => 'gift'],
+        ['id' => 'nav-profile',     'route' => route('profile.show'), 'key' => 'profile',     'label' => 'Profil',     'icon' => 'user'],
     ];
 @endphp
 
@@ -65,11 +65,11 @@
                             <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7" stroke="currentColor" stroke-width="2"/>
                             <path d="M12 7v14M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                    @elseif ($item['icon'] === 'clock')
+                    @elseif ($item['icon'] === 'user')
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
+                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"
                                     fill="{{ $isActive ? 'rgba(0,63,47,0.12)' : 'none' }}"/>
-                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     @endif
                     <span class="text-xs font-{{ $isActive ? 'semibold' : 'medium' }}">{{ $item['label'] }}</span>
