@@ -6,6 +6,24 @@
             <p class="text-sm text-gray-500 mt-1">Verifikasi dan kelola pendaftaran Event Organizer untuk platform GreenRun.</p>
         </div>
 
+        {{-- PWA Install Promo --}}
+        <div id="pwa-install-container" class="hidden animate-fade-in-up">
+            <div class="bg-white border border-emerald-500/10 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald/10 flex items-center justify-center text-emerald flex-shrink-0 text-lg">
+                        📱
+                    </div>
+                    <div class="text-left">
+                        <h4 class="font-bold text-sm text-gray-800">Install Aplikasi GreenRun</h4>
+                        <p class="text-xs text-gray-500 mt-0.5">Pantau dan kelola pendaftaran organizer lebih cepat langsung dari home screen.</p>
+                    </div>
+                </div>
+                <button id="pwa-install-btn" class="px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm" style="background-color: #003F2F;">
+                    Install
+                </button>
+            </div>
+        </div>
+
         @if(session('success'))
             <div class="p-4 rounded-xl text-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-250 flex items-center gap-2">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

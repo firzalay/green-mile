@@ -11,7 +11,58 @@
 
         <meta name="description" content="GreenRun – Platform lari berbasis dampak lingkungan. Bergabunglah dan jadikan setiap langkahmu berarti.">
 
+        {{-- PWA Meta Tags & Manifest --}}
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#1A3A2A">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(reg => console.log('Service Worker registered', reg))
+                        .catch(err => console.log('Service Worker registration failed', err));
+                });
+            }
+
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                const installContainer = document.getElementById('pwa-install-container');
+                if (installContainer) {
+                    installContainer.classList.remove('hidden');
+                }
+            });
+
+            window.addEventListener('DOMContentLoaded', () => {
+                const installBtn = document.getElementById('pwa-install-btn');
+                if (installBtn) {
+                    installBtn.addEventListener('click', async () => {
+                        if (!deferredPrompt) return;
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log(`User response to the install prompt: ${outcome}`);
+                        deferredPrompt = null;
+                        const installContainer = document.getElementById('pwa-install-container');
+                        if (installContainer) {
+                            installContainer.classList.add('hidden');
+                        }
+                    });
+                }
+
+                if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                    const installContainer = document.getElementById('pwa-install-container');
+                    if (installContainer) {
+                        installContainer.classList.add('hidden');
+                    }
+                }
+            });
+        </script>
     </head>
     <body class="antialiased min-h-screen">
         <div class="min-h-screen flex flex-col lg:flex-row">

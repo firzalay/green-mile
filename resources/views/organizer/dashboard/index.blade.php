@@ -1,5 +1,23 @@
 <x-app-layout title="Dashboard Organizer – Jejak Hijau" :user="$user">
     <div class="space-y-6">
+        {{-- PWA Install Promo --}}
+        <div id="pwa-install-container" class="hidden animate-fade-in-up">
+            <div class="bg-white border border-emerald-500/10 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald/10 flex items-center justify-center text-emerald flex-shrink-0 text-lg">
+                        📱
+                    </div>
+                    <div class="text-left">
+                        <h4 class="font-bold text-sm text-gray-800">Install Aplikasi GreenRun</h4>
+                        <p class="text-xs text-gray-500 mt-0.5">Pantau event larimu lebih cepat langsung dari home screen.</p>
+                    </div>
+                </div>
+                <button id="pwa-install-btn" class="px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm" style="background-color: #003F2F;">
+                    Install
+                </button>
+            </div>
+        </div>
+
         {{-- Empty State Check --}}
         @if ($events->isEmpty())
             <section class="flex flex-col items-center justify-center py-20 text-center animate-fade-in-up">

@@ -6,6 +6,13 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        {{-- PWA Meta Tags & Manifest --}}
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#1A3A2A">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+
         @fonts
 
         <!-- Styles / Scripts -->

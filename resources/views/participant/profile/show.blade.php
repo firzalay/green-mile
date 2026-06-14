@@ -68,6 +68,24 @@
             </div>
         </section>
 
+        {{-- PWA Install Promo --}}
+        <div id="pwa-install-container" class="hidden animate-fade-in-up">
+            <div class="bg-white border border-emerald-500/10 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald/10 flex items-center justify-center text-emerald flex-shrink-0 text-lg">
+                        📱
+                    </div>
+                    <div class="text-left">
+                        <h4 class="font-bold text-sm text-gray-800">Install Aplikasi GreenRun</h4>
+                        <p class="text-xs text-gray-500 mt-0.5">Dapatkan pengalaman lebih cepat dan akses offline.</p>
+                    </div>
+                </div>
+                <button id="pwa-install-btn" class="px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm" style="background-color: #003F2F;">
+                    Install
+                </button>
+            </div>
+        </div>
+
         {{-- Statistics Grid --}}
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-fade-in-up">
             {{-- Points --}}

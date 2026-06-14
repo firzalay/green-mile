@@ -144,3 +144,19 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 Route::get('/forgot-password', function () {
     return redirect()->route('login');
 })->name('password.request');
+
+Route::get('/offline', function () {
+    return view('offline');
+})->name('offline');
+
+Route::get('/manifest.json', function () {
+    return response(file_get_contents(public_path('manifest.json')), 200, [
+        'Content-Type' => 'application/json',
+    ]);
+});
+
+Route::get('/sw.js', function () {
+    return response(file_get_contents(public_path('sw.js')), 200, [
+        'Content-Type' => 'application/javascript',
+    ]);
+});
