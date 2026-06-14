@@ -98,38 +98,6 @@
                 </div>
             </section>
 
-            {{-- Point Pool Summary Card --}}
-            <section class="bg-white rounded-2xl p-6 border border-gray-150 shadow-sm animate-fade-in-up animate-delay-150">
-                <div class="flex items-center justify-between border-b pb-3 border-gray-100 mb-4">
-                    <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Ringkasan Point Pool
-                    </h3>
-                    <span class="text-xs px-2.5 py-1 rounded-full font-bold {{ $totalRemainingPointPool > 0 ? 'bg-emerald/10 text-emerald' : 'bg-red-100 text-red-700' }}">
-                        {{ $totalRemainingPointPool > 0 ? 'Available' : 'Exhausted' }}
-                    </span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {{-- Total Point Pool --}}
-                    <div class="space-y-1">
-                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Total Point Pool</p>
-                        <p class="text-2xl font-black text-gray-900">{{ number_format($totalPointPool) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
-                    </div>
-                    {{-- Remaining Point Pool --}}
-                    <div class="space-y-1">
-                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Sisa Point Pool</p>
-                        <p class="text-2xl font-black text-emerald">{{ number_format($totalRemainingPointPool) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
-                    </div>
-                    {{-- Distributed Points --}}
-                    <div class="space-y-1">
-                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Poin Terdistribusi</p>
-                        <p class="text-2xl font-black text-forest" style="color: #003F2F;">{{ number_format($totalDistributedPoints) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
-                    </div>
-                </div>
-            </section>
-
             {{-- Main Layout Content Grid --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
@@ -243,67 +211,6 @@
                 {{-- RIGHT Column (Quick Actions & Recent Activity) --}}
                 <div class="space-y-6">
                     
-                    {{-- 4. Quick Actions --}}
-                    <section class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4 animate-fade-in-up animate-delay-250">
-                        <h3 class="font-bold text-base text-gray-900 border-b pb-3 border-gray-100">Akses Cepat</h3>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            {{-- Buat Event --}}
-                            <a href="{{ route('organizer.events.create') }}" 
-                               id="btn-buat-event-action"
-                               class="p-3.5 rounded-xl border border-gray-100 hover:border-emerald/30 hover:bg-emerald/5 transition-all text-center flex flex-col items-center group">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-2.5 bg-forest/5 text-forest group-hover:bg-emerald/10 group-hover:text-emerald transition-all">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-bold text-gray-800">Buat Event</span>
-                            </a>
-
-                            {{-- Kelola Checkpoint --}}
-                            <a href="{{ route('organizer.placeholder', 'checkpoints') }}" 
-                               id="btn-kelola-checkpoint-action"
-                               class="p-3.5 rounded-xl border border-gray-100 hover:border-emerald/30 hover:bg-emerald/5 transition-all text-center flex flex-col items-center group">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-2.5 bg-forest/5 text-forest group-hover:bg-emerald/10 group-hover:text-emerald transition-all">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
-                                        <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-bold text-gray-800">Kelola Checkpoint</span>
-                            </a>
-
-                            {{-- Generate QR --}}
-                            <a href="{{ route('organizer.placeholder', 'qr-generation') }}" 
-                               id="btn-generate-qr-action"
-                               class="p-3.5 rounded-xl border border-gray-100 hover:border-emerald/30 hover:bg-emerald/5 transition-all text-center flex flex-col items-center group">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-2.5 bg-forest/5 text-forest group-hover:bg-emerald/10 group-hover:text-emerald transition-all">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                        <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                        <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                        <path d="M14 14h3M14 18h3M18 18h3v3" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-bold text-gray-800">Generate QR</span>
-                            </a>
-
-                            {{-- Lihat Peserta --}}
-                            <a href="{{ route('organizer.placeholder', 'participants') }}" 
-                               id="btn-lihat-peserta-action"
-                               class="p-3.5 rounded-xl border border-gray-100 hover:border-emerald/30 hover:bg-emerald/5 transition-all text-center flex flex-col items-center group">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-2.5 bg-forest/5 text-forest group-hover:bg-emerald/10 group-hover:text-emerald transition-all">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-bold text-gray-800">Lihat Peserta</span>
-                            </a>
-                        </div>
-                    </section>
-
                     {{-- 5. Recent Participant Activity --}}
                     <section class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4 animate-fade-in-up animate-delay-300">
                         <h3 class="font-bold text-base text-gray-900 border-b pb-3 border-gray-100">Aktivitas Peserta</h3>

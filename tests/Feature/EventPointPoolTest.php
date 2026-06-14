@@ -194,7 +194,7 @@ describe('scan checkpoints point pool validation', function () {
 });
 
 describe('monitoring dashboard and event details statistics', function () {
-    it('displays correct Point Pool Summary on organizer dashboard', function () {
+    it('does not display Point Pool Summary on organizer dashboard', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
 
         Event::factory()->create([
@@ -212,10 +212,7 @@ describe('monitoring dashboard and event details statistics', function () {
         $response = $this->actingAs($organizer)->get(route('organizer.dashboard'));
 
         $response->assertOk()
-            ->assertSee('Ringkasan Point Pool')
-            ->assertSee('15,000')
-            ->assertSee('10,500')
-            ->assertSee('4,500');
+            ->assertDontSee('Ringkasan Point Pool');
     });
 
     it('displays correct Point Pool and Distribution stats on event details page', function () {
