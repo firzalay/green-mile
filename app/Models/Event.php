@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 #[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code', 'point_pool', 'remaining_point_pool'])]
@@ -108,6 +109,27 @@ class Event extends Model
     public function getEventDateAttribute(): ?Carbon
     {
         return $this->start_date;
+    }
+
+    /**
+     * Get the banner URL.
+     */
+    public function getBannerAttribute(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        $path = ltrim($value, '/');
+        if (str_starts_with($path, 'storage/')) {
+            $path = substr($path, 8);
+        }
+
+        return Storage::disk('public')->url($path);
     }
 
     /**

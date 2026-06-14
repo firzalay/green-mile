@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 #[Fillable(['name', 'email', 'password', 'role', 'username', 'avatar', 'status', 'approved_by', 'approved_at'])]
 #[Hidden(['password', 'remember_token'])]
@@ -123,5 +124,26 @@ class User extends Authenticatable
         $redeemedPoints = $this->rewardRedemptions()->sum('points_used');
 
         return max(0, $totalPoints - $redeemedPoints);
+    }
+
+    /**
+     * Get the avatar URL.
+     */
+    public function getAvatarAttribute(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        $path = ltrim($value, '/');
+        if (str_starts_with($path, 'storage/')) {
+            $path = substr($path, 8);
+        }
+
+        return Storage::disk('public')->url($path);
     }
 }

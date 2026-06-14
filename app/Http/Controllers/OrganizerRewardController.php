@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Reward;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class OrganizerRewardController extends Controller
@@ -53,7 +54,7 @@ class OrganizerRewardController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('rewards', 'public');
-            $validated['image'] = '/storage/'.$path;
+            $validated['image'] = $path;
         } else {
             $validated['image'] = 'https://images.unsplash.com/photo-1545239351-ef35f43d514b?auto=format&fit=crop&q=80&w=600';
         }
@@ -110,8 +111,12 @@ class OrganizerRewardController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
+            $rawImage = $reward->getRawOriginal('image');
+            if ($rawImage && ! filter_var($rawImage, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($rawImage);
+            }
             $path = $request->file('image')->store('rewards', 'public');
-            $validated['image'] = '/storage/'.$path;
+            $validated['image'] = $path;
         } else {
             unset($validated['image']);
         }
@@ -137,6 +142,11 @@ class OrganizerRewardController extends Controller
             return back()
                 ->with('error', 'Reward tidak dapat dihapus karena sudah memiliki riwayat penukaran.')
                 ->withErrors(['total_redeemed' => 'Reward tidak dapat dihapus karena sudah memiliki riwayat penukaran.']);
+        }
+
+        $rawImage = $reward->getRawOriginal('image');
+        if ($rawImage && ! filter_var($rawImage, FILTER_VALIDATE_URL)) {
+            Storage::disk('public')->delete($rawImage);
         }
 
         $eventId = $reward->event_id;

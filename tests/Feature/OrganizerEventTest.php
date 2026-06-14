@@ -3,6 +3,8 @@
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -61,13 +63,14 @@ describe('organizer event management crud operations', function () {
 
     it('validates event attributes and creates it in draft state', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
+        Storage::fake('public');
 
         $payload = [
             'name' => 'New Eco Marathon',
             'location' => 'Surabaya City Hall',
             'start_date' => now()->addDays(5)->format('Y-m-d'),
             'end_date' => now()->addDays(6)->format('Y-m-d'),
-            'banner' => 'https://example.com/banner.jpg',
+            'banner' => UploadedFile::fake()->image('banner.jpg'),
             'description' => 'Eco-marathon description here.',
             'total_rewards' => 'Rp 5.000.000',
             'max_points' => 300,
@@ -87,6 +90,10 @@ describe('organizer event management crud operations', function () {
             'point_pool' => 50000,
             'remaining_point_pool' => 50000,
         ]);
+
+        $event = Event::where('name', 'New Eco Marathon')->first();
+        expect($event->getRawOriginal('banner'))->not->toBeNull();
+        Storage::disk('public')->assertExists($event->getRawOriginal('banner'));
     });
 
     it('allows organizer to show event details', function () {
@@ -103,13 +110,14 @@ describe('organizer event management crud operations', function () {
     it('allows organizer to edit and update event details and status', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create(['organizer_id' => $organizer->id, 'status' => 'draft']);
+        Storage::fake('public');
 
         $updatePayload = [
             'name' => 'Updated Eco Marathon',
             'location' => 'Jakarta City Hall',
             'start_date' => now()->addDays(10)->format('Y-m-d'),
             'end_date' => now()->addDays(11)->format('Y-m-d'),
-            'banner' => 'https://example.com/banner-updated.jpg',
+            'banner' => UploadedFile::fake()->image('banner-updated.jpg'),
             'description' => 'Updated description here.',
             'total_rewards' => 'Rp 10.000.000',
             'max_points' => 400,
@@ -130,6 +138,10 @@ describe('organizer event management crud operations', function () {
             'point_pool' => 60000,
             'remaining_point_pool' => 60000,
         ]);
+
+        $event->refresh();
+        expect($event->getRawOriginal('banner'))->not->toBeNull();
+        Storage::disk('public')->assertExists($event->getRawOriginal('banner'));
     });
 
     it('allows organizer to delete event', function () {

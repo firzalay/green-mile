@@ -106,6 +106,7 @@ describe('organizer reward management crud operations', function () {
 
         $reward = Reward::where('name', 'Tumbler Premium')->first();
         expect($reward)->not->toBeNull();
+        dump($reward->image);
         expect($reward->image)->toStartWith('/storage/rewards/');
 
         $this->assertDatabaseHas('rewards', [

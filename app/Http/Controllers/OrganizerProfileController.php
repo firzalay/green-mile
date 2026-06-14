@@ -62,14 +62,12 @@ class OrganizerProfileController extends Controller
         ];
 
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
-                $oldPath = str_replace('/storage/', '', $user->avatar);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            $rawAvatar = $user->getRawOriginal('avatar');
+            if ($rawAvatar && ! filter_var($rawAvatar, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($rawAvatar);
             }
             $path = $request->file('avatar')->store('avatars', 'public');
-            $userData['avatar'] = '/storage/'.$path;
+            $userData['avatar'] = $path;
         }
 
         $user->update($userData);
