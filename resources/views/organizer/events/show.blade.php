@@ -214,6 +214,44 @@
                         </div>
                     @endif
                 </section>
+
+                {{-- Rewards Section --}}
+                <section class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-100">
+                        <h3 class="font-bold text-base text-gray-900">Rewards</h3>
+                        <a href="{{ route('organizer.events.rewards.index', $event->id) }}" id="btn-manage-rewards" class="text-xs font-semibold text-emerald hover:underline" style="color: #2ECF89;">
+                            Kelola Reward →
+                        </a>
+                    </div>
+                    @if($event->rewards->isEmpty())
+                        <div class="text-center py-6">
+                            <p class="text-sm text-gray-400 mb-3">Belum ada reward yang dibuat untuk event ini.</p>
+                            <a href="{{ route('organizer.events.rewards.create', $event->id) }}" id="btn-create-first-reward" class="inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-forest hover:bg-forest/90 transition-all shadow-sm" style="background-color: #003F2F;">
+                                Buat Reward Pertama
+                            </a>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            @foreach($event->rewards as $reward)
+                                <div class="p-3 rounded-xl border border-gray-100 flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg overflow-hidden bg-gray-50 flex-shrink-0">
+                                        @if($reward->image)
+                                            <img src="{{ $reward->image }}" alt="{{ $reward->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center bg-forest/5 text-forest font-bold text-xs" style="background-color: rgba(0,63,47,0.05); color: #003F2F;">
+                                                🎁
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <h4 class="font-bold text-sm text-gray-800 truncate">{{ $reward->name }}</h4>
+                                        <p class="text-xs text-gray-400">{{ number_format($reward->required_points) }} Poin • Stok: {{ $reward->stock }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </section>
             </div>
 
             {{-- Leaderboard Section (Right column, takes 1/3) --}}

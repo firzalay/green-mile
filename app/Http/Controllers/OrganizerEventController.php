@@ -69,7 +69,9 @@ class OrganizerEventController extends Controller
     public function show(Request $request, int $id): View
     {
         $user = $request->user();
-        $event = Event::withCount(['participants', 'checkpoints'])
+        $event = Event::with(['rewards' => function ($query) {
+            $query->orderBy('name')->limit(4);
+        }])->withCount(['participants', 'checkpoints', 'rewards'])
             ->findOrFail($id);
 
         if ($event->organizer_id !== $user->id) {

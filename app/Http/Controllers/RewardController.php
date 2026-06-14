@@ -60,8 +60,9 @@ class RewardController extends Controller
                 return 'Poin Anda tidak mencukupi untuk menukarkan reward ini.';
             }
 
-            // Deduct stock
+            // Deduct stock and increment total_redeemed
             $reward->decrement('stock');
+            $reward->increment('total_redeemed');
 
             // Create redemption record
             RewardRedemption::create([
