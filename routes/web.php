@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminOrganizerController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
@@ -132,6 +133,12 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/organizers/{id}', [AdminOrganizerController::class, 'show'])->name('organizers.show');
     Route::post('/organizers/{id}/approve', [AdminOrganizerController::class, 'approve'])->name('organizers.approve');
     Route::post('/organizers/{id}/reject', [AdminOrganizerController::class, 'reject'])->name('organizers.reject');
+
+    // Admin Profile routes
+    Route::get('/profile', [AdminProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
 Route::get('/forgot-password', function () {

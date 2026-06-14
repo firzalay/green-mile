@@ -15,7 +15,9 @@
         ->implode('');
 
     $currentRoute = $user->role === 'super_admin'
-        ? (request()->routeIs('admin.organizers.*') ? 'admin-organizers' : '')
+        ? (request()->routeIs('admin.organizers.*') ? 'admin-organizers'
+            : (request()->routeIs('admin.profile.*') ? 'admin-profile'
+            : ''))
         : ($user->isOrganizer()
             ? (request()->routeIs('organizer.dashboard') ? 'organizer-home'
                 : (request()->routeIs('organizer.events.index') || request()->routeIs('organizer.events.show') || request()->routeIs('organizer.events.edit') || request()->routeIs('organizer.events.checkpoints.*') || request()->routeIs('organizer.checkpoints.*') ? 'organizer-events'
@@ -36,6 +38,7 @@
     $navItems = $user->role === 'super_admin'
         ? [
             ['id' => 'sidebar-admin-organizers', 'route' => route('admin.organizers.index'), 'key' => 'admin-organizers', 'label' => 'Review Organizer', 'icon' => 'users'],
+            ['id' => 'sidebar-admin-profile',    'route' => route('admin.profile.show'), 'key' => 'admin-profile', 'label' => 'Profil', 'icon' => 'user'],
         ]
         : ($user->isOrganizer()
             ? [
@@ -238,7 +241,7 @@
                     <div class="flex items-center gap-3">
 
                         {{-- Avatar + name --}}
-                        <a href="{{ $user->role === 'participant' ? route('profile.show') : ($user->isOrganizer() ? route('organizer.profile.show') : '#') }}"
+                        <a href="{{ $user->role === 'participant' ? route('profile.show') : ($user->isOrganizer() ? route('organizer.profile.show') : ($user->isSuperAdmin() ? route('admin.profile.show') : '#')) }}"
                            id="nav-profile-avatar-desktop"
                            class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                             <div class="text-right hidden sm:block">
