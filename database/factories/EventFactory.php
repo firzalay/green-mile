@@ -33,6 +33,8 @@ class EventFactory extends Factory
             'banner' => 'https://images.unsplash.com/photo-1502224562085-639556652f33?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 10.000.000',
             'max_points' => 500,
+            'point_pool' => 50000,
+            'remaining_point_pool' => 50000,
             'max_participants' => fake()->numberBetween(50, 200),
             'status' => 'published',
         ];

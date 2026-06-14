@@ -49,11 +49,13 @@ class OrganizerEventController extends Controller
             'total_rewards' => ['nullable', 'string', 'max:255'],
             'max_points' => ['required', 'integer', 'min:1'],
             'max_participants' => ['nullable', 'integer', 'min:1'],
+            'point_pool' => ['required', 'integer', 'min:1'],
         ]);
 
         $validated['organizer_id'] = $request->user()->id;
         $validated['status'] = 'draft';
         $validated['is_active'] = true;
+        $validated['remaining_point_pool'] = $validated['point_pool'];
 
         Event::create($validated);
 
@@ -118,7 +120,15 @@ class OrganizerEventController extends Controller
             'max_points' => ['required', 'integer', 'min:1'],
             'max_participants' => ['nullable', 'integer', 'min:1'],
             'status' => ['required', 'string', 'in:draft,published,ongoing,finished'],
+            'point_pool' => ['required', 'integer', 'min:1'],
         ]);
+
+        $distributed = $event->point_pool - $event->remaining_point_pool;
+        if ($validated['point_pool'] < $distributed) {
+            return back()->withErrors(['point_pool' => 'Total Point Pool tidak boleh kurang dari poin yang sudah dibagikan ('.number_format($distributed).' poin).'])->withInput();
+        }
+
+        $validated['remaining_point_pool'] = $validated['point_pool'] - $distributed;
 
         $event->update($validated);
 

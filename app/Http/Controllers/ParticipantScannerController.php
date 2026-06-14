@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Checkpoint;
 use App\Models\CheckpointScan;
+use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -92,30 +93,47 @@ class ParticipantScannerController extends Controller
         }
 
         // Process scan transaction
-        DB::transaction(function () use ($user, $event, $checkpoint, $participant) {
-            // Save scan history
-            CheckpointScan::create([
-                'user_id' => $user->id,
-                'event_id' => $event->id,
-                'checkpoint_id' => $checkpoint->id,
-                'points_awarded' => $checkpoint->points,
-                'scanned_at' => now(),
-            ]);
+        try {
+            DB::transaction(function () use ($user, $event, $checkpoint, $participant) {
+                // Lock the event row for update
+                $lockedEvent = Event::where('id', $event->id)->lockForUpdate()->first();
 
-            // Update participant progress
-            $participant->increment('completed_checkpoints');
-            $participant->increment('current_event_points', $checkpoint->points);
-            $participant->increment('total_points', $checkpoint->points);
+                if ($lockedEvent->remaining_point_pool < $checkpoint->points) {
+                    throw new \Exception('Poin event telah habis.');
+                }
 
-            // Record user Activity log
-            Activity::create([
-                'user_id' => $user->id,
-                'event_id' => $event->id,
-                'activity_type' => 'scan_checkpoint',
-                'description' => 'berhasil scan '.$checkpoint->name,
-                'points' => $checkpoint->points,
-            ]);
-        });
+                // Save scan history
+                CheckpointScan::create([
+                    'user_id' => $user->id,
+                    'event_id' => $lockedEvent->id,
+                    'checkpoint_id' => $checkpoint->id,
+                    'points_awarded' => $checkpoint->points,
+                    'scanned_at' => now(),
+                ]);
+
+                // Update participant progress
+                $participant->increment('completed_checkpoints');
+                $participant->increment('current_event_points', $checkpoint->points);
+                $participant->increment('total_points', $checkpoint->points);
+
+                // Record user Activity log
+                Activity::create([
+                    'user_id' => $user->id,
+                    'event_id' => $lockedEvent->id,
+                    'activity_type' => 'scan_checkpoint',
+                    'description' => 'berhasil scan '.$checkpoint->name,
+                    'points' => $checkpoint->points,
+                ]);
+
+                // Decrement remaining point pool
+                $lockedEvent->decrement('remaining_point_pool', $checkpoint->points);
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 422);
+        }
 
         return response()->json([
             'status' => 'success',

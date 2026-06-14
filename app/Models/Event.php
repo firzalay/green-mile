@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code'])]
+#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code', 'point_pool', 'remaining_point_pool'])]
 class Event extends Model
 {
     /** @use HasFactory<EventFactory> */
@@ -35,6 +35,8 @@ class Event extends Model
             'start_date' => 'date',
             'end_date' => 'date',
             'is_active' => 'boolean',
+            'point_pool' => 'integer',
+            'remaining_point_pool' => 'integer',
         ];
     }
 

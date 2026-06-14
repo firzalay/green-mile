@@ -72,6 +72,7 @@ describe('organizer event management crud operations', function () {
             'total_rewards' => 'Rp 5.000.000',
             'max_points' => 300,
             'max_participants' => 100,
+            'point_pool' => 50000,
         ];
 
         $response = $this->actingAs($organizer)->post(route('organizer.events.store'), $payload);
@@ -83,6 +84,8 @@ describe('organizer event management crud operations', function () {
             'location' => 'Surabaya City Hall',
             'organizer_id' => $organizer->id,
             'status' => 'draft',
+            'point_pool' => 50000,
+            'remaining_point_pool' => 50000,
         ]);
     });
 
@@ -112,6 +115,7 @@ describe('organizer event management crud operations', function () {
             'max_points' => 400,
             'max_participants' => 150,
             'status' => 'published',
+            'point_pool' => 60000,
         ];
 
         $response = $this->actingAs($organizer)->put(route('organizer.events.update', $event->id), $updatePayload);
@@ -123,6 +127,8 @@ describe('organizer event management crud operations', function () {
             'name' => 'Updated Eco Marathon',
             'location' => 'Jakarta City Hall',
             'status' => 'published',
+            'point_pool' => 60000,
+            'remaining_point_pool' => 60000,
         ]);
     });
 

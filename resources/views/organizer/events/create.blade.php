@@ -99,7 +99,7 @@
             </div>
 
             {{-- Info Fields Grid --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {{-- Total Rewards --}}
                 <div class="space-y-1.5">
                     <label for="total_rewards" class="block text-sm font-semibold text-gray-700">Total Hadiah</label>
@@ -132,6 +132,20 @@
                     <input type="number" id="max_participants" name="max_participants" value="{{ old('max_participants') }}" min="1" placeholder="Kosongkan jika tak terbatas"
                            class="w-full px-4 py-2.5 rounded-xl border {{ $errors->has('max_participants') ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-emerald focus:ring-emerald/20' }} focus:outline-none focus:ring-4 transition-all text-sm text-gray-800">
                     @error('max_participants')
+                        <p class="text-xs text-red-500 mt-1 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+                {{-- Point Pool --}}
+                <div class="space-y-1.5">
+                    <label for="point_pool" class="block text-sm font-semibold text-gray-700">Total Point Pool <span class="text-red-500">*</span></label>
+                    <input type="number" id="point_pool" name="point_pool" value="{{ old('point_pool', 50000) }}" min="1" required
+                           class="w-full px-4 py-2.5 rounded-xl border {{ $errors->has('point_pool') ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-emerald focus:ring-emerald/20' }} focus:outline-none focus:ring-4 transition-all text-sm text-gray-800"
+                           placeholder="Contoh: 50000">
+                    @error('point_pool')
                         <p class="text-xs text-red-500 mt-1 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                             {{ $message }}

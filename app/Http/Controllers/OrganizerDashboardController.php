@@ -37,6 +37,10 @@ class OrganizerDashboardController extends Controller
             ->whereDate('created_at', now()->toDateString())
             ->count();
 
+        $totalPointPool = $user->events()->sum('point_pool');
+        $totalRemainingPointPool = $user->events()->sum('remaining_point_pool');
+        $totalDistributedPoints = $totalPointPool - $totalRemainingPointPool;
+
         // Event Overview list
         $events = $user->events()
             ->withCount('participants')
@@ -98,6 +102,9 @@ class OrganizerDashboardController extends Controller
             'events' => $events,
             'activePerformance' => $activePerformance,
             'recentActivities' => $recentActivities,
+            'totalPointPool' => $totalPointPool,
+            'totalRemainingPointPool' => $totalRemainingPointPool,
+            'totalDistributedPoints' => $totalDistributedPoints,
         ]);
     }
 

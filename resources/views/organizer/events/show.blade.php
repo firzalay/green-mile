@@ -130,6 +130,56 @@
             </div>
         </div>
 
+        {{-- Point Pool & Distribution Stats --}}
+        <div class="bg-white p-6 rounded-2xl border border-gray-150 shadow-sm space-y-4 animate-fade-in-up">
+            <div class="flex items-center justify-between border-b pb-3 border-gray-100 mb-2">
+                <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
+                    </svg>
+                    Statistik Distribusi Poin
+                </h3>
+                <span class="text-xs px-2.5 py-1 rounded-full font-bold {{ $event->remaining_point_pool > 0 ? 'bg-emerald/10 text-emerald' : 'bg-red-100 text-red-700' }}">
+                    {{ $event->remaining_point_pool > 0 ? 'Available' : 'Exhausted' }}
+                </span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                {{-- Total Point Pool --}}
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Total Point Pool</span>
+                    <p class="text-2xl font-black text-gray-800" id="metric-point-pool">{{ number_format($event->point_pool) }}</p>
+                </div>
+
+                {{-- Remaining Point Pool --}}
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Remaining Pool</span>
+                    <p class="text-2xl font-black text-emerald" id="metric-remaining-pool">{{ number_format($event->remaining_point_pool) }}</p>
+                </div>
+
+                {{-- Distributed Point --}}
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Distributed Point</span>
+                    <p class="text-2xl font-black text-forest" id="metric-distributed-pool" style="color: #003F2F;">{{ number_format($event->point_pool - $event->remaining_point_pool) }}</p>
+                </div>
+
+                {{-- Total Scan --}}
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Total Scan</span>
+                    <p class="text-2xl font-black text-gray-800" id="metric-total-scans-pool">{{ number_format($totalCheckpointsCompleted) }}</p>
+                </div>
+
+                {{-- Average Point per Scan --}}
+                <div class="space-y-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Rata-rata Poin / Scan</span>
+                    @php
+                        $distributed = $event->point_pool - $event->remaining_point_pool;
+                        $average = $totalCheckpointsCompleted > 0 ? round($distributed / $totalCheckpointsCompleted, 1) : 0;
+                    @endphp
+                    <p class="text-2xl font-black text-orange-500" id="metric-average-points">{{ number_format($average, 1) }}</p>
+                </div>
+            </div>
+        </div>
+
         {{-- Grid Detail Layout (Checkpoints & Leaderboard) --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {{-- Checkpoint List Section (Left column, takes 2/3) --}}

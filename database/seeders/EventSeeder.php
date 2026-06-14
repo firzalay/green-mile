@@ -23,7 +23,7 @@ class EventSeeder extends Seeder
 
         // 1. Ongoing Event
         $ongoingEvent = Event::factory()->ongoing()->create([
-            'name' => 'GreenRun Surabaya Eco-Sprint',
+            'name' => 'GreenRun Surabaya',
             'location' => 'Taman Bungkul, Surabaya',
             'organizer_id' => $organizer->id,
             'total_checkpoints' => 8,
@@ -31,6 +31,8 @@ class EventSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 15.000.000',
             'max_points' => 800,
+            'point_pool' => 50000,
+            'remaining_point_pool' => 32500,
             'join_code' => 'SBY2026',
         ]);
 

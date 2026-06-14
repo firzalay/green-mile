@@ -98,6 +98,38 @@
                 </div>
             </section>
 
+            {{-- Point Pool Summary Card --}}
+            <section class="bg-white rounded-2xl p-6 border border-gray-150 shadow-sm animate-fade-in-up animate-delay-150">
+                <div class="flex items-center justify-between border-b pb-3 border-gray-100 mb-4">
+                    <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Ringkasan Point Pool
+                    </h3>
+                    <span class="text-xs px-2.5 py-1 rounded-full font-bold {{ $totalRemainingPointPool > 0 ? 'bg-emerald/10 text-emerald' : 'bg-red-100 text-red-700' }}">
+                        {{ $totalRemainingPointPool > 0 ? 'Available' : 'Exhausted' }}
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {{-- Total Point Pool --}}
+                    <div class="space-y-1">
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Total Point Pool</p>
+                        <p class="text-2xl font-black text-gray-900">{{ number_format($totalPointPool) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
+                    </div>
+                    {{-- Remaining Point Pool --}}
+                    <div class="space-y-1">
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Sisa Point Pool</p>
+                        <p class="text-2xl font-black text-emerald">{{ number_format($totalRemainingPointPool) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
+                    </div>
+                    {{-- Distributed Points --}}
+                    <div class="space-y-1">
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Poin Terdistribusi</p>
+                        <p class="text-2xl font-black text-forest" style="color: #003F2F;">{{ number_format($totalDistributedPoints) }} <span class="text-xs font-normal text-gray-500">Poin</span></p>
+                    </div>
+                </div>
+            </section>
+
             {{-- Main Layout Content Grid --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
