@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Event\StoreEventRequest;
+use App\Http\Requests\Event\UpdateEventRequest;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,20 +39,9 @@ class OrganizerEventController extends Controller
     /**
      * Store a newly created event in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreEventRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
-            'banner' => ['nullable', 'string', 'max:1000'],
-            'description' => ['nullable', 'string'],
-            'total_rewards' => ['nullable', 'string', 'max:255'],
-            'max_points' => ['required', 'integer', 'min:1'],
-            'max_participants' => ['nullable', 'integer', 'min:1'],
-            'point_pool' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validated();
 
         $validated['organizer_id'] = $request->user()->id;
         $validated['status'] = 'draft';
@@ -102,7 +93,7 @@ class OrganizerEventController extends Controller
     /**
      * Update the specified event in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdateEventRequest $request, int $id): RedirectResponse
     {
         $user = $request->user();
         $event = Event::findOrFail($id);
@@ -111,19 +102,7 @@ class OrganizerEventController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
-            'banner' => ['nullable', 'string', 'max:1000'],
-            'description' => ['nullable', 'string'],
-            'total_rewards' => ['nullable', 'string', 'max:255'],
-            'max_points' => ['required', 'integer', 'min:1'],
-            'max_participants' => ['nullable', 'integer', 'min:1'],
-            'status' => ['required', 'string', 'in:draft,published,ongoing,finished'],
-            'point_pool' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validated();
 
         $distributed = $event->point_pool - $event->remaining_point_pool;
         if ($validated['point_pool'] < $distributed) {

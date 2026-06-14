@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Checkpoint\StoreCheckpointRequest;
+use App\Http\Requests\Checkpoint\UpdateCheckpointRequest;
 use App\Models\Checkpoint;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
@@ -44,21 +46,13 @@ class OrganizerCheckpointController extends Controller
     /**
      * Store a newly created checkpoint in storage.
      */
-    public function store(Request $request, Event $event): RedirectResponse
+    public function store(StoreCheckpointRequest $request, Event $event): RedirectResponse
     {
         if ($event->organizer_id !== $request->user()->id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'sequence' => ['required', 'integer', 'min:1'],
-            'points' => ['required', 'integer', 'min:1'],
-            'status' => ['required', 'string', 'in:active,inactive,Active,Inactive'],
-        ]);
-
+        $validated = $request->validated();
         $validated['event_id'] = $event->id;
 
         Checkpoint::create($validated);
@@ -98,7 +92,7 @@ class OrganizerCheckpointController extends Controller
     /**
      * Update the specified checkpoint in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdateCheckpointRequest $request, int $id): RedirectResponse
     {
         $checkpoint = Checkpoint::findOrFail($id);
 
@@ -106,16 +100,7 @@ class OrganizerCheckpointController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'sequence' => ['required', 'integer', 'min:1'],
-            'points' => ['required', 'integer', 'min:1'],
-            'status' => ['required', 'string', 'in:active,inactive,Active,Inactive'],
-        ]);
-
-        $checkpoint->update($validated);
+        $checkpoint->update($request->validated());
 
         return redirect()->route('organizer.checkpoints.show', $checkpoint->id)
             ->with('success', 'Checkpoint berhasil diperbarui.');

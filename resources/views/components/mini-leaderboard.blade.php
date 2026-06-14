@@ -11,7 +11,7 @@
             </svg>
             <span class="font-bold text-sm" style="color: #111827;">Leaderboard</span>
         </div>
-        <a href="#" id="link-lihat-semua-leaderboard"
+        <a href="{{ route('leaderboard.index') }}" id="link-lihat-semua-leaderboard"
            class="text-xs font-semibold hover:underline transition-colors"
            style="color: #2ECF89;">
             Lihat Semua →

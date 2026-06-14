@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Scan\ScanQrRequest;
 use App\Models\Activity;
 use App\Models\Checkpoint;
 use App\Models\CheckpointScan;
@@ -10,7 +11,6 @@ use App\Models\EventParticipant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ParticipantScannerController extends Controller
@@ -26,20 +26,8 @@ class ParticipantScannerController extends Controller
     /**
      * Process the scanned QR Code token.
      */
-    public function scan(Request $request): JsonResponse
+    public function scan(ScanQrRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'qr_token' => ['required', 'string'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'QR Code tidak valid.',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
         $checkpoint = Checkpoint::with('event')->where('qr_token', $request->qr_token)->first();
 
         // 1. QR Token must exist

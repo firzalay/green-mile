@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Profile\ChangePasswordRequest;
+use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -89,21 +90,10 @@ class ProfileController extends Controller
     /**
      * Update the profile info and picture.
      */
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateProfileRequest $request): RedirectResponse
     {
         $user = $request->user();
-
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:100'],
-            'username' => [
-                'required',
-                'alpha_num',
-                'min:4',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('avatar')) {
             if ($user->avatar) {
@@ -125,14 +115,9 @@ class ProfileController extends Controller
     /**
      * Update the user password.
      */
-    public function updatePassword(Request $request): RedirectResponse
+    public function updatePassword(ChangePasswordRequest $request): RedirectResponse
     {
         $user = $request->user();
-
-        $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
 
         $user->update([
             'password' => Hash::make($request->password),

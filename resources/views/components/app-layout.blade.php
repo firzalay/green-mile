@@ -24,12 +24,13 @@
                 : ''))))
             : (request()->routeIs('dashboard') ? 'home'
                 : (request()->routeIs('events.join') ? 'join-event'
+                : (request()->routeIs('leaderboard*') || request()->routeIs('events.leaderboard') ? 'leaderboard'
                 : (request()->routeIs('events*') ? 'events'
                 : (request()->routeIs('qr*') || request()->routeIs('scanner.*') ? 'qr'
-                : (request()->routeIs('leaderboard*') ? 'leaderboard'
-                : (request()->routeIs('reward*') ? 'reward'
-                : (request()->routeIs('history*') ? 'history'
+                : (request()->routeIs('rewards.*') || request()->routeIs('rewards.history') ? 'reward'
+                : (request()->routeIs('profile.*') ? 'profile'
                 : ''))))))));
+
 
     $navItems = $user->role === 'super_admin'
         ? [

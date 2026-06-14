@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Event\JoinEventRequest;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Http\RedirectResponse;
@@ -23,12 +24,8 @@ class ParticipantEventController extends Controller
     /**
      * Join an event using a join code.
      */
-    public function joinWithCode(Request $request): RedirectResponse
+    public function joinWithCode(JoinEventRequest $request): RedirectResponse
     {
-        $request->validate([
-            'join_code' => ['required', 'string', 'max:12'],
-        ]);
-
         $user = $request->user();
         $joinCode = strtoupper($request->input('join_code'));
 

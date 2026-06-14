@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Reward\StoreRewardRequest;
+use App\Http\Requests\Reward\UpdateRewardRequest;
 use App\Models\Event;
 use App\Models\Reward;
 use Illuminate\Http\RedirectResponse;
@@ -41,19 +43,13 @@ class OrganizerRewardController extends Controller
     /**
      * Store a newly created reward in storage.
      */
-    public function store(Request $request, Event $event): RedirectResponse
+    public function store(StoreRewardRequest $request, Event $event): RedirectResponse
     {
         if ($event->organizer_id !== $request->user()->id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-            'required_points' => ['required', 'integer', 'min:1'],
-            'stock' => ['required', 'integer', 'min:0'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('rewards', 'public');
@@ -103,7 +99,7 @@ class OrganizerRewardController extends Controller
     /**
      * Update the specified reward in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdateRewardRequest $request, int $id): RedirectResponse
     {
         $reward = Reward::findOrFail($id);
 
@@ -111,14 +107,7 @@ class OrganizerRewardController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-            'required_points' => ['required', 'integer', 'min:1'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'is_active' => ['required', 'boolean'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('rewards', 'public');

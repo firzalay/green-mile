@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\OrganizerRegisterRequest;
 use App\Models\OrganizerProfile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -34,17 +35,8 @@ class OrganizerRegistrationController extends Controller
     /**
      * Handle organizer registration.
      */
-    public function store(Request $request): View|RedirectResponse
+    public function store(OrganizerRegisterRequest $request): View|RedirectResponse
     {
-        $request->validate([
-            'organization_name' => ['required', 'string', 'max:255'],
-            'contact_person' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
         DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->contact_person,
