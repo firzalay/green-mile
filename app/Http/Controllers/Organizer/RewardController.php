@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Reward\StoreRewardRequest;
 use App\Http\Requests\Reward\UpdateRewardRequest;
 use App\Models\Event;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class OrganizerRewardController extends Controller
+class RewardController extends Controller
 {
     /**
      * Display a listing of the rewards for a specific event.

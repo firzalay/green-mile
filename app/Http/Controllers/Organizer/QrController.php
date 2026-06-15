@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Models\Checkpoint;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Linkxtr\QrCode\Facades\QrCode;
 
-class OrganizerQrController extends Controller
+class QrController extends Controller
 {
     /**
      * Show the QR Code detail and preview page.
@@ -79,7 +80,7 @@ class OrganizerQrController extends Controller
     /**
      * Download the QR Code image (falls back to SVG if PNG fails).
      */
-    public function download(Request $request, int $id)
+    public function download(Request $request, int $id): mixed
     {
         $checkpoint = Checkpoint::with('event')->findOrFail($id);
 
@@ -94,12 +95,10 @@ class OrganizerQrController extends Controller
         $baseFilename = Str::slug($checkpoint->event->name.'-'.$checkpoint->name);
 
         try {
-            // Attempt to generate PNG
             $content = QrCode::format('png')->size(400)->generate($checkpoint->qr_token);
             $contentType = 'image/png';
             $filename = $baseFilename.'.png';
         } catch (\Exception $e) {
-            // Fallback to SVG if PNG generation fails due to missing extensions
             $content = QrCode::format('svg')->size(400)->generate($checkpoint->qr_token);
             $contentType = 'image/svg+xml';
             $filename = $baseFilename.'.svg';

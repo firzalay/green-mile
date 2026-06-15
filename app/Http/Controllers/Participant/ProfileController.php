@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Participant;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ChangePasswordRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Models\User;
@@ -19,14 +20,9 @@ class ProfileController extends Controller
     public function show(Request $request): View
     {
         $user = $request->user();
+        $stats = $user->participantStats();
 
-        // 1. Calculate statistics
-        $totalPoints = $user->eventParticipants()->sum('current_event_points');
-        $eventsJoined = $user->eventParticipants()->count();
-        $eventsCompleted = $user->eventParticipants()->where('status', 'completed')->count();
-        $checkpointsScanned = $user->checkpointScans()->count();
-
-        // 2. Calculate global rank among participants
+        // Calculate global rank among participants
         $rankings = User::where('role', 'participant')
             ->withSum('eventParticipants as total_earned', 'current_event_points')
             ->get()
@@ -36,7 +32,7 @@ class ProfileController extends Controller
         $rankIndex = $rankings->search(fn ($u) => $u->id === $user->id);
         $currentRank = $rankIndex !== false ? $rankIndex + 1 : '-';
 
-        // 3. Calculate best event leaderboard rank
+        // Calculate best event leaderboard rank
         $bestRankVal = null;
         $participations = $user->eventParticipants()->with('event')->get();
         foreach ($participations as $participation) {
@@ -54,27 +50,23 @@ class ProfileController extends Controller
         }
         $bestRank = $bestRankVal !== null ? '#'.$bestRankVal : '-';
 
-        // 4. Calculate total rewards redeemed
-        $rewardsRedeemed = $user->rewardRedemptions()->count();
-
-        // 5. Get recent activities
         $activities = $user->activities()
             ->with('event')
             ->orderByDesc('created_at')
             ->limit(10)
             ->get();
 
-        return view('participant.profile.show', compact(
-            'user',
-            'totalPoints',
-            'eventsJoined',
-            'eventsCompleted',
-            'checkpointsScanned',
-            'currentRank',
-            'bestRank',
-            'rewardsRedeemed',
-            'activities'
-        ));
+        return view('participant.profile.show', [
+            'user' => $user,
+            'totalPoints' => $stats['total_points'],
+            'eventsJoined' => $stats['events_joined'],
+            'eventsCompleted' => $stats['events_completed'],
+            'checkpointsScanned' => $stats['checkpoints_scanned'],
+            'rewardsRedeemed' => $stats['rewards_redeemed'],
+            'currentRank' => $currentRank,
+            'bestRank' => $bestRank,
+            'activities' => $activities,
+        ]);
     }
 
     /**

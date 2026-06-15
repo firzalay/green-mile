@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizerProfile\UpdateOrganizerProfileRequest;
 use App\Http\Requests\Profile\ChangePasswordRequest;
-use App\Models\EventParticipant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class OrganizerProfileController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Show the organizer's profile.
@@ -19,22 +19,14 @@ class OrganizerProfileController extends Controller
     public function show(Request $request): View
     {
         $user = $request->user()->load('organizerProfile');
+        $stats = $user->organizerStats();
 
-        // Calculate statistics
-        $totalEvents = $user->events()->count();
-        $activeEvents = $user->events()->where('is_active', true)->count();
-
-        $eventIds = $user->events()->pluck('id')->toArray();
-        $totalParticipants = EventParticipant::whereIn('event_id', $eventIds)
-            ->distinct('user_id')
-            ->count('user_id');
-
-        return view('organizer.profile.show', compact(
-            'user',
-            'totalEvents',
-            'activeEvents',
-            'totalParticipants'
-        ));
+        return view('organizer.profile.show', [
+            'user' => $user,
+            'totalEvents' => $stats['total_events'],
+            'activeEvents' => $stats['active_events'],
+            'totalParticipants' => $stats['total_participants'],
+        ]);
     }
 
     /**
@@ -55,7 +47,6 @@ class OrganizerProfileController extends Controller
         $user = $request->user();
         $validated = $request->validated();
 
-        // Handle user account updates
         $userData = [
             'name' => $validated['name'],
             'username' => $validated['username'],
@@ -72,7 +63,6 @@ class OrganizerProfileController extends Controller
 
         $user->update($userData);
 
-        // Handle organizer profile updates
         $profileData = [
             'organization_name' => $validated['organization_name'],
             'contact_person' => $validated['contact_person'],
