@@ -70,17 +70,23 @@ describe('event creation and update validation', function () {
 
         $this->assertDatabaseHas('events', [
             'name' => 'New Event',
-            'point_pool' => 5000,
-            'remaining_point_pool' => 5000,
+            'total_point_pool' => 5000,
         ]);
+
+        $event = Event::where('name', 'New Event')->first();
+        expect($event->remaining_point_pool)->toBe(5000);
     });
 
     it('prevents updating point_pool to less than distributed points', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create([
             'organizer_id' => $organizer->id,
-            'point_pool' => 5000,
-            'remaining_point_pool' => 3000,
+            'total_point_pool' => 5000,
+        ]);
+        Checkpoint::factory()->create([
+            'event_id' => $event->id,
+            'points' => 2000,
+            'is_custom_point' => true,
         ]);
 
         $updatePayload = [
@@ -103,8 +109,12 @@ describe('event creation and update validation', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create([
             'organizer_id' => $organizer->id,
-            'point_pool' => 5000,
-            'remaining_point_pool' => 3000,
+            'total_point_pool' => 5000,
+        ]);
+        Checkpoint::factory()->create([
+            'event_id' => $event->id,
+            'points' => 2000,
+            'is_custom_point' => true,
         ]);
 
         $updatePayload = [
@@ -124,24 +134,25 @@ describe('event creation and update validation', function () {
 
         $this->assertDatabaseHas('events', [
             'id' => $event->id,
-            'point_pool' => 6000,
-            'remaining_point_pool' => 4000,
+            'total_point_pool' => 6000,
         ]);
+
+        expect($event->fresh()->remaining_point_pool)->toBe(4000);
     });
 });
 
 describe('scan checkpoints point pool validation', function () {
-    it('decrements remaining_point_pool on successful checkpoint scan', function () {
+    it('does not decrement remaining_point_pool on successful checkpoint scan', function () {
         $participant = User::factory()->create(['role' => 'participant']);
         $event = Event::factory()->create([
             'status' => 'ongoing',
-            'point_pool' => 5000,
-            'remaining_point_pool' => 5000,
+            'total_point_pool' => 5000,
         ]);
         $checkpoint = Checkpoint::factory()->create([
             'event_id' => $event->id,
             'status' => 'active',
             'points' => 150,
+            'is_custom_point' => true,
             'qr_token' => (string) Str::uuid(),
         ]);
 
@@ -155,23 +166,20 @@ describe('scan checkpoints point pool validation', function () {
 
         $response->assertOk();
 
-        $this->assertDatabaseHas('events', [
-            'id' => $event->id,
-            'remaining_point_pool' => 4850,
-        ]);
+        expect($event->fresh()->remaining_point_pool)->toBe(4850);
     });
 
-    it('rejects checkpoint scan if event remaining_point_pool is insufficient', function () {
+    it('allows checkpoint scan even if points awarded exceed remaining pool', function () {
         $participant = User::factory()->create(['role' => 'participant']);
         $event = Event::factory()->create([
             'status' => 'ongoing',
-            'point_pool' => 100,
-            'remaining_point_pool' => 50,
+            'total_point_pool' => 100,
         ]);
         $checkpoint = Checkpoint::factory()->create([
             'event_id' => $event->id,
             'status' => 'active',
             'points' => 100,
+            'is_custom_point' => true,
             'qr_token' => (string) Str::uuid(),
         ]);
 
@@ -183,13 +191,7 @@ describe('scan checkpoints point pool validation', function () {
         $response = $this->actingAs($participant)
             ->postJson(route('scanner.scan'), ['qr_token' => $checkpoint->qr_token]);
 
-        $response->assertStatus(422)
-            ->assertJson([
-                'status' => 'error',
-                'message' => 'Poin event telah habis.',
-            ]);
-
-        $this->assertEquals(50, $event->fresh()->remaining_point_pool);
+        $response->assertOk();
     });
 });
 
@@ -199,14 +201,12 @@ describe('monitoring dashboard and event details statistics', function () {
 
         Event::factory()->create([
             'organizer_id' => $organizer->id,
-            'point_pool' => 5000,
-            'remaining_point_pool' => 3500,
+            'total_point_pool' => 5000,
         ]);
 
         Event::factory()->create([
             'organizer_id' => $organizer->id,
-            'point_pool' => 10000,
-            'remaining_point_pool' => 7000,
+            'total_point_pool' => 10000,
         ]);
 
         $response = $this->actingAs($organizer)->get(route('organizer.dashboard'));
@@ -219,8 +219,12 @@ describe('monitoring dashboard and event details statistics', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create([
             'organizer_id' => $organizer->id,
-            'point_pool' => 50000,
-            'remaining_point_pool' => 32500,
+            'total_point_pool' => 50000,
+        ]);
+        Checkpoint::factory()->create([
+            'event_id' => $event->id,
+            'points' => 17500,
+            'is_custom_point' => true,
         ]);
 
         $response = $this->actingAs($organizer)->get(route('organizer.events.show', $event->id));

@@ -31,8 +31,7 @@ class EventSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 15.000.000',
             'max_points' => 800,
-            'point_pool' => 50000,
-            'remaining_point_pool' => 32500,
+            'total_point_pool' => 50000,
             'join_code' => 'SBY2026',
         ]);
 

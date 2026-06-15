@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Checkpoint;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -87,8 +88,7 @@ describe('organizer event management crud operations', function () {
             'location' => 'Surabaya City Hall',
             'organizer_id' => $organizer->id,
             'status' => 'draft',
-            'point_pool' => 50000,
-            'remaining_point_pool' => 50000,
+            'total_point_pool' => 50000,
         ]);
 
         $event = Event::where('name', 'New Eco Marathon')->first();
@@ -110,6 +110,13 @@ describe('organizer event management crud operations', function () {
     it('allows organizer to edit and update event details and status', function () {
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create(['organizer_id' => $organizer->id, 'status' => 'draft']);
+
+        // Create a checkpoint so that the validation 'SUM(checkpoint_points) == total_point_pool' passes when publishing
+        Checkpoint::factory()->create([
+            'event_id' => $event->id,
+            'points' => $event->total_point_pool,
+        ]);
+
         Storage::fake('public');
 
         $updatePayload = [
@@ -135,8 +142,7 @@ describe('organizer event management crud operations', function () {
             'name' => 'Updated Eco Marathon',
             'location' => 'Jakarta City Hall',
             'status' => 'published',
-            'point_pool' => 60000,
-            'remaining_point_pool' => 60000,
+            'total_point_pool' => 60000,
         ]);
 
         $event->refresh();

@@ -29,9 +29,9 @@ class DashboardController extends Controller
             ->whereDate('created_at', now()->toDateString())
             ->count();
 
-        $totalPointPool = $user->events()->sum('point_pool');
-        $totalRemainingPointPool = $user->events()->sum('remaining_point_pool');
-        $totalDistributedPoints = $totalPointPool - $totalRemainingPointPool;
+        $totalPointPool = $user->events()->sum('total_point_pool');
+        $totalDistributedPoints = \App\Models\CheckpointScan::whereIn('event_id', $eventIds)->sum('total_point');
+        $totalRemainingPointPool = $totalPointPool - $totalDistributedPoints;
 
         $events = $user->events()
             ->withCount('participants')

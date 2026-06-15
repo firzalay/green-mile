@@ -169,7 +169,7 @@
                             </div>
                         </div>
 
-                        {{-- Max Points --}}
+                        {{-- Total Event Points --}}
                         <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(46,207,137,0.12); color: #003F2F;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -178,8 +178,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-xs" style="color: #9CA3AF;">Estimasi Poin Maksimum</p>
-                                <p class="text-sm font-semibold" style="color: #374151;">{{ number_format($event->max_points) }} pts</p>
+                                <p class="text-xs" style="color: #9CA3AF;">Total Poin Event</p>
+                                <p class="text-sm font-semibold" style="color: #374151;">{{ number_format($event->total_event_point) }} pts</p>
                             </div>
                         </div>
 

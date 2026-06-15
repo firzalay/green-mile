@@ -23,7 +23,17 @@ class StoreCheckpointRequest extends FormRequest
             return false;
         }
 
-        return $event->organizer_id === $this->user()->id;
+        if ($event->organizer_id !== $this->user()->id) {
+            return false;
+        }
+
+        // Event Lock: No checkpoint changes on ongoing or finished events
+        $status = strtolower($event->getRawOriginal('status') ?? 'draft');
+        if (in_array($status, ['ongoing', 'finished'])) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -33,14 +43,51 @@ class StoreCheckpointRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $event = $this->route('event');
+        if (! $event instanceof Event) {
+            $event = Event::find($this->route('event'));
+        }
+
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'location' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'sequence' => ['required', 'integer', 'min:1'],
-            'points' => ['required', 'integer', 'min:1'],
             'status' => ['required', 'string', 'in:active,inactive,Active,Inactive'],
+            'is_custom_point' => ['nullable', 'boolean'],
+            'bonus_tiers' => ['nullable', 'array'],
+            'bonus_tiers.*.rank_start' => ['required_with:bonus_tiers', 'integer', 'min:1'],
+            'bonus_tiers.*.rank_end' => ['nullable', 'integer', 'min:1', 'gte:bonus_tiers.*.rank_start'],
+            'bonus_tiers.*.bonus_percentage' => ['required_with:bonus_tiers', 'numeric', 'min:0'],
         ];
+
+        $rules['points'] = [
+            'nullable',
+            'integer',
+            function ($attribute, $value, $fail) use ($event) {
+                if ($this->boolean('is_custom_point') && ($value === null || $value === '')) {
+                    $fail('Poin checkpoint wajib diisi jika kustomisasi poin diaktifkan.');
+
+                    return;
+                }
+
+                if ($this->boolean('is_custom_point')) {
+                    if ((int) $value < 1) {
+                        $fail('Poin checkpoint minimal 1.');
+
+                        return;
+                    }
+
+                    $allocated = (int) $event->checkpoints()->sum('point');
+                    $limit = (int) $event->total_point_pool;
+                    if ($allocated + (int) $value > $limit) {
+                        $fail('Poin checkpoint melebihi total point pool event.');
+                    }
+                }
+            },
+        ];
+
+        return $rules;
     }
 
     /**

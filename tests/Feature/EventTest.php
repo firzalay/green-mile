@@ -36,6 +36,7 @@ describe('event discovery access', function () {
             'description' => 'Aksi lari peduli bumi',
             'total_rewards' => 'Rp 10.000.000',
             'max_points' => 500,
+            'total_point_pool' => 500,
         ]);
 
         $this->actingAs($user)

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'event_id', 'checkpoint_id', 'points_awarded', 'scanned_at'])]
+#[Fillable(['user_id', 'event_id', 'checkpoint_id', 'base_point', 'bonus_point', 'total_point', 'points_awarded', 'scanned_at'])]
 class CheckpointScan extends Model
 {
     use HasFactory;
@@ -20,9 +20,26 @@ class CheckpointScan extends Model
     protected function casts(): array
     {
         return [
+            'base_point' => 'integer',
+            'bonus_point' => 'integer',
+            'total_point' => 'integer',
             'points_awarded' => 'integer',
             'scanned_at' => 'datetime',
         ];
+    }
+
+    /**
+     * The booted method of the CheckpointScan model.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (CheckpointScan $scan) {
+            if ($scan->isDirty('points_awarded') && ! $scan->isDirty('total_point')) {
+                $scan->total_point = $scan->points_awarded;
+            } elseif ($scan->isDirty('total_point') && ! $scan->isDirty('points_awarded')) {
+                $scan->points_awarded = $scan->total_point;
+            }
+        });
     }
 
     /**

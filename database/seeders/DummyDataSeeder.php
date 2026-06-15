@@ -108,9 +108,6 @@ class DummyDataSeeder extends Seeder
                 $ep->increment('current_event_points', $checkpoint->points);
                 $ep->increment('total_points', $checkpoint->points);
 
-                // Update event remaining pool
-                $event->decrement('remaining_point_pool', $checkpoint->points);
-
                 // Log activity
                 Activity::create([
                     'user_id' => $ep->user_id,

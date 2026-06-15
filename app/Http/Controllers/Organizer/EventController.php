@@ -48,7 +48,6 @@ class EventController extends Controller
         $validated['organizer_id'] = $request->user()->id;
         $validated['status'] = 'draft';
         $validated['is_active'] = true;
-        $validated['remaining_point_pool'] = $validated['point_pool'];
 
         if ($request->hasFile('banner')) {
             $path = $request->file('banner')->store('events', 'public');
@@ -133,6 +132,10 @@ class EventController extends Controller
         }
 
         $event->update($validated);
+
+        if (($event->point_distribution_mode ?? 'automatic') === 'automatic') {
+            $event->distributePointsAutomatically();
+        }
 
         return redirect()->route('organizer.events.show', $event->id)
             ->with('success', 'Event berhasil diperbarui.');

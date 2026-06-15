@@ -36,8 +36,7 @@ class LeaderboardSeeder extends Seeder
             'banner' => 'https://images.unsplash.com/photo-1502224562085-639556652f33?auto=format&fit=crop&q=80&w=800',
             'total_rewards' => 'Rp 50.000.000',
             'max_points' => 3000,
-            'point_pool' => 500000,
-            'remaining_point_pool' => 500000,
+            'total_point_pool' => 500000,
             'status' => 'ongoing',
             'join_code' => 'CHAMP26',
         ]);
@@ -136,7 +135,6 @@ class LeaderboardSeeder extends Seeder
                 $reg->increment('completed_checkpoints');
                 $reg->increment('current_event_points', $checkpoint->points);
                 $reg->increment('total_points', $checkpoint->points);
-                $event->decrement('remaining_point_pool', $checkpoint->points);
             }
 
             if ($reg->completed_checkpoints >= $event->total_checkpoints) {

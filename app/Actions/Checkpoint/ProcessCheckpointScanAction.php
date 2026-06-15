@@ -51,45 +51,68 @@ class ProcessCheckpointScanAction
             throw new \Exception('Checkpoint ini sudah pernah Anda scan.');
         }
 
-        if ($participant->current_event_points + $checkpoint->points > $event->max_points) {
-            throw new \Exception(
-                'Batas maksimal poin per peserta untuk event ini adalah '.number_format($event->max_points).' poin.'
-            );
-        }
+        $pointsAwarded = 0;
 
-        DB::transaction(function () use ($user, $event, $checkpoint, $participant) {
+        DB::transaction(function () use ($user, $event, $checkpoint, $participant, &$pointsAwarded) {
             $lockedEvent = Event::where('id', $event->id)->lockForUpdate()->first();
+            $lockedCheckpoint = Checkpoint::with('bonusTiers')->where('id', $checkpoint->id)->lockForUpdate()->first();
 
-            if ($lockedEvent->remaining_point_pool < $checkpoint->points) {
-                throw new \Exception('Poin event telah habis.');
+            $scanCount = CheckpointScan::where('checkpoint_id', $lockedCheckpoint->id)->count();
+            $rank = $scanCount + 1;
+
+            $bonusTiers = $lockedCheckpoint->bonusTiers;
+            $useTiers = $bonusTiers->isNotEmpty();
+
+            $basePoint = (int) $lockedCheckpoint->point;
+            $tierPoint = 0;
+
+            if ($useTiers) {
+                $matchingTier = null;
+                foreach ($bonusTiers as $tier) {
+                    $minRank = (int) ($tier->rank_start ?? 1);
+                    $maxRank = $tier->rank_end !== null ? (int) $tier->rank_end : null;
+
+                    if ($rank >= $minRank && ($maxRank === null || $rank <= $maxRank)) {
+                        $matchingTier = $tier;
+                        break;
+                    }
+                }
+
+                if ($matchingTier) {
+                    $percentage = (float) ($matchingTier->bonus_percentage ?? 0);
+                    $tierPoint = (int) floor($basePoint * ($percentage / 100));
+                }
             }
+
+            $totalPoint = $useTiers ? $tierPoint : $basePoint;
+            $pointsAwarded = $totalPoint;
 
             CheckpointScan::create([
                 'user_id' => $user->id,
                 'event_id' => $lockedEvent->id,
-                'checkpoint_id' => $checkpoint->id,
-                'points_awarded' => $checkpoint->points,
+                'checkpoint_id' => $lockedCheckpoint->id,
+                'base_point' => $basePoint,
+                'bonus_point' => $useTiers ? $tierPoint : 0,
+                'total_point' => $totalPoint,
                 'scanned_at' => now(),
             ]);
 
             $participant->increment('completed_checkpoints');
-            $participant->increment('current_event_points', $checkpoint->points);
-            $participant->increment('total_points', $checkpoint->points);
+            $participant->increment('current_event_points', $totalPoint);
+            $participant->increment('total_points', $totalPoint);
 
             Activity::create([
                 'user_id' => $user->id,
                 'event_id' => $lockedEvent->id,
                 'activity_type' => 'scan_checkpoint',
-                'description' => 'berhasil scan '.$checkpoint->name,
-                'points' => $checkpoint->points,
+                'description' => 'berhasil scan '.$lockedCheckpoint->name,
+                'points' => $totalPoint,
             ]);
-
-            $lockedEvent->decrement('remaining_point_pool', $checkpoint->points);
         });
 
         return [
             'checkpoint_name' => $checkpoint->name,
-            'points_awarded' => $checkpoint->points,
+            'points_awarded' => $pointsAwarded,
             'total_points' => $participant->fresh()->current_event_points,
         ];
     }

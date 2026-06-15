@@ -36,6 +36,45 @@
             </div>
         @endif
 
+        <!-- Point Distribution Configuration Card -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-150 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald/10 text-emerald flex items-center justify-center flex-shrink-0" style="background-color: rgba(46,207,137,0.1); color: #2ECF89;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.904-4.473L21 9l-3.486-3.486L9.813 15.904z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-extrabold text-gray-800">Skema Distribusi Poin</h3>
+                        <p class="text-xs text-gray-500">Poin didistribusikan ke checkpoint secara otomatis/kustom.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4 text-xs">
+                    <div class="p-3 bg-gray-50 rounded-xl text-right">
+                        <span class="block text-[10px] uppercase font-bold tracking-wider text-gray-400">Total Point Pool</span>
+                        <span class="text-sm font-extrabold text-gray-800">{{ number_format($event->total_point_pool) }} Pts</span>
+                    </div>
+
+                    @php
+                        $allocatedPoints = $checkpoints->sum('point');
+                        $remainingPoints = $event->total_point_pool - $allocatedPoints;
+                    @endphp
+
+                    <div class="p-3 bg-gray-50 rounded-xl text-right">
+                        <span class="block text-[10px] uppercase font-bold tracking-wider text-gray-400">Poin Teralokasi</span>
+                        <span class="text-sm font-extrabold text-gray-800">{{ number_format($allocatedPoints) }} Pts</span>
+                    </div>
+                    
+                    <div class="p-3 rounded-xl text-right {{ $remainingPoints < 0 ? 'bg-red-50 text-red-700 border border-red-100' : ($remainingPoints === 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-blue-50 text-blue-700 border border-blue-100') }}" style="{{ $remainingPoints === 0 ? 'background-color: rgba(46,207,137,0.05); color: #003F2F;' : '' }}">
+                        <span class="block text-[10px] uppercase font-bold tracking-wider {{ $remainingPoints === 0 ? 'text-emerald-600' : 'text-gray-400' }}">Sisa Poin</span>
+                        <span class="text-sm font-extrabold">{{ number_format($remainingPoints) }} Pts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Loading Skeleton Placeholder (DoD loading state requirement) --}}
         <div id="loading-skeleton" class="hidden space-y-4">
             @for($i = 0; $i < 3; $i++)
@@ -108,7 +147,13 @@
                             <div class="flex gap-4 text-xs text-gray-400 text-right">
                                 <div>
                                     <span class="block text-[10px] uppercase font-bold tracking-wider text-gray-400 leading-none mb-1">Poin</span>
-                                    <span class="font-bold text-gray-800">+{{ $checkpoint->points }} Pts</span>
+                                    <span class="font-bold text-gray-800">{{ number_format($checkpoint->point) }} Pts</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] uppercase font-bold tracking-wider text-gray-400 leading-none mb-1">Tipe Distribusi</span>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold {{ $checkpoint->is_custom_point ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800' }}">
+                                        {{ $checkpoint->is_custom_point ? 'Kustom' : 'Otomatis' }}
+                                    </span>
                                 </div>
                             </div>
 

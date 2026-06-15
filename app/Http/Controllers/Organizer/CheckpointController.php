@@ -9,6 +9,7 @@ use App\Models\Checkpoint;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CheckpointController extends Controller
@@ -53,9 +54,30 @@ class CheckpointController extends Controller
         }
 
         $validated = $request->validated();
-        $validated['event_id'] = $event->id;
 
-        Checkpoint::create($validated);
+        DB::transaction(function () use ($validated, $event, $request) {
+            $isCustom = $request->boolean('is_custom_point');
+            $checkpoint = Checkpoint::create([
+                'event_id' => $event->id,
+                'name' => $validated['name'],
+                'location' => $validated['location'] ?? null,
+                'description' => $validated['description'] ?? null,
+                'sequence' => $validated['sequence'],
+                'status' => $validated['status'],
+                'is_custom_point' => $isCustom,
+                'point' => $isCustom ? (int) ($request->input('points') ?? 0) : 0,
+            ]);
+
+            if ($request->has('bonus_tiers')) {
+                foreach ($request->input('bonus_tiers') as $tier) {
+                    $checkpoint->bonusTiers()->create([
+                        'rank_start' => (int) $tier['rank_start'],
+                        'rank_end' => isset($tier['rank_end']) && $tier['rank_end'] !== '' ? (int) $tier['rank_end'] : null,
+                        'bonus_percentage' => (float) $tier['bonus_percentage'],
+                    ]);
+                }
+            }
+        });
 
         return redirect()->route('organizer.events.checkpoints.index', $event->id)
             ->with('success', 'Checkpoint berhasil dibuat.');
@@ -100,7 +122,34 @@ class CheckpointController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $checkpoint->update($request->validated());
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($validated, $checkpoint, $request) {
+            $isCustom = $request->boolean('is_custom_point');
+            $checkpoint->update([
+                'name' => $validated['name'],
+                'location' => $validated['location'] ?? null,
+                'description' => $validated['description'] ?? null,
+                'sequence' => $validated['sequence'],
+                'status' => $validated['status'],
+                'is_custom_point' => $isCustom,
+                'point' => $isCustom ? (int) ($request->input('points') ?? 0) : 0,
+            ]);
+
+            $checkpoint->bonusTiers()->delete();
+            if ($request->has('bonus_tiers')) {
+                foreach ($request->input('bonus_tiers') as $tier) {
+                    $checkpoint->bonusTiers()->create([
+                        'rank_start' => (int) $tier['rank_start'],
+                        'rank_end' => isset($tier['rank_end']) && $tier['rank_end'] !== '' ? (int) $tier['rank_end'] : null,
+                        'bonus_percentage' => (float) $tier['bonus_percentage'],
+                    ]);
+                }
+            }
+        });
+
+        // Trigger automatic redistribution for non-custom checkpoints
+        $checkpoint->event->distributePointsAutomatically();
 
         return redirect()->route('organizer.checkpoints.show', $checkpoint->id)
             ->with('success', 'Checkpoint berhasil diperbarui.');
@@ -115,6 +164,10 @@ class CheckpointController extends Controller
 
         if ($checkpoint->event->organizer_id !== $request->user()->id) {
             abort(403, 'Unauthorized action.');
+        }
+
+        if ($checkpoint->scans()->exists()) {
+            return back()->withErrors(['error' => 'Checkpoint tidak dapat dihapus karena sudah memiliki riwayat scan peserta.']);
         }
 
         $eventId = $checkpoint->event_id;

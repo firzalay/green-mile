@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code', 'point_pool', 'remaining_point_pool'])]
+#[Fillable(['name', 'location', 'start_date', 'end_date', 'total_checkpoints', 'is_active', 'banner', 'description', 'total_rewards', 'max_points', 'organizer_id', 'max_participants', 'status', 'user_id', 'join_code', 'total_point_pool'])]
 class Event extends Model
 {
     /** @use HasFactory<EventFactory> */
@@ -44,8 +44,7 @@ class Event extends Model
             'start_date' => 'date',
             'end_date' => 'date',
             'is_active' => 'boolean',
-            'point_pool' => 'integer',
-            'remaining_point_pool' => 'integer',
+            'total_point_pool' => 'integer',
         ];
     }
 
@@ -198,11 +197,11 @@ class Event extends Model
      */
     public function distributedPoints(): int
     {
-        return $this->point_pool - $this->remaining_point_pool;
+        return (int) $this->checkpoints()->sum('point');
     }
 
     /**
-     * Update the point pool total, recalculating remaining pool.
+     * Update the point pool total.
      *
      * @throws \InvalidArgumentException if new total is less than distributed points
      */
@@ -217,9 +216,56 @@ class Event extends Model
         }
 
         $this->update([
-            'point_pool' => $newTotal,
-            'remaining_point_pool' => $newTotal - $distributed,
+            'total_point_pool' => $newTotal,
         ]);
+    }
+
+    /**
+     * Accessor for backward compatibility with total_event_point.
+     */
+    public function getTotalEventPointAttribute(): int
+    {
+        return (int) ($this->attributes['total_point_pool'] ?? 0);
+    }
+
+    /**
+     * Mutator for backward compatibility with total_event_point.
+     */
+    public function setTotalEventPointAttribute($value): void
+    {
+        $this->attributes['total_point_pool'] = (int) $value;
+    }
+
+    /**
+     * Accessor for backward compatibility with point_pool.
+     */
+    public function getPointPoolAttribute(): int
+    {
+        return (int) ($this->attributes['total_point_pool'] ?? 0);
+    }
+
+    /**
+     * Mutator for backward compatibility with point_pool.
+     */
+    public function setPointPoolAttribute($value): void
+    {
+        $this->attributes['total_point_pool'] = (int) $value;
+    }
+
+    /**
+     * Accessor for backward compatibility with remaining_point_pool.
+     */
+    public function getRemainingPointPoolAttribute(): int
+    {
+        return $this->total_point_pool - $this->distributedPoints();
+    }
+
+    /**
+     * Mutator for backward compatibility with remaining_point_pool.
+     */
+    public function setRemainingPointPoolAttribute($value): void
+    {
+        // Ignored
     }
 
     /**
@@ -232,5 +278,43 @@ class Event extends Model
         } while (static::where('join_code', $code)->exists());
 
         return $code;
+    }
+
+    public function distributePointsAutomatically(): void
+    {
+        $checkpoints = $this->checkpoints()->orderBy('sequence')->get();
+        $count = $checkpoints->count();
+
+        if ($count === 0) {
+            return;
+        }
+
+        $customCheckpoints = $checkpoints->filter(fn ($cp) => $cp->is_custom_point);
+        $nonCustomCheckpoints = $checkpoints->filter(fn ($cp) => ! $cp->is_custom_point);
+
+        $customSum = (int) $customCheckpoints->sum('point');
+        $totalPool = (int) $this->total_point_pool;
+
+        $remainingPool = max(0, $totalPool - $customSum);
+        $nonCustomCount = $nonCustomCheckpoints->count();
+
+        if ($nonCustomCount > 0) {
+            $basePoint = (int) floor($remainingPool / $nonCustomCount);
+            $remainder = (int) ($remainingPool % $nonCustomCount);
+
+            foreach ($nonCustomCheckpoints->values() as $index => $checkpoint) {
+                $pointValue = $basePoint;
+                if ($index === $nonCustomCount - 1) {
+                    $pointValue += $remainder;
+                }
+
+                Checkpoint::withoutEvents(function () use ($checkpoint, $pointValue) {
+                    $checkpoint->update([
+                        'point' => $pointValue,
+                        'points' => $pointValue,
+                    ]);
+                });
+            }
+        }
     }
 }

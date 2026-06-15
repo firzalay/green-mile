@@ -108,6 +108,7 @@ describe('organizer checkpoint management crud operations', function () {
             'description' => 'Verify bib numbers here.',
             'sequence' => 1,
             'points' => 100,
+            'is_custom_point' => true,
             'status' => 'active',
         ];
 
@@ -122,6 +123,7 @@ describe('organizer checkpoint management crud operations', function () {
             'description' => 'Verify bib numbers here.',
             'sequence' => 1,
             'points' => 100,
+            'is_custom_point' => true,
             'status' => 'active',
         ]);
     });
@@ -167,6 +169,7 @@ describe('organizer checkpoint management crud operations', function () {
             'description' => 'Updated Description',
             'sequence' => 5,
             'points' => 150,
+            'is_custom_point' => true,
             'status' => 'inactive',
         ];
 
@@ -181,6 +184,7 @@ describe('organizer checkpoint management crud operations', function () {
             'description' => 'Updated Description',
             'sequence' => 5,
             'points' => 150,
+            'is_custom_point' => true,
             'status' => 'inactive',
         ]);
     });

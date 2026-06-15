@@ -161,36 +161,6 @@ describe('qr scan processing', function () {
             ]);
     });
 
-    it('rejects scans if participant points will exceed the event max points limit', function () {
-        $participant = User::factory()->create(['role' => 'participant']);
-        $event = Event::factory()->create([
-            'status' => 'ongoing',
-            'max_points' => 100,
-        ]);
-        $checkpoint = Checkpoint::factory()->create([
-            'event_id' => $event->id,
-            'status' => 'active',
-            'points' => 50,
-            'qr_token' => (string) Str::uuid(),
-        ]);
-
-        EventParticipant::factory()->create([
-            'user_id' => $participant->id,
-            'event_id' => $event->id,
-            'completed_checkpoints' => 1,
-            'current_event_points' => 60,
-            'total_points' => 100,
-        ]);
-
-        $this->actingAs($participant)
-            ->postJson(route('scanner.scan'), ['qr_token' => $checkpoint->qr_token])
-            ->assertStatus(422)
-            ->assertJson([
-                'status' => 'error',
-                'message' => 'Batas maksimal poin per peserta untuk event ini adalah 100 poin.',
-            ]);
-    });
-
     it('successfully scans QR, awards points, updates participant stats, and logs activity', function () {
         $participant = User::factory()->create(['role' => 'participant']);
         $event = Event::factory()->create(['status' => 'ongoing']);
@@ -198,6 +168,7 @@ describe('qr scan processing', function () {
             'event_id' => $event->id,
             'status' => 'active',
             'points' => 50,
+            'is_custom_point' => true,
             'qr_token' => (string) Str::uuid(),
             'name' => 'Pos Eco 1',
         ]);

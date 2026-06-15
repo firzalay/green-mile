@@ -16,6 +16,30 @@ class StoreEventRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $mergeData = [];
+
+        $totalPointPool = $this->input('total_point_pool') ?? $this->input('total_event_point') ?? $this->input('point_pool');
+
+        if ($totalPointPool !== null) {
+            $mergeData['total_point_pool'] = (int) $totalPointPool;
+            $mergeData['total_event_point'] = (int) $totalPointPool;
+            $mergeData['point_pool'] = (int) $totalPointPool;
+        }
+
+        if (! $this->has('max_points') && $totalPointPool !== null) {
+            $mergeData['max_points'] = (int) $totalPointPool;
+        }
+
+        if (! empty($mergeData)) {
+            $this->merge($mergeData);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -30,9 +54,11 @@ class StoreEventRequest extends FormRequest
             'banner' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'description' => ['nullable', 'string'],
             'total_rewards' => ['nullable', 'string', 'max:255'],
-            'max_points' => ['required', 'integer', 'min:1'],
             'max_participants' => ['nullable', 'integer', 'min:1'],
+            'total_point_pool' => ['required', 'integer', 'min:1'],
+            'total_event_point' => ['required', 'integer', 'min:1'],
             'point_pool' => ['required', 'integer', 'min:1'],
+            'max_points' => ['required', 'integer', 'min:1'],
         ];
     }
 
@@ -59,6 +85,15 @@ class StoreEventRequest extends FormRequest
             'banner.image' => 'File banner harus berupa gambar.',
             'banner.mimes' => 'Format banner harus jpeg, png, jpg, atau webp.',
             'banner.max' => 'Ukuran banner tidak boleh lebih dari 2MB.',
+            'total_event_point.required' => 'Total poin event wajib diisi.',
+            'total_event_point.min' => 'Total poin event minimal 0.',
+            'point_distribution_mode.required' => 'Mode distribusi poin wajib diisi.',
+            'point_distribution_mode.in' => 'Mode distribusi poin tidak valid.',
+            'fastest_participant_limit.required' => 'Batas peserta tercepat wajib diisi.',
+            'fastest_participant_limit.min' => 'Batas peserta tercepat minimal 0.',
+            'bonus_percentage.required' => 'Persentase bonus wajib diisi.',
+            'bonus_percentage.min' => 'Persentase bonus minimal 0.',
+            'bonus_percentage.max' => 'Persentase bonus maksimal 100.',
         ];
     }
 }
