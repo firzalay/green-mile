@@ -116,6 +116,40 @@ class User extends Authenticatable
     }
 
     /**
+     * Get dashboard statistics for an organizer user.
+     *
+     * @return array{total_events: int, active_events: int, total_participants: int}
+     */
+    public function organizerStats(): array
+    {
+        $eventIds = $this->events()->pluck('id')->toArray();
+
+        return [
+            'total_events' => $this->events()->count(),
+            'active_events' => $this->events()->where('is_active', true)->count(),
+            'total_participants' => EventParticipant::whereIn('event_id', $eventIds)
+                ->distinct('user_id')
+                ->count('user_id'),
+        ];
+    }
+
+    /**
+     * Get profile statistics for a participant user.
+     *
+     * @return array{total_points: int, events_joined: int, events_completed: int, checkpoints_scanned: int, rewards_redeemed: int}
+     */
+    public function participantStats(): array
+    {
+        return [
+            'total_points' => $this->eventParticipants()->sum('current_event_points'),
+            'events_joined' => $this->eventParticipants()->count(),
+            'events_completed' => $this->eventParticipants()->where('status', 'completed')->count(),
+            'checkpoints_scanned' => $this->checkpointScans()->count(),
+            'rewards_redeemed' => $this->rewardRedemptions()->count(),
+        ];
+    }
+
+    /**
      * Calculate user's available points dynamically.
      */
     public function getPointsAttribute(): int

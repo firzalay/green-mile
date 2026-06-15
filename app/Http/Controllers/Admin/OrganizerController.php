@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class AdminOrganizerController extends Controller
+class OrganizerController extends Controller
 {
     /**
      * Display a listing of organizers, statistics, and approval history.
      */
-    public function index(Request $request): View
+    public function index(): View
     {
         $totalOrganizers = User::where('role', 'organizer')->count();
         $pendingCount = User::where('role', 'organizer')->where('status', 'pending')->count();

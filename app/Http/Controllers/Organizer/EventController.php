@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\StoreEventRequest;
 use App\Http\Requests\Event\UpdateEventRequest;
 use App\Models\Event;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class OrganizerEventController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the organizer's events.
@@ -112,12 +113,13 @@ class OrganizerEventController extends Controller
 
         $validated = $request->validated();
 
-        $distributed = $event->point_pool - $event->remaining_point_pool;
-        if ($validated['point_pool'] < $distributed) {
-            return back()->withErrors(['point_pool' => 'Total Point Pool tidak boleh kurang dari poin yang sudah dibagikan ('.number_format($distributed).' poin).'])->withInput();
+        try {
+            $event->updatePointPool((int) $validated['point_pool']);
+        } catch (\InvalidArgumentException $e) {
+            return back()->withErrors(['point_pool' => $e->getMessage()])->withInput();
         }
 
-        $validated['remaining_point_pool'] = $validated['point_pool'] - $distributed;
+        unset($validated['point_pool']);
 
         if ($request->hasFile('banner')) {
             $rawBanner = $event->getRawOriginal('banner');

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkpoint\StoreCheckpointRequest;
 use App\Http\Requests\Checkpoint\UpdateCheckpointRequest;
 use App\Models\Checkpoint;
@@ -10,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class OrganizerCheckpointController extends Controller
+class CheckpointController extends Controller
 {
     /**
      * Display a listing of the checkpoints for a specific event.
@@ -37,7 +38,6 @@ class OrganizerCheckpointController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Get the next sequence number by default
         $nextSequence = $event->checkpoints()->max('sequence') + 1;
 
         return view('organizer.checkpoints.create', compact('event', 'nextSequence'));

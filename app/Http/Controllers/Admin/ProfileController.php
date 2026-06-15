@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ChangePasswordRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class AdminProfileController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Show the admin's profile.
@@ -19,7 +20,6 @@ class AdminProfileController extends Controller
     {
         $user = $request->user();
 
-        // Calculate statistics based on organizers approved/rejected by this admin
         $approvedCount = $user->approvedOrganizers()->where('status', 'approved')->count();
         $rejectedCount = $user->approvedOrganizers()->where('status', 'rejected')->count();
         $totalReviews = $user->approvedOrganizers()->count();

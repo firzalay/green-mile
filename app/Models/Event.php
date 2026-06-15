@@ -194,6 +194,35 @@ class Event extends Model
     }
 
     /**
+     * Get the total points already distributed from the point pool.
+     */
+    public function distributedPoints(): int
+    {
+        return $this->point_pool - $this->remaining_point_pool;
+    }
+
+    /**
+     * Update the point pool total, recalculating remaining pool.
+     *
+     * @throws \InvalidArgumentException if new total is less than distributed points
+     */
+    public function updatePointPool(int $newTotal): void
+    {
+        $distributed = $this->distributedPoints();
+
+        if ($newTotal < $distributed) {
+            throw new \InvalidArgumentException(
+                'Total Point Pool tidak boleh kurang dari poin yang sudah dibagikan ('.number_format($distributed).' poin).'
+            );
+        }
+
+        $this->update([
+            'point_pool' => $newTotal,
+            'remaining_point_pool' => $newTotal - $distributed,
+        ]);
+    }
+
+    /**
      * Generate a unique event join code.
      */
     public static function generateUniqueJoinCode(): string

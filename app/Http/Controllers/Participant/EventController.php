@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Participant;
 
+use App\Actions\Event\JoinEventAction;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\JoinEventRequest;
 use App\Models\Event;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -53,5 +57,30 @@ class EventController extends Controller
             'event' => $event,
             'isJoined' => $isJoined,
         ]);
+    }
+
+    /**
+     * Show the event join form.
+     */
+    public function showJoinForm(Request $request): View
+    {
+        return view('events.join', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    /**
+     * Join an event using a join code.
+     */
+    public function joinWithCode(JoinEventRequest $request, JoinEventAction $action): RedirectResponse
+    {
+        try {
+            $event = $action->execute($request->user(), $request->input('join_code'));
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage())->withInput();
+        }
+
+        return redirect()->route('events.show', $event->id)
+            ->with('success', "Berhasil bergabung ke {$event->name}");
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Participant;
 
+use App\Http\Controllers\Controller;
 use App\Models\EventParticipant;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

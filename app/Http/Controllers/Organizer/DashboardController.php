@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
 use App\Models\Activity;
-use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class OrganizerDashboardController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display the organizer dashboard.
@@ -17,20 +17,12 @@ class OrganizerDashboardController extends Controller
     {
         $user = $request->user();
 
-        // Ensure user is organizer
         if (! $user->isOrganizer()) {
             abort(403, 'Unauthorized action.');
         }
 
         $eventIds = $user->events()->pluck('id')->toArray();
-
-        // Statistics Cards data
-        $totalEvents = $user->events()->count();
-        $activeEvents = $user->events()->where('is_active', true)->count();
-
-        $totalParticipants = EventParticipant::whereIn('event_id', $eventIds)
-            ->distinct('user_id')
-            ->count('user_id');
+        $stats = $user->organizerStats();
 
         $totalScansToday = Activity::whereIn('event_id', $eventIds)
             ->where('activity_type', 'scan_checkpoint')
@@ -41,24 +33,19 @@ class OrganizerDashboardController extends Controller
         $totalRemainingPointPool = $user->events()->sum('remaining_point_pool');
         $totalDistributedPoints = $totalPointPool - $totalRemainingPointPool;
 
-        // Event Overview list
         $events = $user->events()
             ->withCount('participants')
             ->withCount('checkpoints')
             ->orderBy('start_date')
             ->get();
 
-        // Active Event Performance (Ongoing event)
         $activeEvent = $user->events()
             ->where('is_active', true)
             ->whereDate('start_date', '<=', now()->toDateString())
             ->first();
 
-        // Fallback to any active event if no ongoing today
         if (! $activeEvent) {
-            $activeEvent = $user->events()
-                ->where('is_active', true)
-                ->first();
+            $activeEvent = $user->events()->where('is_active', true)->first();
         }
 
         $activePerformance = null;
@@ -86,7 +73,6 @@ class OrganizerDashboardController extends Controller
             ];
         }
 
-        // Recent Activity feed
         $recentActivities = Activity::whereIn('event_id', $eventIds)
             ->with(['user', 'event'])
             ->latest()
@@ -95,9 +81,9 @@ class OrganizerDashboardController extends Controller
 
         return view('organizer.dashboard.index', [
             'user' => $user,
-            'totalEvents' => $totalEvents,
-            'activeEvents' => $activeEvents,
-            'totalParticipants' => $totalParticipants,
+            'totalEvents' => $stats['total_events'],
+            'activeEvents' => $stats['active_events'],
+            'totalParticipants' => $stats['total_participants'],
             'totalScansToday' => $totalScansToday,
             'events' => $events,
             'activePerformance' => $activePerformance,

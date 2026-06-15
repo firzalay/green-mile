@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -73,48 +71,6 @@ class AuthController extends Controller
         return back()
             ->withInput($request->only('email'))
             ->with('error', 'Email atau password yang kamu masukkan tidak valid.');
-    }
-
-    /**
-     * Show the registration form.
-     */
-    public function showRegister(): View|RedirectResponse
-    {
-        if (Auth::check()) {
-            if (auth()->user()->isSuperAdmin()) {
-                return redirect()->route('admin.organizers.index');
-            }
-
-            return auth()->user()->isOrganizer()
-                ? redirect()->route('organizer.dashboard')
-                : redirect()->route('dashboard');
-        }
-
-        return view('auth.register');
-    }
-
-    /**
-     * Handle a registration request.
-     */
-    public function register(RegisterRequest $request): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        Auth::login($user);
-
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('admin.organizers.index');
-        }
-
-        return $user->isOrganizer()
-            ? redirect()->route('organizer.dashboard')
-            : redirect()->route('dashboard');
     }
 
     /**

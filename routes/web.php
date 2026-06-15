@@ -1,25 +1,23 @@
 <?php
 
-use App\Http\Controllers\AdminOrganizerController;
-use App\Http\Controllers\AdminProfileController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\LeaderboardController;
-use App\Http\Controllers\OrganizerCheckpointController;
-use App\Http\Controllers\OrganizerDashboardController;
-use App\Http\Controllers\OrganizerEventController;
-use App\Http\Controllers\OrganizerProfileController;
-use App\Http\Controllers\OrganizerQrController;
-use App\Http\Controllers\OrganizerRegistrationController;
-use App\Http\Controllers\OrganizerRewardController;
-use App\Http\Controllers\ParticipantEventController;
-use App\Http\Controllers\ParticipantRegistrationController;
-use App\Http\Controllers\ParticipantScannerController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\RewardController;
-use App\Http\Controllers\RewardHistoryController;
+use App\Http\Controllers\Admin\OrganizerController as AdminOrganizerController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\OrganizerRegistrationController;
+use App\Http\Controllers\Auth\ParticipantRegistrationController;
+use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Organizer\CheckpointController as OrganizerCheckpointController;
+use App\Http\Controllers\Organizer\DashboardController as OrganizerDashboardController;
+use App\Http\Controllers\Organizer\EventController as OrganizerEventController;
+use App\Http\Controllers\Organizer\ProfileController as OrganizerProfileController;
+use App\Http\Controllers\Organizer\QrController as OrganizerQrController;
+use App\Http\Controllers\Organizer\RewardController as OrganizerRewardController;
+use App\Http\Controllers\Participant\DashboardController;
+use App\Http\Controllers\Participant\EventController;
+use App\Http\Controllers\Participant\LeaderboardController;
+use App\Http\Controllers\Participant\ProfileController;
+use App\Http\Controllers\Participant\RewardController;
+use App\Http\Controllers\Participant\ScannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -60,8 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
-    Route::get('/events/join', [ParticipantEventController::class, 'showJoinForm'])->name('events.join');
-    Route::post('/events/join', [ParticipantEventController::class, 'joinWithCode'])->name('events.join.submit');
+    Route::get('/events/join', [EventController::class, 'showJoinForm'])->name('events.join');
+    Route::post('/events/join', [EventController::class, 'joinWithCode'])->name('events.join.submit');
     Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 });
 
@@ -69,12 +67,12 @@ Route::middleware(['auth', 'role:participant'])->group(function () {
     Route::get('/scanner-test', function () {
         return view('scanner-test');
     });
-    Route::get('/scanner', [ParticipantScannerController::class, 'index'])->name('scanner.index');
-    Route::post('/scanner/scan', [ParticipantScannerController::class, 'scan'])->name('scanner.scan');
+    Route::get('/scanner', [ScannerController::class, 'index'])->name('scanner.index');
+    Route::post('/scanner/scan', [ScannerController::class, 'scan'])->name('scanner.scan');
 
     // Reward System routes
     Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
-    Route::get('/rewards/history', [RewardHistoryController::class, 'index'])->name('rewards.history');
+    Route::get('/rewards/history', [RewardController::class, 'history'])->name('rewards.history');
     Route::get('/rewards/{id}', [RewardController::class, 'show'])->name('rewards.show');
     Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
 
