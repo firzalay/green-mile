@@ -12,10 +12,10 @@
         </div>
 
         {{-- Header Section --}}
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-150 pb-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5">
             <div>
                 <h1 class="text-2xl font-black text-gray-900 tracking-tight">Checkpoint Event</h1>
-                <p class="text-sm text-gray-500 mt-1">Mengelola rute and checkpoint untuk event <span class="font-semibold text-gray-700">{{ $event->name }}</span>.</p>
+                <p class="text-sm text-gray-500 mt-1">Mengelola rute dan checkpoint untuk event <span class="font-semibold text-gray-700">{{ $event->name }}</span>.</p>
             </div>
             <div>
                 <a href="{{ route('organizer.events.checkpoints.create', $event->id) }}" id="btn-tambah-checkpoint" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-forest hover:bg-forest/90 transition-all shadow-sm" style="background-color: #003F2F;">
@@ -37,7 +37,7 @@
         @endif
 
         <!-- Point Distribution Configuration Card -->
-        <div class="bg-white rounded-2xl p-5 border border-gray-150 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+        <div class="bg-white rounded-2xl p-5 shadow-sm space-y-4 hover:shadow-md transition-shadow">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald/10 text-emerald flex items-center justify-center flex-shrink-0" style="background-color: rgba(46,207,137,0.1); color: #2ECF89;">

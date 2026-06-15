@@ -127,17 +127,6 @@
                     @enderror
                 </div>
 
-
-
-            <!-- Point Pool Configuration Section -->
-            <div class="bg-gray-50 border border-gray-150 rounded-2xl p-6 space-y-4">
-                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: #2ECF89;">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.904-4.473L21 9l-3.486-3.486L9.813 15.904z" />
-                    </svg>
-                    Konfigurasi Poin Event
-                </h3>
-
                 <div class="space-y-1.5 max-w-md">
                     <label for="total_point_pool" class="block text-sm font-semibold text-gray-700">Total Point Pool <span class="text-red-500">*</span></label>
                     <input type="number" id="total_point_pool" name="total_point_pool" value="{{ old('total_point_pool', 60000) }}" min="1" required
