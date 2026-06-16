@@ -1,4 +1,4 @@
-<x-app-layout title="Detail Organizer – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Detail Organizer – GreenMile" :user="auth()->user()">
     <div class="px-4 py-6 max-w-4xl mx-auto space-y-6 animate-fade-in">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2 text-xs text-gray-400">

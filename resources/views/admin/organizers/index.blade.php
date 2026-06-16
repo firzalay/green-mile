@@ -1,4 +1,4 @@
-<x-app-layout title="Review Organizer – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Review Organizer – GreenMile" :user="auth()->user()">
     <div class="px-4 py-6 max-w-5xl mx-auto space-y-8 animate-fade-in">
         {{-- Header Section --}}
         <div>

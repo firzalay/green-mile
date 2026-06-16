@@ -174,7 +174,7 @@ describe('organizer status login restrictions', function () {
             'email' => $rejectedOrganizer->email,
             'password' => 'password123',
         ])->assertRedirect()
-            ->assertSessionHas('error', 'Pendaftaran organizer Anda belum dapat disetujui. Silakan hubungi tim Jejak Hijau untuk informasi lebih lanjut.');
+            ->assertSessionHas('error', 'Pendaftaran organizer Anda belum dapat disetujui. Silakan hubungi tim GreenMile untuk informasi lebih lanjut.');
 
         $this->assertGuest();
     });

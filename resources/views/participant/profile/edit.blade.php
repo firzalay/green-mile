@@ -1,4 +1,4 @@
-<x-app-layout title="Edit Profil – Jejak Hijau" :user="$user">
+<x-app-layout title="Edit Profil – GreenMile" :user="$user">
     <div class="px-4 py-6 max-w-xl mx-auto space-y-6 animate-fade-in">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2 border-b border-gray-150 pb-5">

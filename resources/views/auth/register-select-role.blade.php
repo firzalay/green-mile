@@ -1,4 +1,4 @@
-<x-auth-layout title="Pilih Peran – Jejak Hijau">
+<x-auth-layout title="Pilih Peran – GreenMile">
 
     {{-- Heading --}}
     <div class="mb-8 animate-fade-in-up">

@@ -1,4 +1,4 @@
-<x-app-layout title="Profil Organisasi – Jejak Hijau" :user="$user">
+<x-app-layout title="Profil Organisasi – GreenMile" :user="$user">
     <div class="space-y-6 max-w-2xl mx-auto pb-10">
         {{-- Header Section --}}
         <section class="animate-fade-in-up flex items-center justify-between">

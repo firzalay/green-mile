@@ -1,4 +1,4 @@
-<x-app-layout title="{{ $reward->name }} – Jejak Hijau" :user="$user">
+<x-app-layout title="{{ $reward->name }} – GreenMile" :user="$user">
     <div class="space-y-6">
         {{-- Navigation & Back --}}
         <div class="animate-fade-in-up">

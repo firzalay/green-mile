@@ -1,4 +1,4 @@
-<x-app-layout title="Profil Saya – Jejak Hijau" :user="$user">
+<x-app-layout title="Profil Saya – GreenMile" :user="$user">
     <div class="space-y-6 max-w-2xl mx-auto pb-10">
         {{-- Header Section --}}
         <section class="animate-fade-in-up flex items-center justify-between">

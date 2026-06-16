@@ -123,7 +123,7 @@
         </div>
 
         <p class="instruction">Scan QR ini untuk mendapatkan poin checkpoint.</p>
-        <p class="sub-instruction">Jejak Hijau – Bersama Menjaga Lingkungan</p>
+        <p class="sub-instruction">GreenMile – Bersama Menjaga Lingkungan</p>
     </div>
 
     <script>

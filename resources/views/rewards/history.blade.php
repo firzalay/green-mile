@@ -1,4 +1,4 @@
-<x-app-layout title="Riwayat Penukaran – Jejak Hijau" :user="$user">
+<x-app-layout title="Riwayat Penukaran – GreenMile" :user="$user">
     <div class="space-y-6">
         {{-- Navigation & Back --}}
         <div class="animate-fade-in-up">
@@ -32,7 +32,7 @@
         <section class="animate-fade-in-up">
             <h2 class="font-bold text-2xl" style="color: #111827;">Riwayat Penukaran</h2>
             <p class="text-sm mt-1" style="color: #6B7280;">
-                Daftar lengkap seluruh transaksi penukaran poin Anda untuk reward Jejak Hijau.
+                Daftar lengkap seluruh transaksi penukaran poin Anda untuk reward GreenMile.
             </p>
         </section>
 

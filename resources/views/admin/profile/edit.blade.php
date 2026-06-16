@@ -1,4 +1,4 @@
-<x-app-layout title="Edit Profil Admin – Jejak Hijau" :user="$user">
+<x-app-layout title="Edit Profil Admin – GreenMile" :user="$user">
     <div class="px-4 py-6 max-w-xl mx-auto space-y-6 animate-fade-in">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2 border-b border-gray-150 pb-5">
@@ -9,7 +9,7 @@
             </a>
             <div>
                 <h1 class="text-2xl font-black text-gray-900 tracking-tight">Edit Profil Admin</h1>
-                <p class="text-sm text-gray-500 mt-1">Ubah informasi dasar akun admin Jejak Hijau Anda.</p>
+                <p class="text-sm text-gray-500 mt-1">Ubah informasi dasar akun admin GreenMile Anda.</p>
             </div>
         </div>
 

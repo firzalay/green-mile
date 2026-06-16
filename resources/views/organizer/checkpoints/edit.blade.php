@@ -1,4 +1,4 @@
-<x-app-layout title="Edit Checkpoint – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Edit Checkpoint – GreenMile" :user="auth()->user()">
     <div class="px-4 py-6 max-w-3xl mx-auto space-y-6">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2">

@@ -14,7 +14,7 @@ test('manifest file can be retrieved', function () {
 test('service worker file can be retrieved', function () {
     $response = $this->get('/sw.js');
     $response->assertStatus(200);
-    expect($response->getContent())->toContain('jejak-hijau-v1');
+    expect($response->getContent())->toContain('green-mile-v1');
 });
 
 test('offline fallback page works correctly', function () {

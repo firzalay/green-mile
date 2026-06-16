@@ -1,4 +1,4 @@
-<x-app-layout title="Dashboard Organizer – Jejak Hijau" :user="$user">
+<x-app-layout title="Dashboard Organizer – GreenMile" :user="$user">
     <div class="space-y-6">
         {{-- Empty State Check --}}
         @if ($events->isEmpty())

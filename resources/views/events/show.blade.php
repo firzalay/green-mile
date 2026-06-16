@@ -1,4 +1,4 @@
-<x-app-layout title="{{ $event->name }} – Jejak Hijau" :user="$user">
+<x-app-layout title="{{ $event->name }} – GreenMile" :user="$user">
     <div class="space-y-6">
         {{-- Navigation & Back button --}}
         <div class="animate-fade-in-up">

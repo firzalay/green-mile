@@ -1,4 +1,4 @@
-@props(['title' => config('app.name', 'Jejak Hijau'), 'user'])
+@props(['title' => config('app.name', 'GreenMile'), 'user'])
 
 @php
     $hour = now()->hour;
@@ -143,16 +143,11 @@
 
                 {{-- Logo --}}
                 <div class="flex items-center gap-3 px-6 py-5" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                    <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                         style="background: rgba(46,207,137,0.2); border: 1px solid rgba(46,207,137,0.35);">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 3C9 3 6.5 4.5 5 7c-.5 1-1 2.5-1 4s.5 3.5 2 5l6 5 6-5c1.5-1.5 2-3.5 2-5s-.5-3-1-4C17.5 4.5 15 3 12 3z"
-                                  fill="#2ECF89"/>
-                            <path d="M12 8v5M9.5 11l2.5 2 2.5-2" stroke="#003F2F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <img src="{{ asset('images/greenmile_logo.png') }}" alt="GreenMile Logo" class="w-9 h-9 object-cover">
                     </div>
                     <div>
-                        <p class="font-bold text-white text-base leading-none tracking-tight">Jejak Hijau</p>
+                        <p class="font-bold text-white text-base leading-none tracking-tight">GreenMile</p>
                         <p class="text-xs mt-0.5" style="color: rgba(123,224,179,0.7);">GreenRun Platform</p>
                     </div>
                 </div>

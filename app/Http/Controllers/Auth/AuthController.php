@@ -53,7 +53,7 @@ class AuthController extends Controller
 
                     return back()
                         ->withInput($request->only('email'))
-                        ->with('error', 'Pendaftaran organizer Anda belum dapat disetujui. Silakan hubungi tim Jejak Hijau untuk informasi lebih lanjut.');
+                        ->with('error', 'Pendaftaran organizer Anda belum dapat disetujui. Silakan hubungi tim GreenMile untuk informasi lebih lanjut.');
                 }
             }
 

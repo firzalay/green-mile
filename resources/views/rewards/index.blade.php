@@ -1,4 +1,4 @@
-<x-app-layout title="Katalog Reward – Jejak Hijau" :user="$user">
+<x-app-layout title="Katalog Reward – GreenMile" :user="$user">
     <div class="space-y-6">
         {{-- Header Section --}}
         <section class="animate-fade-in-up flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

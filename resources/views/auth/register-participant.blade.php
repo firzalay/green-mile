@@ -1,4 +1,4 @@
-<x-auth-layout title="Daftar Participant – Jejak Hijau">
+<x-auth-layout title="Daftar Participant – GreenMile">
 
     {{-- Heading --}}
     <div class="mb-8 animate-fade-in-up">

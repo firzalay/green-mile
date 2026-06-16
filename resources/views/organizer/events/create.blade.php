@@ -1,4 +1,4 @@
-<x-app-layout title="Buat Event Baru – Jejak Hijau" :user="$user">
+<x-app-layout title="Buat Event Baru – GreenMile" :user="$user">
     <div class="px-4 py-6 max-w-3xl mx-auto space-y-6">
         {{-- Header / Back link --}}
         <div class="flex items-center gap-2">

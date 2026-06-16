@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jejak-hijau-v1';
+const CACHE_NAME = 'green-mile-v1';
 const ASSETS_TO_CACHE = [
     '/offline',
     '/manifest.json',

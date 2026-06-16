@@ -1,4 +1,4 @@
-<x-app-layout title="Fitur Sedang Dikembangkan – Jejak Hijau" :user="$user">
+<x-app-layout title="Fitur Sedang Dikembangkan – GreenMile" :user="$user">
     <div class="space-y-6">
         <div class="animate-fade-in-up">
             <a href="{{ route('organizer.dashboard') }}" 

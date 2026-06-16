@@ -1,4 +1,4 @@
-<x-auth-layout title="Daftar Event Organizer – Jejak Hijau">
+<x-auth-layout title="Daftar Event Organizer – GreenMile">
 
     {{-- Heading --}}
     <div class="mb-8 animate-fade-in-up">

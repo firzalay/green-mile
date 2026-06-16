@@ -1,4 +1,4 @@
-<x-app-layout title="Tambah Checkpoint Baru – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Tambah Checkpoint Baru – GreenMile" :user="auth()->user()">
     <div class="px-4 py-6 max-w-3xl mx-auto space-y-6">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2">

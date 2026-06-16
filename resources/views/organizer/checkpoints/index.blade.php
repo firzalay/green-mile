@@ -1,4 +1,4 @@
-<x-app-layout title="Kelola Checkpoint – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Kelola Checkpoint – GreenMile" :user="auth()->user()">
     <div class="px-4 py-6 max-w-5xl mx-auto space-y-6 animate-fade-in">
         {{-- Breadcrumb & Back --}}
         <div class="flex items-center gap-2 text-xs text-gray-400">

@@ -1,4 +1,4 @@
-<x-app-layout title="Leaderboard – Jejak Hijau" :user="auth()->user()">
+<x-app-layout title="Leaderboard – GreenMile" :user="auth()->user()">
     <div class="space-y-6 max-w-2xl mx-auto pb-12">
         {{-- Header Section --}}
         <section class="animate-fade-in-up flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

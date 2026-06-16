@@ -1,4 +1,4 @@
-<x-auth-layout title="Pendaftaran Berhasil – Jejak Hijau">
+<x-auth-layout title="Pendaftaran Berhasil – GreenMile">
 
     {{-- Success Content --}}
     <div class="flex flex-col items-center text-center animate-fade-in-up">
@@ -19,7 +19,7 @@
         
         <div class="mt-5 space-y-4 text-sm leading-relaxed text-left p-5 bg-white border border-gray-200/60 rounded-2xl" style="color: #4B5563;">
             <p>
-                Akun organizer Anda sedang menunggu persetujuan dari tim Jejak Hijau.
+                Akun organizer Anda sedang menunggu persetujuan dari tim GreenMile.
             </p>
             <p>
                 Kami akan meninjau informasi yang telah Anda kirimkan sebelum memberikan akses ke dashboard organizer.

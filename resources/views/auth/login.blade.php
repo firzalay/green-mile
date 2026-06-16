@@ -1,4 +1,4 @@
-<x-auth-layout title="Masuk – Jejak Hijau">
+<x-auth-layout title="Masuk – GreenMile">
 
     {{-- Heading --}}
     <div class="mb-8 animate-fade-in-up">

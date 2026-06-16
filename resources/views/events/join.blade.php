@@ -1,4 +1,4 @@
-<x-app-layout title="Gabung Event – Jejak Hijau" :user="$user">
+<x-app-layout title="Gabung Event – GreenMile" :user="$user">
     <div class="max-w-md mx-auto py-10 animate-fade-in-up">
         <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 space-y-6">
             {{-- Header --}}
