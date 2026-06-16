@@ -8,6 +8,7 @@ use App\Http\Requests\Event\JoinEventRequest;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class EventController extends Controller
@@ -88,5 +89,31 @@ class EventController extends Controller
 
         return redirect()->route('events.show', $event->id)
             ->with('success', "Berhasil bergabung ke {$event->name}");
+    }
+
+    /**
+     * Exit the specified event.
+     */
+    public function exit(Request $request, int $id): RedirectResponse
+    {
+        $user = $request->user();
+
+        $participation = $user->eventParticipants()
+            ->where('event_id', $id)
+            ->firstOrFail();
+
+        DB::transaction(function () use ($user, $id, $participation) {
+            // Delete related checkpoint scans
+            $user->checkpointScans()->where('event_id', $id)->delete();
+
+            // Delete related activities
+            $user->activities()->where('event_id', $id)->delete();
+
+            // Delete participation record
+            $participation->delete();
+        });
+
+        return redirect()->route('dashboard')
+            ->with('success', 'Anda berhasil keluar dari event.');
     }
 }

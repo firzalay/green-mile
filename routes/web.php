@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:participant'])->group(function () {
+    Route::delete('/events/{id}/exit', [EventController::class, 'exit'])->name('events.exit');
+
     Route::get('/scanner-test', function () {
         return view('scanner-test');
     });

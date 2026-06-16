@@ -58,5 +58,21 @@
         </div>
 
         <p class="text-white/50 text-xs mt-1.5">{{ $percentage }}% selesai</p>
+
+        {{-- Actions --}}
+        <div class="mt-5 pt-4 border-t border-white/10">
+            <a href="{{ route('events.show', $event->id) }}" 
+               id="btn-active-event-detail"
+               class="text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 text-center w-full"
+               style="background: rgba(255, 255, 255, 0.12); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.25); text-decoration: none; cursor: pointer;"
+               onmouseover="this.style.background='rgba(255, 255, 255, 0.25)';"
+               onmouseout="this.style.background='rgba(255, 255, 255, 0.12)';">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                Detail Event
+            </a>
+        </div>
     </div>
 </div>

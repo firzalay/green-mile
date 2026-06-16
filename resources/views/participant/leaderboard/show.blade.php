@@ -297,7 +297,6 @@
                         </div>
                     @endif
                 @endif
-            </section>
         @endif
     </div>
 

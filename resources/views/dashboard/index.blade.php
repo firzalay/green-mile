@@ -111,6 +111,25 @@
                     </section>
                 @endif
 
+                {{-- Exit Event Action --}}
+                <div class="mt-5 animate-fade-in-up animate-delay-350">
+                    <form action="{{ route('events.exit ', $activeParticipation->event_id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari event ini? Semua poin dan progres Anda pada event ini akan dihapus secara permanen.')" style="margin: 0; width: 100%;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                                id="btn-dashboard-exit-event"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm text-red-650 bg-red-50 hover:bg-red-100 transition-all border border-red-200 cursor-pointer shadow-sm"
+                                style="color: #DC2626; border-color: #FCA5A5; background-color: #FEF2F2;"
+                                onmouseover="this.style.backgroundColor='#FEE2E2';"
+                                onmouseout="this.style.backgroundColor='#FEF2F2';">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                            </svg>
+                            Keluar dari Event Ini
+                        </button>
+                    </form>
+                </div>
+
             </div>
 
         </div>

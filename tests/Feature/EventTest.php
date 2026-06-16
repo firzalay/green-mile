@@ -151,3 +151,34 @@ describe('dashboard integration with joined event', function () {
             ->assertSee('#2');
     });
 });
+
+describe('exit event flow', function () {
+    it('allows a participant to exit an event they have joined', function () {
+        $user = User::factory()->create(['role' => 'participant']);
+        $event = Event::factory()->create(['is_active' => true]);
+
+        EventParticipant::factory()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+        ]);
+
+        $this->actingAs($user)
+            ->delete(route('events.exit', $event->id))
+            ->assertRedirect(route('dashboard'))
+            ->assertSessionHas('success', 'Anda berhasil keluar dari event.');
+
+        $this->assertDatabaseMissing('event_participants', [
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+        ]);
+    });
+
+    it('prevents exiting an event that the user has not joined', function () {
+        $user = User::factory()->create(['role' => 'participant']);
+        $event = Event::factory()->create(['is_active' => true]);
+
+        $this->actingAs($user)
+            ->delete(route('events.exit', $event->id))
+            ->assertStatus(404);
+    });
+});
