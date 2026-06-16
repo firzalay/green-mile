@@ -48,6 +48,32 @@ describe('event discovery access', function () {
             ->assertSee('Rp 10.000.000')
             ->assertSee('500 pts');
     });
+
+    it('allows a participant who has joined to view a draft event details page', function () {
+        $user = User::factory()->create(['role' => 'participant']);
+        $event = Event::factory()->create([
+            'is_active' => true,
+            'status' => 'draft',
+        ]);
+
+        // Prior to joining, they should get 404
+        $this->actingAs($user)
+            ->get(route('events.show', $event->id))
+            ->assertStatus(404);
+
+        // Join the event
+        EventParticipant::factory()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+        ]);
+
+        // Now they should be able to view details page
+        $this->actingAs($user)
+            ->get(route('events.show', $event->id))
+            ->assertOk()
+            ->assertViewIs('events.show')
+            ->assertSee($event->name);
+    });
 });
 
 describe('join event flow', function () {

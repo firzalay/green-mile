@@ -44,7 +44,13 @@ class EventController extends Controller
         $user = $request->user();
 
         $event = Event::where('is_active', true)
-            ->where('status', '!=', 'draft')
+            ->where(function ($query) use ($user) {
+                $query->where('status', '!=', 'draft')
+                    ->orWhere('organizer_id', $user->id)
+                    ->orWhereHas('participants', function ($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    });
+            })
             ->withCount('participants')
             ->findOrFail($id);
 
