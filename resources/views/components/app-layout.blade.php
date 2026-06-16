@@ -182,9 +182,9 @@
                            id="{{ $item['id'] }}"
                            class="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-1 transition-all duration-150 group"
                            style="
-                               background: {{ $isActive ? 'rgba(46,207,137,0.15)' : 'transparent' }};
-                               color: {{ $isActive ? '#2ECF89' : 'rgba(255,255,255,0.6)' }};
-                               border: {{ $isActive ? '1px solid rgba(46,207,137,0.2)' : '1px solid transparent' }};
+                               background: {{ $isActive ? 'rgba(1, 78, 59, 1)' : 'transparent' }};
+                               color: {{ $isActive ? 'white' : 'rgba(255,255,255,0.6)' }};
+                               border: {{ $isActive ? '1px solid rgba(1, 77, 44, 0.2)' : '1px solid transparent' }};
                            ">
                             {{-- Icon --}}
                             <span class="flex-shrink-0">
@@ -252,9 +252,7 @@
                                 @endif
                             </span>
                             <span class="text-sm font-medium">{{ $item['label'] }}</span>
-                            @if ($isActive)
-                                <span class="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0" style="background: #2ECF89;"></span>
-                            @endif
+
                         </a>
                     @endforeach
                 </nav>
